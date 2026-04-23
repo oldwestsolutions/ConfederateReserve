@@ -6,9 +6,13 @@ import { motion } from "framer-motion";
 import {
   Area,
   AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
+  Cell,
   ComposedChart,
   Line,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -31,6 +35,39 @@ import { formatCurrency } from "@/lib/formatters";
 const GOLD = "#D4AF37";
 const CHART_BLUE = "#3B82F6";
 const GREEN = "#10B981";
+
+/** Historical DAO rate decisions — newest last */
+const RATE_HISTORY = [
+  { period: "Q3'24", rate: 3.0 },
+  { period: "Q4'24", rate: 3.0 },
+  { period: "Q1'25", rate: 3.25 },
+  { period: "Q2'25", rate: 3.25 },
+  { period: "Q3'25", rate: 3.5 },
+  { period: "Q4'25", rate: 3.5 },
+  { period: "Q1'26", rate: 3.625 },
+];
+
+/** Collateral composition of reserve vault */
+const COLLATERAL = [
+  { label: "USDC", pct: 72, color: "#2775CA" },
+  { label: "USDT", pct: 15, color: "#26A17B" },
+  { label: "T-bills", pct: 10, color: "#3B82F6" },
+  { label: "PAXG", pct: 3, color: GOLD },
+];
+
+function CollateralRow({ label, pct, color }: { label: string; pct: number; color: string }) {
+  return (
+    <div className="space-y-0.5">
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[9px] text-[#374151] dark:text-gray-200">{label}</span>
+        <span className="font-mono text-[9px] font-semibold" style={{ color }}>{pct}%</span>
+      </div>
+      <div className="h-1 w-full overflow-hidden rounded-full bg-[rgba(0,0,0,0.07)] dark:bg-white/10">
+        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color }} />
+      </div>
+    </div>
+  );
+}
 
 type ModalId = "policy" | "reserve" | "inflation" | "unemployment" | null;
 
@@ -237,7 +274,7 @@ export function EconomyAtAGlance() {
               <span className="text-[#9CA3AF]"> – </span>
               {POLICY_TARGET_HIGH}%
             </p>
-            <div className="mt-2 flex items-center gap-1">
+            <div className="mt-1.5 flex items-center gap-1">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#10B981]" aria-hidden />
               <span className="text-[9px] font-medium text-[#10B981]">Target active</span>
             </div>
@@ -253,7 +290,64 @@ export function EconomyAtAGlance() {
                 </div>
               ))}
             </dl>
-            <div className="mt-auto pt-3">
+
+            {/* Rate history chart */}
+            <p className="mt-3 mb-1 font-mono text-[8px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
+              Rate history
+            </p>
+            <div
+              className="w-full min-w-0 overflow-hidden"
+              style={{ height: chartH }}
+              role="img"
+              aria-label="Policy rate history chart"
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={RATE_HISTORY}
+                  margin={{ top: 2, right: 2, left: 0, bottom: 0 }}
+                  barCategoryGap="20%"
+                >
+                  <CartesianGrid strokeDasharray="2 3" stroke={gridStroke} vertical={false} />
+                  <XAxis
+                    dataKey="period"
+                    tick={{ fontSize: 7, fill: axisColor, fontFamily: "var(--font-jetbrains-mono)" }}
+                    tickLine={false}
+                    axisLine={false}
+                    height={14}
+                  />
+                  <YAxis
+                    domain={[2.75, 3.75]}
+                    tick={{ fontSize: 7, fill: axisColor, fontFamily: "var(--font-jetbrains-mono)" }}
+                    tickLine={false}
+                    axisLine={false}
+                    width={24}
+                    tickFormatter={(v: number) => v.toFixed(2)}
+                    tickCount={3}
+                  />
+                  <ReferenceLine
+                    y={POLICY_TARGET_LOW}
+                    stroke={GOLD}
+                    strokeDasharray="3 3"
+                    strokeOpacity={0.5}
+                    strokeWidth={0.75}
+                  />
+                  <Tooltip
+                    contentStyle={chartTooltipStyle(GOLD)}
+                    formatter={(v: number) => [`${v.toFixed(2)}%`, "Rate"]}
+                  />
+                  <Bar dataKey="rate" radius={[2, 2, 0, 0]}>
+                    {RATE_HISTORY.map((entry, i) => (
+                      <Cell
+                        key={i}
+                        fill={i === RATE_HISTORY.length - 1 ? GOLD : `${GOLD}55`}
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="mt-auto pt-2">
               <button
                 type="button"
                 onClick={() => setModal("policy")}
@@ -288,7 +382,7 @@ export function EconomyAtAGlance() {
             >
               {coveragePct.toFixed(1)}%
             </p>
-            <div className="mt-1.5 flex items-center gap-1">
+            <div className="mt-1.5 flex items-center gap-1.5">
               <span
                 className={`inline-block rounded px-1.5 py-0.5 text-[8px] font-bold text-white ${health.bg}`}
               >
@@ -301,6 +395,7 @@ export function EconomyAtAGlance() {
               {[
                 ["Supply", formatCurrency(CIRCULATING_SUPPLY_USD, true)],
                 ["Reserves", formatCurrency(TOTAL_RESERVES_USD, true)],
+                ["Yield", "4.20% ann."],
               ].map(([k, v]) => (
                 <div key={k} className="flex items-baseline justify-between gap-1">
                   <dt className={BODY_SM}>{k}</dt>
@@ -308,6 +403,17 @@ export function EconomyAtAGlance() {
                 </div>
               ))}
             </dl>
+
+            {/* Collateral composition */}
+            <p className="mt-3 mb-1.5 font-mono text-[8px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
+              Collateral
+            </p>
+            <div className="space-y-1.5">
+              {COLLATERAL.map((c) => (
+                <CollateralRow key={c.label} {...c} />
+              ))}
+            </div>
+
             <div className="mt-auto pt-3">
               <button
                 type="button"
