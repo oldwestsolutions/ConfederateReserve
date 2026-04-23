@@ -46,19 +46,21 @@ const RATE_HISTORY = [
   { period: "Q1'26", rate: 3.625 },
 ];
 
-/** Collateral composition of reserve vault (4 line items) */
+/** Collateral composition of reserve vault (5 line items, sums to 100%) */
 const COLLATERAL = [
-  { label: "USDC", pct: 72, color: "#2775CA" },
-  { label: "USDT", pct: 15, color: "#26A17B" },
+  { label: "USDC", pct: 65, color: "#2775CA" },
+  { label: "USDT", pct: 16, color: "#26A17B" },
   { label: "T-bills", pct: 10, color: "#3B82F6" },
-  { label: "PAXG", pct: 3, color: GOLD },
+  { label: "PAXG", pct: 5, color: GOLD },
+  { label: "Other", pct: 4, color: "#9CA3AF" },
 ];
 
 /** Share of network GDP & output from LP mechanics (pools aggregate, not by state). */
 const LP_GDP_ATTRIBUTION = [
-  { label: "Routed vol.", share: 42, color: GOLD },
-  { label: "LP fee accrual", share: 35, color: "#B8860B" },
-  { label: "Tvl / depth", share: 23, color: "#9CA3AF" },
+  { label: "Routed vol.", share: 38, color: GOLD },
+  { label: "LP fee accrual", share: 32, color: "#B8860B" },
+  { label: "Tvl / depth", share: 20, color: "#9CA3AF" },
+  { label: "LP incentives", share: 10, color: "#6B7280" },
 ];
 
 /** Top LP **attributes** by economic output (employing capital best); not by state. */
@@ -202,8 +204,8 @@ export function EconomyAtAGlance() {
   const [modal, setModal] = useState<ModalId>(null);
   const [footerTick, setFooterTick] = useState(0);
   const [chartH, setChartH] = useState(100);
-  /** Taller than chartH — fills the Policy card rate bar chart. */
-  const [policyChartH, setPolicyChartH] = useState(120);
+  /** Taller than chartH — dedicated min height for policy rate bar chart. */
+  const [policyChartH, setPolicyChartH] = useState(160);
   const baseId = useId();
 
   useEffect(() => {
@@ -216,7 +218,7 @@ export function EconomyAtAGlance() {
       const w = window.innerWidth;
       setChartH(w < 480 ? 56 : w < 768 ? 72 : w < 1024 ? 88 : 104);
       setPolicyChartH(
-        w < 480 ? 96 : w < 768 ? 120 : w < 1024 ? 136 : 156
+        w < 480 ? 140 : w < 768 ? 160 : w < 1024 ? 172 : 180
       );
     };
     onResize();
@@ -331,8 +333,8 @@ export function EconomyAtAGlance() {
               Rate history
             </p>
             <div
-              className="mt-0 min-h-0 w-full min-w-0 flex-1 overflow-hidden"
-              style={{ minHeight: policyChartH }}
+              className="mt-0 w-full min-w-0 shrink-0 overflow-hidden"
+              style={{ height: policyChartH, minHeight: policyChartH }}
               role="img"
               aria-label="Policy rate history chart"
             >
