@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Menu } from "@/components/ui/icons";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { ConnectWalletButton } from "@/components/layout/ConnectWalletButton";
 import { Monogram } from "@/components/ui/Ornament";
@@ -21,8 +21,37 @@ const links = [
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolledHidden, setScrolledHidden] = useState(false);
+  const lastY = useRef(0);
+
+  useEffect(() => {
+    lastY.current = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const prev = lastY.current;
+      lastY.current = y;
+      if (y < 24) {
+        setScrolledHidden(false);
+        return;
+      }
+      if (y > prev && y > 56) {
+        setScrolledHidden(true);
+      } else if (y < prev) {
+        setScrolledHidden(false);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const hideBar = scrolledHidden && !open;
+
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-surface/85 backdrop-blur-md">
+    <header
+      className={`sticky top-0 z-40 border-b border-border bg-surface/85 backdrop-blur-md transition-transform duration-300 ease-out motion-reduce:transition-none ${
+        hideBar ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       {/* hairline gold rule under header */}
       <div
         aria-hidden
