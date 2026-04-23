@@ -65,13 +65,13 @@ const SERVICES: Service[] = [
     anchor: "Section VI",
   },
   {
-    title: "Reserve ops",
+    title: "Reserve",
     kicker: "Collateral · Risk",
     body:
       "Multi-asset reserve management with real-time attestations, stress testing, and concentration monitoring.",
-    href: "#sec-reserve",
+    href: "/reserve",
     Icon: Shield,
-    anchor: "Section VII",
+    anchor: "Section VIII",
   },
 ];
 
