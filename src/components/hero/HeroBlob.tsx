@@ -1,39 +1,13 @@
 "use client";
 
 /**
- * Heritage hero backdrop:
- *  - soft parchment mist (emerald + gold + oxblood radials)
- *  - topographic river-line engravings (very faint)
- *  - engraved hairline border that nods to old certificate vignettes
+ * Heritage hero backdrop — no gradients.
+ * Keeps only the topographic contour lines and an engraved hairline border
+ * so the hero sits on a flat surface tint.
  */
 export function HeroBlob() {
   return (
     <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      {/* Mist blobs */}
-      <div
-        className="absolute -left-24 top-0 h-[520px] w-[520px] animate-blob rounded-full opacity-70 blur-3xl"
-        style={{
-          background:
-            "radial-gradient(closest-side, rgba(14,59,46,0.28), transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute right-[-10%] top-24 h-[480px] w-[480px] animate-blob rounded-full opacity-70 blur-3xl"
-        style={{
-          animationDelay: "-6s",
-          background:
-            "radial-gradient(closest-side, rgba(176,141,58,0.30), transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute left-1/3 top-1/2 h-[380px] w-[380px] animate-blob rounded-full opacity-55 blur-3xl"
-        style={{
-          animationDelay: "-12s",
-          background:
-            "radial-gradient(closest-side, rgba(123,30,30,0.18), transparent 70%)",
-        }}
-      />
-
       {/* Topographic contour lines (evokes a river map) */}
       <svg
         className="absolute inset-0 h-full w-full text-fg/40 opacity-[0.07]"
@@ -66,10 +40,7 @@ export function HeroBlob() {
       <div
         aria-hidden
         className="absolute inset-4 rounded-2xl border"
-        style={{
-          borderColor: "rgba(176,141,58,0.22)",
-          boxShadow: "inset 0 0 0 1px rgba(255,253,247,0.6)",
-        }}
+        style={{ borderColor: "rgba(176,141,58,0.22)" }}
       />
     </div>
   );

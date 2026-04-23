@@ -38,7 +38,7 @@ export default function Home() {
               <h1 className="mt-6 font-display text-[clamp(2.75rem,6vw,4.25rem)] font-semibold leading-[1.02] tracking-tight text-fg">
                 Your decentralized
                 <br />
-                reserve. <span className="text-gradient">Simplified.</span>
+                reserve. <span className="text-brand-gold">Simplified.</span>
               </h1>
             </Reveal>
             <Reveal delay={0.12}>
@@ -79,11 +79,6 @@ export default function Home() {
           <div className="relative lg:pl-8">
             <Reveal delay={0.1}>
               <div className="glass glass-strong relative overflow-hidden p-6 shadow-card">
-                <div
-                  className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full opacity-40 blur-3xl"
-                  style={{ background: "radial-gradient(closest-side,#00D9FF,transparent 70%)" }}
-                  aria-hidden
-                />
                 <div className="flex items-center justify-between">
                   <p className="font-label text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
                     Total reserve value
