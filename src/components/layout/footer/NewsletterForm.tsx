@@ -34,10 +34,7 @@ export function NewsletterForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="mt-4 space-y-2">
-      <label htmlFor="nl-email" className="sr-only">
-        Email address
-      </label>
+    <form onSubmit={onSubmit} noValidate className="space-y-2">
       <div className="flex gap-2">
         <input
           id="nl-email"

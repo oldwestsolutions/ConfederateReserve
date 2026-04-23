@@ -16,12 +16,6 @@ import {
   LinkedIn,
   Medium,
 } from "@/components/ui/icons";
-import {
-  TOTAL_RESERVE_USD,
-  STATE_TOKENS,
-} from "@/lib/confederateData";
-import { formatCurrency } from "@/lib/formatters";
-
 type NavItem = {
   label: string;
   href: string;
@@ -134,8 +128,6 @@ export function Footer() {
     email: "support@confederatereserve.com",
   };
 
-  const stateCount = STATE_TOKENS.length;
-
   return (
     <footer
       id="site-footer"
@@ -155,8 +147,8 @@ export function Footer() {
       <div className="mx-auto w-full max-w-[1400px] px-4 py-14 md:px-6 md:py-20 lg:px-8">
         <Ornament tone="gold" />
 
-        <div className="mt-12 grid gap-12 md:grid-cols-2 lg:grid-cols-6 lg:gap-10 xl:gap-14">
-          {/* Col 1 — Brand & Mission (span 2 on lg) */}
+        <div className="mt-12 grid gap-12 md:grid-cols-2 lg:grid-cols-5 lg:gap-10 xl:gap-14">
+          {/* Col 1 — Brand, contact, newsletter, connect */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-3">
               <Monogram size={42} />
@@ -173,51 +165,43 @@ export function Footer() {
             <p className="mt-5 max-w-[320px] text-sm leading-relaxed text-fg/80">
               Decentralized reserves. Transparent settlement. Sovereign currency.
             </p>
-            <p className="mt-3 max-w-[340px] text-[13px] leading-[1.7] text-muted">
-              Confederate Reserve is a decentralized monetary protocol where each state
-              issues its own currency, fully backed by on-chain collateral. Real-time
-              transparency. Atomic settlement. Built on Polygon.
-            </p>
 
-            {/* Live reserve stats */}
-            <dl className="mt-6 grid max-w-[360px] grid-cols-3 gap-3 border-t border-border pt-5">
-              <div>
-                <dt className="eyebrow">TVR</dt>
-                <dd className="mt-1 font-mono text-sm font-semibold text-fg">
-                  {formatCurrency(TOTAL_RESERVE_USD, true)}
-                </dd>
-              </div>
-              <div>
-                <dt className="eyebrow">States</dt>
-                <dd className="mt-1 font-mono text-sm font-semibold text-fg">
-                  {stateCount}
-                </dd>
-              </div>
-              <div>
-                <dt className="eyebrow">24h vol</dt>
-                <dd className="mt-1 font-mono text-sm font-semibold text-fg">$23.4M</dd>
-              </div>
-            </dl>
+            <p className="eyebrow mt-7">Contact</p>
+            <ul className="mt-3 space-y-2.5" aria-label="Contact email">
+              <li>
+                <a
+                  href="mailto:support@confederatereserve.com"
+                  className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"
+                >
+                  <Mail className="h-3.5 w-3.5 shrink-0" />
+                  support@confederatereserve.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:press@confederatereserve.com"
+                  className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"
+                >
+                  <Mail className="h-3.5 w-3.5 shrink-0" />
+                  press@confederatereserve.com
+                </a>
+              </li>
+            </ul>
 
-            <div className="mt-6">
-              <SystemStatus />
+            <p className="eyebrow mt-8">Stay updated</p>
+            <label
+              htmlFor="nl-email"
+              className="mt-1 block font-label text-xs font-medium text-muted"
+            >
+              Email address
+            </label>
+            <div className="mt-2">
+              <NewsletterForm />
             </div>
-          </div>
 
-          {/* Col 2 — Product */}
-          <FooterCol title="Product" items={PRODUCT} ariaLabel="Product navigation" />
-
-          {/* Col 3 — Protocol */}
-          <FooterCol title="Protocol" items={PROTOCOL} ariaLabel="Protocol navigation" />
-
-          {/* Col 4 — Resources */}
-          <FooterCol title="Resources" items={RESOURCES} ariaLabel="Resources navigation" />
-
-          {/* Col 5 — Connect */}
-          <div>
-            <p className="eyebrow">Connect</p>
+            <p className="eyebrow mt-8">Connect</p>
             <ul
-              className="mt-4 grid grid-cols-3 gap-2"
+              className="mt-4 grid max-w-[240px] grid-cols-3 gap-2"
               aria-label="Social media"
             >
               {SOCIAL.map(({ label, href, Icon }) => (
@@ -235,31 +219,19 @@ export function Footer() {
               ))}
             </ul>
 
-            <p className="eyebrow mt-8">Contact</p>
-            <ul className="mt-4 space-y-2.5">
-              <li>
-                <a
-                  href="mailto:support@confederatereserve.com"
-                  className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"
-                >
-                  <Mail className="h-3.5 w-3.5" />
-                  support@confederatereserve.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:press@confederatereserve.com"
-                  className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"
-                >
-                  <Mail className="h-3.5 w-3.5" />
-                  press@confederatereserve.com
-                </a>
-              </li>
-            </ul>
-
-            <p className="eyebrow mt-8">Stay updated</p>
-            <NewsletterForm />
+            <div className="mt-6">
+              <SystemStatus />
+            </div>
           </div>
+
+          {/* Col 2 — Product */}
+          <FooterCol title="Product" items={PRODUCT} ariaLabel="Product navigation" />
+
+          {/* Col 3 — Protocol */}
+          <FooterCol title="Protocol" items={PROTOCOL} ariaLabel="Protocol navigation" />
+
+          {/* Col 4 — Resources */}
+          <FooterCol title="Resources" items={RESOURCES} ariaLabel="Resources navigation" />
         </div>
 
         {/* Legal column as a wide row beneath the 5-col grid for density */}
