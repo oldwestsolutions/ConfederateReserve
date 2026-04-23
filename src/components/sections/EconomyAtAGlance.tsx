@@ -201,7 +201,11 @@ export function EconomyAtAGlance() {
 
   useEffect(() => {
     const onResize = () => {
-      setChartH(window.innerWidth < 768 ? 160 : window.innerWidth < 1200 ? 180 : 220);
+      const w = window.innerWidth;
+      if (w < 640) setChartH(140);
+      else if (w < 1024) setChartH(150);
+      else if (w < 1280) setChartH(160);
+      else setChartH(175);
     };
     onResize();
     window.addEventListener("resize", onResize);
@@ -248,15 +252,13 @@ export function EconomyAtAGlance() {
         </p>
       </div>
 
-      <div
-        className="flex flex-row flex-nowrap snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-visible p-4 pb-5 [scrollbar-gutter:stable] md:gap-5 md:p-6 md:pb-6 [scrollbar-color:rgba(212,175,55,0.4)_transparent]"
-      >
+      <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:gap-4 md:p-6 lg:items-stretch xl:grid-cols-4 xl:gap-4">
         <motion.article
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="econ-card group min-w-[min(100%,280px)] shrink-0 snap-start rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:min-w-[300px] md:p-6 xl:min-w-0 xl:max-w-none xl:shrink xl:grow xl:basis-0 dark:bg-[#0F1F3C]"
+          className="econ-card group flex min-h-0 min-w-0 flex-col rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-4 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:p-5 dark:bg-[#0F1F3C]"
           aria-label={`Policy rate card showing ${POLICY_TARGET_LOW} to ${POLICY_TARGET_HIGH} percent target range`}
         >
           <h3 className="text-lg font-semibold text-[#1A1A1A] dark:text-white">Policy Rate</h3>
@@ -291,7 +293,7 @@ export function EconomyAtAGlance() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.4, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-          className="econ-card group min-w-[min(100%,280px)] shrink-0 snap-start rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:min-w-[300px] md:p-6 xl:min-w-0 xl:max-w-none xl:shrink xl:grow xl:basis-0 dark:bg-[#0F1F3C]"
+          className="econ-card group flex min-h-0 min-w-0 flex-col rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-4 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:p-5 dark:bg-[#0F1F3C]"
           aria-live="polite"
           aria-label={`Reserve coverage card showing ${coveragePct.toFixed(1)} percent, ${health.label}`}
         >
@@ -329,7 +331,7 @@ export function EconomyAtAGlance() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="econ-card group min-w-[min(100%,280px)] shrink-0 snap-start rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:min-w-[300px] md:p-6 xl:min-w-0 xl:max-w-none xl:shrink xl:grow xl:basis-0 dark:bg-[#0F1F3C]"
+          className="econ-card group flex min-h-0 min-w-0 flex-col rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-4 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:p-5 dark:bg-[#0F1F3C]"
         >
           <h3 className="text-lg font-semibold text-[#1A1A1A] dark:text-white">System inflation (PCE)</h3>
           <p className="mt-1 text-[13px] text-[#6B7280] dark:text-gray-400">Consumer price index across member states</p>
@@ -338,7 +340,7 @@ export function EconomyAtAGlance() {
           </p>
           <p className="mb-1 mt-1 text-[11px] italic text-[#6B7280] dark:text-gray-500">Interactive chart</p>
           <div
-            className="mt-1 w-full"
+            className="mt-1 w-full min-w-0 overflow-hidden"
             style={{ height: chartH }}
             role="img"
             aria-label="Inflation rate chart from February 2025 to February 2026"
@@ -354,10 +356,11 @@ export function EconomyAtAGlance() {
                 <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
                 <XAxis dataKey="date" tick={{ fontSize: 11, fontFamily: "var(--font-jetbrains-mono)", fill: axisColor }} tickLine={false} />
                 <YAxis
-                  domain={["dataMin - 0.2", "dataMax + 0.2"]}
-                  tick={{ fontSize: 11, fontFamily: "var(--font-jetbrains-mono)", fill: axisColor }}
+                  domain={[2.5, 3.1]}
+                  tick={{ fontSize: 10, fontFamily: "var(--font-jetbrains-mono)", fill: axisColor }}
                   tickLine={false}
-                  width={36}
+                  width={40}
+                  tickFormatter={(v: number) => Number(v).toFixed(2)}
                 />
                 <Tooltip
                   contentStyle={{
@@ -374,7 +377,7 @@ export function EconomyAtAGlance() {
                   type="monotone"
                   dataKey="value"
                   stroke="none"
-                  fill={`url(#${baseId}-inflArea)`}
+                  fill="url(#econ-infl-area-fill)"
                   isAnimationActive
                   animationDuration={600}
                 />
@@ -409,7 +412,7 @@ export function EconomyAtAGlance() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.4, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="econ-card group min-w-[min(100%,280px)] shrink-0 snap-start rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:min-w-[300px] md:p-6 xl:min-w-0 xl:max-w-none xl:shrink xl:grow xl:basis-0 dark:bg-[#0F1F3C]"
+          className="econ-card group flex min-h-0 min-w-0 flex-col rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-4 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:p-5 dark:bg-[#0F1F3C]"
         >
           <h3 className="text-lg font-semibold text-[#1A1A1A] dark:text-white">State unemployment</h3>
           <p className="mt-1 text-[13px] text-[#6B7280] dark:text-gray-400">Average across chartered jurisdictions</p>
@@ -418,7 +421,7 @@ export function EconomyAtAGlance() {
           </p>
           <p className="mb-1 mt-1 text-[11px] italic text-[#6B7280] dark:text-gray-500">Interactive chart</p>
           <div
-            className="mt-1 w-full"
+            className="mt-1 w-full min-w-0 overflow-hidden"
             style={{ height: chartH }}
             role="img"
             aria-label="Unemployment rate chart from January 2025 to March 2026"
