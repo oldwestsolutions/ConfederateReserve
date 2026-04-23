@@ -65,16 +65,16 @@ const RESOURCES: NavItem[] = [
 ];
 
 const LEGAL: NavItem[] = [
-  { label: "Terms of service", href: "/docs" },
-  { label: "Privacy policy", href: "/docs" },
-  { label: "Cookie policy", href: "/docs" },
-  { label: "Risk disclosures", href: "/docs" },
-  { label: "Regulatory status", href: "/docs" },
+  { label: "Terms Of Service", href: "/docs" },
+  { label: "Privacy Policy", href: "/docs" },
+  { label: "Cookie Policy", href: "/docs" },
+  { label: "Risk Disclosures", href: "/docs" },
+  { label: "Regulatory Status", href: "/docs" },
   { label: "Compliance", href: "/docs" },
   { label: "Accessibility", href: "/docs" },
-  { label: "Jurisdictional restrictions", href: "/docs" },
+  { label: "Jurisdiction", href: "/docs" },
   {
-    label: "Bug bounty",
+    label: "Pressbox",
     href: "https://github.com/oldwestsolutions/ConfederateReserve/security",
     external: true,
   },
@@ -217,28 +217,78 @@ export function Footer() {
         </div>
 
         {/* Legal column as a wide row beneath the 5-col grid for density */}
-        <div className="mt-14 grid gap-10 border-t border-border pt-10 md:grid-cols-[2fr_3fr]">
-          <div>
-            <p className="eyebrow">Legal &amp; compliance</p>
-            <ul
-              className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2"
-              aria-label="Legal navigation"
-            >
-              {LEGAL.map((it) => (
-                <li key={it.label}>
-                  <FooterLink item={it} compact />
-                </li>
-              ))}
-            </ul>
+        <div className="mt-14 space-y-8 border-t border-border pt-10">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,280px)_1fr]">
+            <div>
+              <p className="eyebrow">Legal &amp; compliance</p>
+              <ul
+                className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2"
+                aria-label="Legal navigation"
+              >
+                {LEGAL.map((it) => (
+                  <li key={it.label}>
+                    <FooterLink item={it} compact />
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="min-w-0">
+              <p className="eyebrow">Important notice</p>
+              <div
+                className="relative mt-4 overflow-hidden rounded-lg border border-border bg-gradient-to-b from-surface/90 to-surface/40 p-4 md:p-5"
+                style={{
+                  boxShadow: "0 0 0 1px rgba(176, 141, 58, 0.08) inset",
+                }}
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-[rgba(176,141,58,0.5)] to-[rgba(176,141,58,0.15)]"
+                />
+                <ul
+                  className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-4"
+                  aria-label="Key risk highlights"
+                >
+                  {[
+                    "Not investment advice",
+                    "Smart contract & oracle risk",
+                    "Not a bank or deposit",
+                    "Jurisdiction & eligibility",
+                  ].map((t) => (
+                    <li
+                      key={t}
+                      className="rounded border border-border/60 bg-surface/50 px-2.5 py-1.5 text-center font-mono text-[10px] font-medium leading-snug text-subtle"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <div className="grid gap-4 pl-3 text-[11px] leading-[1.75] text-subtle lg:grid-cols-2 lg:gap-8">
+                  <p>
+                    Confederate Reserve is a decentralized protocol. Nothing on this site
+                    constitutes investment, legal, or tax advice. USDC redemptions are subject to
+                    on-chain reserve availability and smart-contract risk.
+                  </p>
+                  <p>
+                    State tokens are not deposits and are not insured by any government.
+                    Availability may be restricted in certain jurisdictions. Past performance
+                    does not guarantee future results. Please read the{" "}
+                    <Link
+                      href="/docs"
+                      className="text-fg/90 underline decoration-brand-gold/50 underline-offset-2 hover:decoration-brand-gold"
+                    >
+                      Risk Disclosures
+                    </Link>{" "}
+                    before transacting.
+                  </p>
+                </div>
+                <p className="mt-3 border-t border-border/60 pl-3 pt-3 text-[10px] leading-relaxed text-muted">
+                  <span className="font-mono">Protocol status:</span> verify contracts and
+                  attestation reports before use. A complete schedule of off-chain and on-chain
+                  dependencies is in the documentation.
+                </p>
+              </div>
+            </div>
           </div>
-          <p className="max-w-2xl text-[11px] leading-[1.7] text-subtle">
-            Confederate Reserve is a decentralized protocol. Nothing on this site constitutes
-            investment, legal, or tax advice. USDC redemptions are subject to on-chain reserve
-            availability and smart-contract risk. State tokens are not deposits and are not
-            insured by any government. Availability may be restricted in certain jurisdictions.
-            Past performance does not guarantee future results. Please read the Risk
-            Disclosures before transacting.
-          </p>
         </div>
       </div>
 

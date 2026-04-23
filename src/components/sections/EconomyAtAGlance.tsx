@@ -46,11 +46,12 @@ const RATE_HISTORY = [
   { period: "Q1'26", rate: 3.625 },
 ];
 
-/** Collateral composition of reserve vault (3 rows to balance card 3 / 4) */
+/** Collateral composition of reserve vault (4 line items) */
 const COLLATERAL = [
   { label: "USDC", pct: 72, color: "#2775CA" },
   { label: "USDT", pct: 15, color: "#26A17B" },
-  { label: "Other", pct: 13, color: "#3B82F6" },
+  { label: "T-bills", pct: 10, color: "#3B82F6" },
+  { label: "PAXG", pct: 3, color: GOLD },
 ];
 
 /** Share of network GDP & output from LP mechanics (pools aggregate, not by state). */
@@ -201,6 +202,8 @@ export function EconomyAtAGlance() {
   const [modal, setModal] = useState<ModalId>(null);
   const [footerTick, setFooterTick] = useState(0);
   const [chartH, setChartH] = useState(100);
+  /** Taller than chartH — fills the Policy card rate bar chart. */
+  const [policyChartH, setPolicyChartH] = useState(120);
   const baseId = useId();
 
   useEffect(() => {
@@ -212,6 +215,9 @@ export function EconomyAtAGlance() {
     const onResize = () => {
       const w = window.innerWidth;
       setChartH(w < 480 ? 56 : w < 768 ? 72 : w < 1024 ? 88 : 104);
+      setPolicyChartH(
+        w < 480 ? 96 : w < 768 ? 120 : w < 1024 ? 136 : 156
+      );
     };
     onResize();
     window.addEventListener("resize", onResize);
@@ -325,16 +331,16 @@ export function EconomyAtAGlance() {
               Rate history
             </p>
             <div
-              className="w-full min-w-0 overflow-hidden"
-              style={{ height: chartH }}
+              className="mt-0 min-h-0 w-full min-w-0 flex-1 overflow-hidden"
+              style={{ minHeight: policyChartH }}
               role="img"
               aria-label="Policy rate history chart"
             >
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={RATE_HISTORY}
-                  margin={{ top: 2, right: 2, left: 0, bottom: 0 }}
-                  barCategoryGap="20%"
+                  margin={{ top: 4, right: 2, left: 0, bottom: 2 }}
+                  barCategoryGap="18%"
                 >
                   <CartesianGrid strokeDasharray="2 3" stroke={gridStroke} vertical={false} />
                   <XAxis
