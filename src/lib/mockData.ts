@@ -20,7 +20,7 @@ function mulberry32(seed: number) {
 
 export function getReserveMetrics(): ReserveMetrics {
   return {
-    tvr: 847_320_412,
+    tvr: 847_230_000,
     tvr24hBps: 87,
     apy: 0.0673,
     utilization: 0.914,
@@ -34,8 +34,8 @@ export function getReserveMetrics(): ReserveMetrics {
 
 export function buildYieldSeries(days = 90): YieldSnapshot[] {
   const rand = mulberry32(0x52_53_32);
-  const start = 800_000_000;
-  const end = 847_320_412;
+  const start = 798_000_000;
+  const end = 847_230_000;
   const out: YieldSnapshot[] = [];
   const now = Date.now();
   const dayMs = 24 * 60 * 60 * 1000;
@@ -59,8 +59,8 @@ export function buildYieldSeries(days = 90): YieldSnapshot[] {
   return out;
 }
 
-export const CHART_GOLD = "#c9a24a";
-export const CHART_MUTED = "rgba(201, 162, 74, 0.15)";
+export const CHART_GOLD = "#D4AF37";
+export const CHART_MUTED = "rgba(212, 175, 55, 0.18)";
 
 export const allocationRows: Allocation[] = [
   {
@@ -122,10 +122,10 @@ export const allocationRows: Allocation[] = [
 
 export const donutData: DonutSegment[] = [
   { name: "T-Bills", value: 296.5, weight: 35, color: CHART_GOLD },
-  { name: "MM Stable", value: 211.8, weight: 25, color: "rgba(201, 162, 74, 0.85)" },
-  { name: "Lending", value: 169.4, weight: 20, color: "rgba(201, 162, 74, 0.65)" },
-  { name: "Curve LP", value: 96.8, weight: 11.4, color: "rgba(201, 162, 74, 0.45)" },
-  { name: "Buffer", value: 72.8, weight: 8.6, color: "rgba(201, 162, 74, 0.28)" },
+  { name: "MM Stable", value: 211.8, weight: 25, color: "rgba(212, 175, 55, 0.85)" },
+  { name: "Lending", value: 169.4, weight: 20, color: "rgba(212, 175, 55, 0.65)" },
+  { name: "Curve LP", value: 96.8, weight: 11.4, color: "rgba(212, 175, 55, 0.45)" },
+  { name: "Buffer", value: 72.8, weight: 8.6, color: "rgba(212, 175, 55, 0.28)" },
 ];
 
 const types: TxType[] = [

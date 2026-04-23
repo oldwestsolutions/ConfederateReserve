@@ -13,14 +13,14 @@ export function ReserveOverview() {
       <MetricTile
         index={0}
         label="Total value of reserves (TVR)"
-        value={<AnimatedNumber value={m.tvr} />}
+        value={<AnimatedNumber value={m.tvr} className="text-cream" />}
         sub="Mark-to-curve, blended"
       />
       <MetricTile
         index={1}
         label="24H change (TVR)"
         value={
-          <span className="text-gain">
+          <span className="text-teal">
             {formatPercent(m.tvr24hBps, { bpsInput: true, signed: true })}
           </span>
         }
@@ -56,14 +56,14 @@ export function ReserveOverview() {
 export function TrustStrip() {
   const m = useMemo(() => getReserveMetrics(), []);
   return (
-    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-border py-2 font-label text-[11px] text-text-muted">
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-gold/10 py-2 font-label text-[11px] text-text-muted">
       <span>
-        Uptime <span className="text-gain">{formatUptimeBps(m.uptimeBps)}</span>
+        Uptime <span className="text-teal">{formatUptimeBps(m.uptimeBps)}</span>
       </span>
-      <span className="h-3 w-px bg-border" aria-hidden />
+      <span className="h-3 w-px bg-gold/20" aria-hidden />
       <span>
         Last attestation:{" "}
-        <span className="text-text-primary">{formatDate(m.lastAuditAt, false)}</span>
+        <span className="text-cream/90">{formatDate(m.lastAuditAt, false)}</span>
       </span>
     </div>
   );

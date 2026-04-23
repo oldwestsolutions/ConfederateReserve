@@ -32,7 +32,7 @@ export function WithdrawForm({ onSubmit, wallet, available }: Props) {
       }}
     >
       <div className="flex items-baseline justify-between">
-        <h2 className="font-display text-lg text-text-primary">Withdraw</h2>
+        <h2 className="font-display text-lg text-cream">Withdraw</h2>
         <StatusBadge variant="MEDIUM">Queue</StatusBadge>
       </div>
       <p className="mt-1 font-label text-[10px] uppercase tracking-[0.16em] text-text-muted">
@@ -41,7 +41,7 @@ export function WithdrawForm({ onSubmit, wallet, available }: Props) {
       <GoldDivider className="my-4" />
       <p className="font-body text-xs text-text-muted">
         Available:{" "}
-        <span className="text-text-primary">{formatCurrencyDetail(available)}</span> USDC
+        <span className="text-cream">{formatCurrencyDetail(available)}</span> USDC
         (receipts)
       </p>
       <label className="mt-3 block font-label text-xs text-text-muted" htmlFor="w_amt">
@@ -50,14 +50,14 @@ export function WithdrawForm({ onSubmit, wallet, available }: Props) {
       <input
         id="w_amt"
         inputMode="decimal"
-        className="mt-1 w-full rounded border border-border bg-surface-elev px-3 py-2 font-body text-text-primary"
+        className="input-luxury mt-1"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
       />
       <motion.button
         type="submit"
         disabled={n <= 0 || n > available || !wallet || loading}
-        className="mt-4 w-full rounded border border-border py-2.5 font-label text-sm text-text-primary transition-colors hover:border-gold/40 hover:text-gold disabled:cursor-not-allowed disabled:opacity-40"
+        className="mt-4 inline-flex w-full min-h-[48px] items-center justify-center border border-gold/25 bg-transparent py-2.5 font-label text-sm tracking-wide text-cream transition-all duration-300 hover:border-gold/45 hover:text-gold disabled:cursor-not-allowed disabled:opacity-40"
         whileTap={{ scale: 0.995 }}
       >
         {loading ? "Queuing…" : "Request withdrawal"}

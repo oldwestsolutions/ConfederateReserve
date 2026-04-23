@@ -1,5 +1,5 @@
-import { AllocationEngine } from "@/components/allocations/AllocationEngine";
+import { redirect } from "next/navigation";
 
-export default function AllocationsPage() {
-  return <AllocationEngine />;
+export default function AllocationsRedirect() {
+  redirect("/reserve-health");
 }

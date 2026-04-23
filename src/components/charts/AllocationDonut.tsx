@@ -13,7 +13,7 @@ export function AllocationDonut() {
       transition={{ duration: 0.4, delay: 0.08 }}
     >
       <div className="mb-2">
-        <h3 className="font-display text-lg text-text-primary">
+        <h3 className="font-display text-lg text-cream">
           Strategy allocation
         </h3>
         <p className="mt-0.5 font-label text-[10px] uppercase tracking-[0.16em] text-text-muted">
@@ -24,8 +24,8 @@ export function AllocationDonut() {
         <PieChart>
           <Tooltip
             contentStyle={{
-              backgroundColor: "#141414",
-              border: "1px solid #1e1e1e",
+              backgroundColor: "#0F1F3C",
+              border: "1px solid rgba(212,175,55,0.2)",
               borderRadius: 4,
               fontFamily: "var(--font-dm-mono), monospace",
               fontSize: 12,
@@ -41,7 +41,7 @@ export function AllocationDonut() {
             innerRadius="58%"
             outerRadius="82%"
             paddingAngle={2}
-            stroke="#080808"
+            stroke="#0A1528"
             strokeWidth={2}
             label={({ name, percent }) =>
               `${name} ${(percent * 100).toFixed(0)}%`

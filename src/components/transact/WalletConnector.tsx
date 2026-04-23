@@ -14,7 +14,7 @@ type Props = {
 export function WalletConnector({ connected, onConnectedChange }: Props) {
   return (
     <div className="panel rounded p-4">
-      <p className="font-label text-[10px] uppercase tracking-[0.16em] text-text-muted">
+      <p className="font-label text-[10px] uppercase tracking-[0.16em] text-gold/60">
         Session wallet
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -28,7 +28,7 @@ export function WalletConnector({ connected, onConnectedChange }: Props) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="font-body text-sm text-text-primary"
+              className="font-data text-sm text-cream"
             >
               {truncateAddress(MOCK, 5)}
             </motion.span>
@@ -37,7 +37,7 @@ export function WalletConnector({ connected, onConnectedChange }: Props) {
         <button
           type="button"
           onClick={() => onConnectedChange(!connected)}
-          className="rounded border border-gold/40 bg-surface-elev px-3 py-1.5 font-label text-xs text-gold transition-colors hover:border-gold/70 hover:bg-gold/5"
+          className="btn-luxury px-4 py-2 text-xs"
         >
           {connected ? "Disconnect" : "Connect wallet (mock)"}
         </button>

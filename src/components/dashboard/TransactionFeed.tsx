@@ -88,7 +88,7 @@ export function TransactionFeed() {
     <section className="mt-8">
       <div className="mb-3 flex items-baseline justify-between">
         <div>
-          <h2 className="font-display text-xl text-text-primary">Transaction log</h2>
+          <h2 className="font-display text-xl text-cream">Transaction log</h2>
           <p className="mt-0.5 font-label text-[10px] uppercase tracking-[0.16em] text-text-muted">
             Recent on-chain and settlement events
           </p>

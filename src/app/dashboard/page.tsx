@@ -9,9 +9,9 @@ export default function DashboardPage() {
   return (
     <div>
       <header className="mb-8">
-        <h1 className="font-display text-2xl text-text-primary md:text-3xl">Reserve control</h1>
-        <p className="mt-1 font-label text-[10px] uppercase tracking-[0.2em] text-text-muted">
-          Primary reserve · consolidated view
+        <h1 className="font-display text-2xl text-cream md:text-3xl">Reserve command center</h1>
+        <p className="mt-1 font-label text-[10px] uppercase tracking-[0.2em] text-gold/70">
+          Confederate Reserve · on-chain TVR, allocation, and settlement log
         </p>
         <GoldDivider className="mt-6" />
       </header>

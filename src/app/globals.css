@@ -3,37 +3,54 @@
 @tailwind utilities;
 
 :root {
-  --bg: #080808;
-  --surface: #0f0f0f;
-  --surface-elev: #141414;
-  --border: #1e1e1e;
-  --gold: #c9a24a;
-  --text: #e8e8e8;
-  --muted: #6b6b6b;
+  --navy-950: #0a1528;
+  --navy-900: #0f1f3c;
+  --navy-800: #1a2f5a;
+  --gold: #d4af37;
+  --cream: #f5f5f0;
+  --charcoal: #2a2a2a;
 }
 
 html {
   color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 body {
   @apply min-h-dvh font-body text-text-primary antialiased;
-  background-color: var(--bg);
+  background: radial-gradient(120% 80% at 50% -20%, #1a2f5a 0%, transparent 55%),
+    radial-gradient(100% 60% at 100% 0%, #243654 0%, transparent 50%),
+    linear-gradient(180deg, #0a1528 0%, #0f1f3c 45%, #0a1528 100%);
+  background-attachment: fixed;
 }
 
 @layer components {
   .panel {
-    @apply border border-border bg-surface-elev/80 backdrop-blur-sm;
+    @apply rounded border border-gold/10 bg-surface-elev/95 shadow-lift;
+    @apply transition-[box-shadow,transform,border-color] duration-300;
+  }
+  .panel:hover {
+    @apply border-gold/25 shadow-liftHover;
   }
 
-  .grain {
-    @apply pointer-events-none fixed inset-0 z-[100] mix-blend-overlay;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  .mesh-overlay {
+    @apply pointer-events-none fixed inset-0 z-0;
+    background: radial-gradient(
+        ellipse 80% 50% at 20% 40%,
+        rgba(26, 47, 90, 0.35) 0%,
+        transparent 50%
+      ),
+      radial-gradient(ellipse 60% 40% at 80% 60%, rgba(36, 54, 84, 0.25) 0%, transparent 50%);
+    animation: mesh-slow 28s ease-in-out infinite;
+  }
+
+  .noise {
+    @apply pointer-events-none fixed inset-0 z-[90] mix-blend-overlay opacity-[0.035];
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   .skeleton {
-    @apply relative overflow-hidden rounded border border-border bg-surface;
+    @apply relative overflow-hidden rounded border border-gold/10 bg-navy-900/80;
   }
   .skeleton::after {
     content: "";
@@ -41,17 +58,42 @@ body {
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(201, 162, 74, 0.06) 50%,
+      rgba(212, 175, 55, 0.08) 50%,
       transparent 100%
     );
   }
 
   .nav-link {
-    @apply font-label text-sm tracking-wide text-text-muted transition-colors;
+    @apply font-label text-sm font-medium tracking-wide text-cream/70 transition-all duration-300;
   }
   .nav-link:hover,
   .nav-link[data-active="true"] {
     @apply text-gold;
+  }
+
+  .btn-luxury {
+    @apply relative inline-flex min-h-[48px] items-center justify-center overflow-hidden rounded border border-gold/40;
+    @apply bg-navy-900 px-6 font-label text-sm font-medium tracking-[0.12em] text-cream;
+    @apply transition-[color,box-shadow,transform] duration-300;
+    @apply shadow-innerGold;
+  }
+  .btn-luxury:hover {
+    @apply border-gold/70 text-gold;
+    @apply scale-[1.01];
+    box-shadow: 0 0 0 0.5px rgba(212, 175, 55, 0.25), 0 0 24px -4px rgba(212, 175, 55, 0.15);
+  }
+  .btn-luxury:active {
+    @apply scale-[0.99];
+  }
+
+  .input-luxury {
+    @apply w-full rounded border border-gold/15 bg-navy-950/60 px-4 py-3 font-body text-cream;
+    @apply transition-[border-color,box-shadow] duration-300;
+    @apply focus:border-gold/50 focus:outline-none focus:ring-1 focus:ring-gold/20;
+  }
+
+  .section-diagonal {
+    @apply pointer-events-none absolute h-1 w-32 -rotate-6 bg-gradient-to-r from-transparent via-gold/40 to-transparent;
   }
 }
 
@@ -59,14 +101,34 @@ body {
   box-sizing: border-box;
 }
 
-/* Recharts: override default */
+/* Custom scrollbar — navy with gold */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.45) #0f1f3c;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: #0f1f3c;
+  border-left: 1px solid rgba(212, 175, 55, 0.08);
+}
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(212, 175, 55, 0.55), rgba(212, 175, 55, 0.25));
+  border-radius: 5px;
+  border: 2px solid #0a1528;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.65);
+}
+
 .recharts-default-tooltip,
 .recharts-tooltip-wrapper {
   outline: none;
 }
 
-/* Selection */
 ::selection {
-  background: rgba(201, 162, 74, 0.25);
-  color: #e8e8e8;
+  background: rgba(212, 175, 55, 0.22);
+  color: #f5f5f0;
 }

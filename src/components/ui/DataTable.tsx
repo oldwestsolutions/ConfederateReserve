@@ -50,7 +50,7 @@ export function DataTable<T extends Record<string, unknown>>({
     <div className="panel overflow-x-auto rounded">
       <table className="w-full min-w-[720px] border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-border">
+          <tr className="border-b border-gold/10">
             {columns.map((col) => {
               const key = String(col.key);
               const onSort = col.sortable
@@ -95,7 +95,7 @@ export function DataTable<T extends Record<string, unknown>>({
           {rows.map((row, i) => (
             <motion.tr
               key={rowKey(row, i)}
-              className="border-b border-border/80 transition-colors hover:bg-surface-elev/50"
+              className="border-b border-gold/5 transition-colors hover:bg-navy-800/20"
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.02 * i, duration: 0.2 }}
@@ -103,7 +103,7 @@ export function DataTable<T extends Record<string, unknown>>({
               {columns.map((col) => (
                 <td
                   key={String(col.key)}
-                  className={`px-3 py-3 font-body text-text-primary ${col.className ?? ""}`}
+                  className={`px-3 py-3 font-data text-cream/95 ${col.className ?? ""}`}
                 >
                   {col.render
                     ? col.render(row)

@@ -31,7 +31,7 @@ export function DepositForm({ onSubmit, wallet }: Props) {
       }}
     >
       <div className="flex items-baseline justify-between">
-        <h2 className="font-display text-lg text-text-primary">Deposit</h2>
+        <h2 className="font-display text-lg text-cream">Deposit</h2>
         <StatusBadge variant="PENDING">Circle USDC</StatusBadge>
       </div>
       <p className="mt-1 font-label text-[10px] uppercase tracking-[0.16em] text-text-muted">
@@ -44,7 +44,7 @@ export function DepositForm({ onSubmit, wallet }: Props) {
       <input
         id="dep_amt"
         inputMode="decimal"
-        className="mt-1 w-full rounded border border-border bg-surface-elev px-3 py-2 font-body text-text-primary placeholder:text-text-muted/50 focus:border-gold/40 focus:outline-none"
+        className="input-luxury mt-1 placeholder:text-text-muted/45"
         placeholder="0.00"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
@@ -53,9 +53,9 @@ export function DepositForm({ onSubmit, wallet }: Props) {
         You will sign an ERC-20 <code className="text-gold/90">permit + deposit</code> bundle
         (simulated here).
       </p>
-      <div className="mt-4 rounded border border-border/80 bg-surface/80 p-3 font-body text-sm text-text-muted">
-        <p className="text-[10px] font-label uppercase tracking-wider">Preview</p>
-        <p className="mt-1 text-text-primary">
+      <div className="mt-4 rounded border border-gold/15 bg-navy-950/50 p-3 font-body text-sm text-text-muted">
+        <p className="text-[10px] font-label uppercase tracking-wider text-gold/50">Preview</p>
+        <p className="mt-1 text-cream">
           Credit ≈ {formatCurrencyDetail(n)} USDC
         </p>
         <p className="mt-1">Est. conf. 2–4 blocks — {formatDate(new Date(), true)}</p>
@@ -63,7 +63,7 @@ export function DepositForm({ onSubmit, wallet }: Props) {
       <motion.button
         type="submit"
         disabled={n <= 0 || !wallet || loading}
-        className="mt-4 w-full rounded border border-gold/40 py-2.5 font-label text-sm text-gold transition-colors hover:border-gold hover:bg-gold/5 disabled:cursor-not-allowed disabled:opacity-40"
+        className="btn-luxury mt-4 w-full disabled:cursor-not-allowed disabled:opacity-40"
         whileTap={{ scale: 0.995 }}
       >
         {loading ? "Submitting…" : "Preview & deposit"}

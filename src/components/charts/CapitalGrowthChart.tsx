@@ -36,7 +36,7 @@ export function CapitalGrowthChart() {
     >
       <div className="mb-4 flex items-baseline justify-between">
         <div>
-          <h3 className="font-display text-lg text-text-primary">
+          <h3 className="font-display text-lg text-cream">
             Capital base — 90D
           </h3>
           <p className="mt-0.5 font-label text-[10px] uppercase tracking-[0.16em] text-text-muted">
@@ -62,29 +62,29 @@ export function CapitalGrowthChart() {
             dataKey="t"
             tickFormatter={(d) => d.slice(0, 7)}
             interval="preserveStartEnd"
-            stroke="#3a3a3a"
-            tick={{ fill: "#6b6b6b", fontSize: 10, fontFamily: "var(--font-dm-mono)" }}
+            stroke="rgba(212,175,55,0.12)"
+            tick={{ fill: "#8B95A8", fontSize: 10, fontFamily: "var(--font-dm-mono)" }}
             tickLine={false}
-            axisLine={{ stroke: "#1e1e1e" }}
+            axisLine={{ stroke: "rgba(212,175,55,0.12)" }}
           />
           <YAxis
             tickFormatter={(v) => fmtM(v as number)}
-            stroke="#3a3a3a"
-            tick={{ fill: "#6b6b6b", fontSize: 10, fontFamily: "var(--font-dm-mono)" }}
+            stroke="rgba(212,175,55,0.12)"
+            tick={{ fill: "#8B95A8", fontSize: 10, fontFamily: "var(--font-dm-mono)" }}
             tickLine={false}
-            axisLine={{ stroke: "#1e1e1e" }}
+            axisLine={{ stroke: "rgba(212,175,55,0.12)" }}
             width={64}
             domain={["dataMin - 5e6", "dataMax + 2e6"]}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: "#141414",
-              border: "1px solid #1e1e1e",
+              backgroundColor: "#0F1F3C",
+              border: "1px solid rgba(212,175,55,0.2)",
               borderRadius: 4,
               fontFamily: "var(--font-dm-mono), monospace",
               fontSize: 12,
             }}
-            labelStyle={{ color: "#6b6b6b" }}
+            labelStyle={{ color: "#8B95A8" }}
             formatter={(v: number) => [fmtM(v), "TVR"]}
             labelFormatter={(_, p) => {
               const t = p?.[0]?.payload as { t: string } | undefined;

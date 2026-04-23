@@ -13,7 +13,7 @@ const items = [
 export function VolatilityBar() {
   return (
     <div className="panel rounded p-4">
-      <h3 className="font-label text-[10px] uppercase tracking-[0.16em] text-text-muted">
+      <h3 className="font-label text-[10px] uppercase tracking-[0.16em] text-gold/60">
         Relative vol — strategies
       </h3>
       <div className="mt-4 space-y-3">
@@ -25,13 +25,13 @@ export function VolatilityBar() {
             transition={{ delay: 0.04 * i }}
             className="group"
           >
-            <div className="mb-1 flex justify-between font-body text-xs text-text-primary">
+            <div className="mb-1 flex justify-between font-body text-xs text-cream/90">
               <span>{x.label}</span>
               <span className="tabular-nums text-text-muted">σ {x.vol.toFixed(2)}</span>
             </div>
-            <div className="h-1.5 w-full overflow-hidden rounded bg-surface-elev">
+            <div className="h-1.5 w-full overflow-hidden rounded bg-navy-800/80">
               <div
-                className="h-full rounded bg-gradient-to-r from-gold/30 to-gold/80 transition-transform group-hover:scale-y-125"
+                className="h-full rounded bg-gradient-to-r from-gold/35 to-gold/75 transition-transform group-hover:scale-y-125"
                 style={{ width: `${x.vol * 200 + 4}%` }}
               />
             </div>

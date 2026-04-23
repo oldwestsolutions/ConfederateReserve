@@ -42,7 +42,7 @@ export function AllocationTable() {
         header: "Amount",
         sortable: true,
         render: (r) => (
-          <span className="tabular-nums text-text-primary">{formatCurrency(r.amount)}</span>
+          <span className="tabular-nums text-cream">{formatCurrency(r.amount)}</span>
         ),
       },
       {
@@ -50,7 +50,7 @@ export function AllocationTable() {
         header: "Weight",
         sortable: true,
         render: (r) => (
-          <span className="tabular-nums text-text-primary">
+          <span className="tabular-nums text-cream/90">
             {formatPercent(r.weight, { signed: false })}
           </span>
         ),
@@ -60,7 +60,7 @@ export function AllocationTable() {
         header: "APY",
         sortable: true,
         render: (r) => (
-          <span className="tabular-nums text-gain">{formatPercent(r.apy, { signed: false })}</span>
+          <span className="tabular-nums text-teal">{formatPercent(r.apy, { signed: false })}</span>
         ),
       },
       {
@@ -88,7 +88,7 @@ export function AllocationTable() {
     >
       <div className="mb-3 flex items-end justify-between gap-4">
         <div>
-          <h2 className="font-display text-xl text-text-primary">Allocation</h2>
+          <h2 className="font-display text-xl text-cream">Allocation</h2>
           <p className="mt-0.5 font-label text-[10px] uppercase tracking-[0.16em] text-text-muted">
             Strategy-level exposure, institutional counterparties
           </p>
