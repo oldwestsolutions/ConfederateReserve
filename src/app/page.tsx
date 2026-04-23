@@ -8,7 +8,6 @@ import { HeroReserveCard } from "@/components/hero/HeroReserveCard";
 import { Reveal } from "@/components/ui/Reveal";
 
 import { CoreServicesSection } from "@/components/sections/CoreServicesSection";
-import { BankingSection } from "@/components/sections/BankingSection";
 import { EconomyAtAGlance } from "@/components/sections/EconomyAtAGlance";
 
 import { RESERVE_RATIO } from "@/lib/confederateData";
@@ -66,11 +65,6 @@ export default function Home() {
       {/* =========== CORE SERVICES OVERVIEW =========== */}
       <div className="mt-20 md:mt-24">
         <CoreServicesSection />
-      </div>
-
-      {/* =========== SECTION V — BANKING FUNCTIONS =========== */}
-      <div className="mt-4 md:mt-5">
-        <BankingSection />
       </div>
 
       {/* =========== ECONOMY AT A GLANCE =========== */}
