@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { BrowserSection } from "@/components/sections/BrowserSection";
 import {
   ArrowRight,
   ArrowRightLeft,
@@ -77,10 +76,9 @@ const SERVICES: Service[] = [
 
 export function CoreServicesSection() {
   return (
-    <BrowserSection
-      title="confederatereserve.com / services / overview"
-      section="Core services"
+    <section
       aria-labelledby="sec-services-title"
+      className="relative overflow-hidden rounded-2xl border border-border bg-surface shadow-card-sm"
     >
       <div className="relative px-6 py-14 md:px-12 md:py-20">
         {/* Header */}
@@ -139,6 +137,6 @@ export function CoreServicesSection() {
           ))}
         </div>
       </div>
-    </BrowserSection>
+    </section>
   );
 }
