@@ -1,14 +1,12 @@
 "use client";
 
-import { Bell, ChevronRight, ExternalLink, Moon, Sun, Wallet } from "@/components/ui/icons";
+import { Bell, ChevronRight, ExternalLink, LayoutGrid, Wallet } from "@/components/ui/icons";
 import { Reveal } from "@/components/ui/Reveal";
-import { useTheme } from "@/components/providers/ThemeProvider";
 import { useWallet } from "@/components/providers/WalletProvider";
 import { truncateAddress } from "@/lib/formatters";
 import { useState } from "react";
 
 export default function SettingsPage() {
-  const { theme, setTheme } = useTheme();
   const { account, setModalOpen, disconnect } = useWallet();
 
   const [notif, setNotif] = useState(true);
@@ -78,35 +76,14 @@ export default function SettingsPage() {
         <section className="card-elev p-6">
           <div className="mb-4 flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-gradient-soft text-brand-blue">
-              {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+              <LayoutGrid className="h-4 w-4" />
             </span>
             <div>
               <h2 className="font-display text-lg font-semibold text-fg">Appearance</h2>
-              <p className="text-xs text-muted">Dark mode, density and display</p>
+              <p className="text-xs text-muted">Density and display</p>
             </div>
           </div>
           <ul className="divide-y divide-border">
-            <SettingRow
-              title="Theme"
-              description="Dark mode inverts surfaces and keeps accents vibrant."
-              control={
-                <div className="inline-flex rounded-lg border border-border bg-surface p-0.5">
-                  {(["light", "dark"] as const).map((t) => (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => setTheme(t)}
-                      className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium capitalize ${
-                        theme === t ? "bg-brand-gradient text-white" : "text-muted hover:text-fg"
-                      }`}
-                    >
-                      {t === "dark" ? <Moon className="h-3 w-3" /> : <Sun className="h-3 w-3" />}
-                      {t}
-                    </button>
-                  ))}
-                </div>
-              }
-            />
             <SettingRow
               title="Compact mode"
               description="Reduce padding and row height for data-dense views."

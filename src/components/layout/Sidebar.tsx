@@ -8,11 +8,13 @@ import {
   ArrowRightLeft,
   CircleDollarSign,
   Activity,
+  Wallet,
   Settings,
   BookOpen,
 } from "@/components/ui/icons";
 
 const items = [
+  { href: "/account", label: "Account", icon: Wallet },
   { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
   { href: "/mint", label: "Mint", icon: PlusCircle },
   { href: "/trade", label: "Trade", icon: ArrowRightLeft },

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Ornament, Monogram } from "@/components/ui/Ornament";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { LanguageSelector } from "@/components/layout/footer/LanguageSelector";
 import { SystemStatus } from "@/components/layout/footer/SystemStatus";
 import { BackToTop } from "@/components/layout/footer/BackToTop";
@@ -262,7 +261,6 @@ export function Footer() {
           </div>
           <div className="flex items-center gap-2">
             <LanguageSelector />
-            <ThemeToggle />
             <BackToTop />
           </div>
         </div>

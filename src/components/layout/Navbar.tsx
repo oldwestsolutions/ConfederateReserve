@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Menu } from "@/components/ui/icons";
 import { useEffect, useRef, useState } from "react";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { ConnectWalletButton } from "@/components/layout/ConnectWalletButton";
 import { Monogram } from "@/components/ui/Ornament";
 
 const links = [
@@ -84,8 +82,9 @@ export function Navbar() {
           })}
         </nav>
         <div className="hidden items-center gap-2 md:flex">
-          <ThemeToggle />
-          <ConnectWalletButton />
+          <Link href="/account" className="btn-primary !min-h-[40px] !py-2">
+            Account
+          </Link>
         </div>
         <button
           type="button"
@@ -116,9 +115,10 @@ export function Navbar() {
               </Link>
             ))}
           </nav>
-          <div className="mt-3 flex items-center gap-2">
-            <ThemeToggle />
-            <ConnectWalletButton />
+          <div className="mt-3">
+            <Link href="/account" className="btn-primary inline-flex !min-h-[44px] w-full items-center justify-center" onClick={() => setOpen(false)}>
+              Account
+            </Link>
           </div>
         </motion.div>
       )}
