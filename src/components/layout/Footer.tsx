@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Ornament, Monogram } from "@/components/ui/Ornament";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { NewsletterForm } from "@/components/layout/footer/NewsletterForm";
 import { LanguageSelector } from "@/components/layout/footer/LanguageSelector";
 import { SystemStatus } from "@/components/layout/footer/SystemStatus";
 import { BackToTop } from "@/components/layout/footer/BackToTop";
@@ -148,7 +147,7 @@ export function Footer() {
         <Ornament tone="gold" />
 
         <div className="mt-12 grid gap-12 md:grid-cols-2 lg:grid-cols-5 lg:gap-10 xl:gap-14">
-          {/* Col 1 — Brand, contact, newsletter, connect */}
+          {/* Col 1 — Brand, contact, connect */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-3">
               <Monogram size={42} />
@@ -162,11 +161,7 @@ export function Footer() {
               </span>
             </Link>
 
-            <p className="mt-5 max-w-[320px] text-sm leading-relaxed text-fg/80">
-              Decentralized reserves. Transparent settlement. Sovereign currency.
-            </p>
-
-            <p className="eyebrow mt-7">Contact</p>
+            <p className="eyebrow mt-6">Contact</p>
             <ul className="mt-3 space-y-2.5" aria-label="Contact email">
               <li>
                 <a
@@ -187,17 +182,6 @@ export function Footer() {
                 </a>
               </li>
             </ul>
-
-            <p className="eyebrow mt-8">Stay updated</p>
-            <label
-              htmlFor="nl-email"
-              className="mt-1 block font-label text-xs font-medium text-muted"
-            >
-              Email address
-            </label>
-            <div className="mt-2">
-              <NewsletterForm />
-            </div>
 
             <p className="eyebrow mt-8">Connect</p>
             <ul
