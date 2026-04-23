@@ -21,14 +21,13 @@ import {
 import { useTheme } from "@/components/providers/ThemeProvider";
 import {
   CIRCULATING_SUPPLY_USD,
-  INFLATION_PCE_SERIES,
-  INFLATION_TARGET_HIGH,
-  INFLATION_TARGET_LOW,
+  EMPLOYMENT_RATE_SERIES,
+  EMPLOYMENT_REF_FLOOR,
+  LIQUIDITY_GDP_BASE_INDEX,
+  LIQUIDITY_GDP_INDEX_SERIES,
   POLICY_TARGET_HIGH,
   POLICY_TARGET_LOW,
   TOTAL_RESERVES_USD,
-  UNEMPLOYMENT_FULL_EMPLOYMENT,
-  UNEMPLOYMENT_SERIES,
 } from "@/lib/economyAtAGlanceData";
 import { formatCurrency } from "@/lib/formatters";
 
@@ -47,39 +46,26 @@ const RATE_HISTORY = [
   { period: "Q1'26", rate: 3.625 },
 ];
 
-/** Collateral composition of reserve vault */
+/** Collateral composition of reserve vault (3 rows to balance card 3 / 4) */
 const COLLATERAL = [
   { label: "USDC", pct: 72, color: "#2775CA" },
   { label: "USDT", pct: 15, color: "#26A17B" },
-  { label: "T-bills", pct: 10, color: "#3B82F6" },
-  { label: "PAXG", pct: 3, color: GOLD },
+  { label: "Other", pct: 13, color: "#3B82F6" },
 ];
 
-/** PCE sub-index breakdown (% ann., Feb 2026) */
-const PCE_COMPONENTS = [
-  { label: "Core PCE", value: 2.6 },
-  { label: "Services", value: 3.1 },
-  { label: "Food", value: 3.2 },
-  { label: "Goods", value: 1.8 },
-  { label: "Energy", value: 1.4 },
-];
-const PCE_MAX = 4.5; // scale max for fill bars
-
-/** Per-state unemployment rates, Mar 2026 */
-const STATE_UNEMPLOYMENT = [
-  { state: "TX", rate: 3.8 },
-  { state: "GA", rate: 4.1 },
-  { state: "NC", rate: 4.2 },
-  { state: "LA", rate: 4.4 },
-  { state: "AL", rate: 4.7 },
-  { state: "MS", rate: 5.1 },
+/** Share of network GDP & output from LP mechanics (pools aggregate, not by state). */
+const LP_GDP_ATTRIBUTION = [
+  { label: "Routed vol.", share: 42, color: GOLD },
+  { label: "LP fee accrual", share: 35, color: "#B8860B" },
+  { label: "Tvl / depth", share: 23, color: "#9CA3AF" },
 ];
 
-function unempDotColor(rate: number) {
-  if (rate < 4.0) return "#10B981"; // full employment
-  if (rate < 5.0) return "#FBBF24"; // elevated
-  return "#EF4444";                  // high
-}
+/** Top LP **attributes** by economic output (employing capital best); not by state. */
+const POOL_ATTR_EMPLOYMENT_LEADERS = [
+  { label: "Fee accrual", outIdx: 100, value: "6.7% eff." },
+  { label: "Routed vol.", outIdx: 86, value: "Top flow" },
+  { label: "Tvl / depth", outIdx: 78, value: "Depth" },
+] as const;
 
 function DataRow({
   label,
@@ -105,7 +91,7 @@ function DataRow({
   );
 }
 
-type ModalId = "policy" | "reserve" | "inflation" | "unemployment" | null;
+type ModalId = "policy" | "reserve" | "gdp" | "employment" | null;
 
 function coverageHealth(pct: number) {
   if (pct >= 130) return { color: GREEN, label: "Healthy", bg: "bg-[#10B981]" };
@@ -199,6 +185,8 @@ function formatAgo(d: Date) {
 const CARD_BASE =
   "relative flex min-w-0 flex-col overflow-hidden rounded-xl border border-[rgba(212,175,55,0.28)] bg-white shadow-sm transition-all duration-200 hover:shadow-md hover:border-[rgba(212,175,55,0.5)] dark:bg-[#0D1B2E]";
 
+const CARD_SHELF = `${CARD_BASE} h-full min-h-0`;
+
 const KICKER = "font-mono text-[9px] font-semibold uppercase tracking-[0.18em] text-[#6B7280] dark:text-gray-400";
 const BODY_SM = "text-[10px] leading-snug text-[#6B7280] dark:text-gray-400";
 
@@ -242,8 +230,13 @@ export function EconomyAtAGlance() {
   }, [pollReserve]);
 
   const health = coverageHealth(coveragePct);
-  const inflLast = INFLATION_PCE_SERIES[INFLATION_PCE_SERIES.length - 1]!;
-  const unempLast = UNEMPLOYMENT_SERIES[UNEMPLOYMENT_SERIES.length - 1]!;
+  const gdpLast = LIQUIDITY_GDP_INDEX_SERIES[LIQUIDITY_GDP_INDEX_SERIES.length - 1]!;
+  const gdpPrev = LIQUIDITY_GDP_INDEX_SERIES[LIQUIDITY_GDP_INDEX_SERIES.length - 2] ?? gdpLast;
+  const gdpIdxChg = Math.round((gdpLast.value - gdpPrev.value) * 10) / 10;
+
+  const emplLast = EMPLOYMENT_RATE_SERIES[EMPLOYMENT_RATE_SERIES.length - 1]!;
+  const emplPrev = EMPLOYMENT_RATE_SERIES[EMPLOYMENT_RATE_SERIES.length - 2] ?? emplLast;
+  const emplDelta = Math.round((emplLast.value - emplPrev.value) * 100) / 100;
   const modalTitleId = (n: string) => `${baseId}-${n}-title`;
 
   const chartTooltipStyle = (border: string) => ({
@@ -293,11 +286,11 @@ export function EconomyAtAGlance() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.35 }}
-          className={CARD_BASE}
+          className={CARD_SHELF}
           aria-label="Policy rate"
         >
           <div className="h-0.5 w-full" style={{ background: GOLD }} />
-          <div className="flex flex-1 flex-col p-2 sm:p-3">
+          <div className="flex h-full min-h-0 flex-1 flex-col p-2 sm:p-3">
             <p className={KICKER}>Policy Rate</p>
             <p className="mt-0.5 text-[9px] text-[#6B7280] dark:text-gray-400 hidden sm:block">
               Confederation target
@@ -402,12 +395,12 @@ export function EconomyAtAGlance() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.35, delay: 0.06 }}
-          className={CARD_BASE}
+          className={CARD_SHELF}
           aria-live="polite"
           aria-label="Reserve coverage"
         >
           <div className="h-0.5 w-full" style={{ background: health.color }} />
-          <div className="flex flex-1 flex-col p-2 sm:p-3">
+          <div className="flex h-full min-h-0 flex-1 flex-col p-2 sm:p-3">
             <p className={KICKER}>Reserve Coverage</p>
             <p className="mt-0.5 text-[9px] text-[#6B7280] dark:text-gray-400 hidden sm:block">
               Collateral / supply
@@ -469,40 +462,47 @@ export function EconomyAtAGlance() {
           </div>
         </motion.article>
 
-        {/* ── Card 3: PCE Inflation ── */}
+        {/* ── Card 3: LP network GDP & output ── */}
         <motion.article
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.35, delay: 0.12 }}
-          className={CARD_BASE}
+          className={CARD_SHELF}
         >
           <div className="h-0.5 w-full" style={{ background: GOLD }} />
-          <div className="flex flex-1 flex-col p-2 sm:p-3">
-            <p className={KICKER}>Inflation PCE</p>
+          <div className="flex h-full min-h-0 flex-1 flex-col p-2 sm:p-3">
+            <p className={KICKER}>LP GDP & output</p>
             <p className="mt-0.5 text-[9px] text-[#6B7280] dark:text-gray-400 hidden sm:block">
-              Feb 2026
+              Pool-weighted · {gdpLast.date}
             </p>
             <p className="mt-2 font-mono text-[13px] font-bold leading-tight text-[#111] sm:text-base md:text-lg dark:text-white">
-              {inflLast.value.toFixed(1)}%
+              {gdpLast.value.toFixed(1)}
+              <span className="ml-0.5 text-[10px] font-semibold text-[#6B7280]">index</span>
             </p>
             <div className="mt-1 flex items-center justify-between">
-              <p className={BODY_SM}>Tgt {INFLATION_TARGET_LOW}–{INFLATION_TARGET_HIGH}%</p>
-              <span className="font-mono text-[9px] font-semibold text-[#10B981]">▲ +0.02 MoM</span>
+              <p className={BODY_SM}>Base {LIQUIDITY_GDP_BASE_INDEX} (Q1 25)</p>
+              <span
+                className={`font-mono text-[9px] font-semibold ${gdpIdxChg >= 0 ? "text-[#10B981]" : "text-[#F59E0B]"}`}
+              >
+                {gdpIdxChg >= 0 ? "▲" : "▼"}{" "}
+                {gdpIdxChg >= 0 ? "+" : ""}
+                {gdpIdxChg.toFixed(1)} idx MoM
+              </span>
             </div>
             <div
               className="mt-2 min-h-0 w-full min-w-0 overflow-hidden"
-              style={{ height: chartH }}
+              style={{ height: chartH, minHeight: chartH }}
               role="img"
-              aria-label="PCE inflation chart"
+              aria-label="Liquidity-pool network GDP index chart"
             >
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart
-                  data={INFLATION_PCE_SERIES}
+                  data={LIQUIDITY_GDP_INDEX_SERIES}
                   margin={{ top: 2, right: 2, left: 0, bottom: 0 }}
                 >
                   <defs>
-                    <linearGradient id="econInflFill" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="econGdpFill" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor={GOLD} stopOpacity={0.15} />
                       <stop offset="100%" stopColor={GOLD} stopOpacity={0} />
                     </linearGradient>
@@ -517,35 +517,57 @@ export function EconomyAtAGlance() {
                     height={14}
                   />
                   <YAxis
-                    domain={[2.55, 3.05]}
+                    domain={[99.5, 102.2]}
                     tick={{ fontSize: 8, fill: axisColor, fontFamily: "var(--font-jetbrains-mono)" }}
                     tickLine={false}
                     axisLine={false}
-                    width={28}
+                    width={32}
                     tickFormatter={(v: number) => v.toFixed(1)}
                     tickCount={3}
                   />
-                  <ReferenceLine y={INFLATION_TARGET_LOW} stroke={GOLD} strokeDasharray="3 3" strokeOpacity={0.4} strokeWidth={0.75} />
-                  <ReferenceLine y={INFLATION_TARGET_HIGH} stroke={GOLD} strokeDasharray="3 3" strokeOpacity={0.4} strokeWidth={0.75} />
-                  <Tooltip contentStyle={chartTooltipStyle(GOLD)} formatter={(v: number) => [`${v.toFixed(2)}%`, "PCE"]} />
-                  <Area type="monotone" dataKey="value" stroke="none" fill="url(#econInflFill)" isAnimationActive animationDuration={500} />
-                  <Line type="monotone" dataKey="value" stroke={GOLD} strokeWidth={1.5} dot={false} isAnimationActive animationDuration={500} />
+                  <ReferenceLine
+                    y={LIQUIDITY_GDP_BASE_INDEX}
+                    stroke={GOLD}
+                    strokeDasharray="3 3"
+                    strokeOpacity={0.45}
+                    strokeWidth={0.75}
+                  />
+                  <Tooltip
+                    contentStyle={chartTooltipStyle(GOLD)}
+                    formatter={(v: number) => [`${v.toFixed(2)}`, "Index"]}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="value"
+                    stroke="none"
+                    fill="url(#econGdpFill)"
+                    isAnimationActive
+                    animationDuration={500}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="value"
+                    stroke={GOLD}
+                    strokeWidth={1.5}
+                    dot={false}
+                    isAnimationActive
+                    animationDuration={500}
+                  />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
 
-            {/* PCE sub-index breakdown */}
             <p className="mt-3 mb-1.5 font-mono text-[8px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
-              Components
+              Attributions
             </p>
             <div className="space-y-1.5">
-              {PCE_COMPONENTS.map((c) => (
+              {LP_GDP_ATTRIBUTION.map((c) => (
                 <DataRow
                   key={c.label}
                   label={c.label}
-                  value={`${c.value.toFixed(1)}%`}
-                  fillPct={(c.value / PCE_MAX) * 100}
-                  fillColor={c.value > INFLATION_TARGET_HIGH ? "#FBBF24" : GOLD}
+                  value={`${c.share}%`}
+                  fillPct={c.share}
+                  fillColor={c.color}
                 />
               ))}
             </div>
@@ -553,7 +575,7 @@ export function EconomyAtAGlance() {
             <div className="mt-auto pt-3">
               <button
                 type="button"
-                onClick={() => setModal("inflation")}
+                onClick={() => setModal("gdp")}
                 className="text-[10px] font-semibold tracking-wide"
                 style={{ color: GOLD }}
               >
@@ -563,40 +585,49 @@ export function EconomyAtAGlance() {
           </div>
         </motion.article>
 
-        {/* ── Card 4: Unemployment ── */}
+        {/* ── Card 4: Employment (labor) + best LP output drivers ── */}
         <motion.article
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.35, delay: 0.18 }}
-          className={CARD_BASE}
+          className={CARD_SHELF}
         >
           <div className="h-0.5 w-full" style={{ background: CHART_BLUE }} />
-          <div className="flex flex-1 flex-col p-2 sm:p-3">
-            <p className={KICKER}>Unemployment</p>
+          <div className="flex h-full min-h-0 flex-1 flex-col p-2 sm:p-3">
+            <p className={KICKER}>Employment</p>
             <p className="mt-0.5 text-[9px] text-[#6B7280] dark:text-gray-400 hidden sm:block">
-              Mar 2026 · States avg
+              {emplLast.date} · pool-linked labor demand
             </p>
             <p className="mt-2 font-mono text-[13px] font-bold leading-tight text-[#111] sm:text-base md:text-lg dark:text-white">
-              {unempLast.value.toFixed(1)}%
+              {emplLast.value.toFixed(1)}%
             </p>
             <div className="mt-1 flex items-center justify-between">
-              <p className={BODY_SM}>Full empl. &lt;{UNEMPLOYMENT_FULL_EMPLOYMENT.toFixed(1)}%</p>
-              <span className="font-mono text-[9px] font-semibold text-[#10B981]">▼ −0.1 MoM</span>
+              <p className={BODY_SM}>
+                Target ≥{EMPLOYMENT_REF_FLOOR.toFixed(1)}% util
+              </p>
+              <span
+                className={`font-mono text-[9px] font-semibold ${
+                  emplDelta > 0 ? "text-[#10B981]" : emplDelta < 0 ? "text-[#F59E0B]" : "text-[#6B7280]"
+                }`}
+              >
+                {emplDelta > 0 ? "▲" : emplDelta < 0 ? "▼" : "—"}{" "}
+                {emplDelta !== 0 ? `${emplDelta > 0 ? "+" : ""}${emplDelta.toFixed(2)} MoM` : "flat MoM"}
+              </span>
             </div>
             <div
-              className="mt-2 min-h-0 w-full min-w-0 overflow-hidden"
-              style={{ height: chartH }}
+              className="mt-2 min-h-0 w-full min-w-0 flex-1 overflow-hidden"
+              style={{ height: chartH, minHeight: chartH }}
               role="img"
-              aria-label="Unemployment rate chart"
+              aria-label="Employment rate chart"
             >
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart
-                  data={UNEMPLOYMENT_SERIES}
+                  data={EMPLOYMENT_RATE_SERIES}
                   margin={{ top: 2, right: 2, left: 0, bottom: 0 }}
                 >
                   <defs>
-                    <linearGradient id="econUnempFill" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="econEmpFill" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor={CHART_BLUE} stopOpacity={0.15} />
                       <stop offset="100%" stopColor={CHART_BLUE} stopOpacity={0} />
                     </linearGradient>
@@ -611,28 +642,31 @@ export function EconomyAtAGlance() {
                     height={14}
                   />
                   <YAxis
-                    domain={[4.2, 4.55]}
+                    domain={[95.0, 96.2]}
                     tick={{ fontSize: 8, fill: axisColor, fontFamily: "var(--font-jetbrains-mono)" }}
                     tickLine={false}
                     axisLine={false}
-                    width={28}
+                    width={32}
                     tickFormatter={(v: number) => v.toFixed(1)}
                     tickCount={3}
                   />
                   <ReferenceLine
-                    y={UNEMPLOYMENT_FULL_EMPLOYMENT}
+                    y={EMPLOYMENT_REF_FLOOR}
                     stroke={CHART_BLUE}
                     strokeDasharray="3 3"
-                    strokeOpacity={0.4}
+                    strokeOpacity={0.45}
                     strokeWidth={0.75}
                   />
-                  <Tooltip contentStyle={chartTooltipStyle(CHART_BLUE)} formatter={(v: number) => [`${v.toFixed(2)}%`, "U-rate"]} />
+                  <Tooltip
+                    contentStyle={chartTooltipStyle(CHART_BLUE)}
+                    formatter={(v: number) => [`${v.toFixed(2)}%`, "Employment"]}
+                  />
                   <Area
                     type="monotone"
                     dataKey="value"
                     stroke={CHART_BLUE}
                     strokeWidth={1.5}
-                    fill="url(#econUnempFill)"
+                    fill="url(#econEmpFill)"
                     isAnimationActive
                     animationDuration={500}
                   />
@@ -640,29 +674,25 @@ export function EconomyAtAGlance() {
               </ResponsiveContainer>
             </div>
 
-            {/* Per-state breakdown */}
             <p className="mt-3 mb-1.5 font-mono text-[8px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
-              By state
+              Top LP output
             </p>
             <div className="space-y-1.5">
-              {STATE_UNEMPLOYMENT.map((s) => {
-                const dotColor = unempDotColor(s.rate);
-                return (
-                  <DataRow
-                    key={s.state}
-                    label={s.state}
-                    value={`${s.rate.toFixed(1)}%`}
-                    fillPct={(s.rate / 7) * 100}
-                    fillColor={dotColor}
-                  />
-                );
-              })}
+              {POOL_ATTR_EMPLOYMENT_LEADERS.map((a) => (
+                <DataRow
+                  key={a.label}
+                  label={a.label}
+                  value={a.value}
+                  fillPct={a.outIdx}
+                  fillColor={a.outIdx >= 90 ? "#10B981" : a.outIdx >= 82 ? CHART_BLUE : "#9CA3AF"}
+                />
+              ))}
             </div>
 
             <div className="mt-auto pt-3">
               <button
                 type="button"
-                onClick={() => setModal("unemployment")}
+                onClick={() => setModal("employment")}
                 className="text-[10px] font-semibold tracking-wide"
                 style={{ color: GOLD }}
               >
@@ -696,16 +726,19 @@ export function EconomyAtAGlance() {
           vault balances on Polygon. Use the main reserve view for per-asset composition and attestation history.
         </p>
       </EconomyModal>
-      <EconomyModal open={modal === "inflation"} onClose={() => setModal(null)} title="Inflation (PCE) detail" labelledBy={modalTitleId("inflation")}>
+      <EconomyModal open={modal === "gdp"} onClose={() => setModal(null)} title="LP network GDP & output" labelledBy={modalTitleId("gdp")}>
         <p>
-          PCE is computed across member-state baskets with a harmonized index methodology. The series is published
-          monthly; intramonth values are model-based estimates for dashboard display. Target corridor: {INFLATION_TARGET_LOW}–{INFLATION_TARGET_HIGH}%.
+          The index weights TVL, 24-hour routed volume, and fee accrual across all chartered liquidity pools — not by
+          state. Base {LIQUIDITY_GDP_BASE_INDEX} is the Q1 2025 rebasing point. Attributions show the share of marginal
+          network output explained by each pool attribute.
         </p>
       </EconomyModal>
-      <EconomyModal open={modal === "unemployment"} onClose={() => setModal(null)} title="State unemployment" labelledBy={modalTitleId("unemployment")}>
+      <EconomyModal open={modal === "employment"} onClose={() => setModal(null)} title="Employment & pool-linked demand" labelledBy={modalTitleId("employment")}>
         <p>
-          The series is a population-weighted average of chartered state labor reports. Full employment threshold is
-          below {UNEMPLOYMENT_FULL_EMPLOYMENT.toFixed(1)}%. Jurisdiction-level detail is available through the confederation data office.
+          Employment rate is 100% minus the headline unemployment rate from the same monthly series, shown here in
+          positive terms. The &ldquo;Top LP output&rdquo; rows rank which pool mechanisms are currently directing the
+          most economic throughput (fees, routed flow, depth) — not individual states. Target line: {EMPLOYMENT_REF_FLOOR.toFixed(1)}%
+          corresponds to a 4.0% unemployment ceiling.
         </p>
       </EconomyModal>
     </section>
