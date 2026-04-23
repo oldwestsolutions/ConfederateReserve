@@ -3,25 +3,29 @@
 import { motion } from "framer-motion";
 
 /**
- * Mint illustration — a heritage vault with USDC coins flowing in and
- * state-token badges radiating out on a slow orbital path.
- * Fully inline SVG, GPU-friendly (transform + opacity only).
+ * Mint illustration — a single, oversized heritage vault, centered.
+ * No coins, no badges, no orbital rings. Just the vault with a
+ * subtle ambient glow behind it and a gentle bob.
  */
 export function MintIllustration({ className }: { className?: string }) {
-  const badges = ["TEX", "LAL", "GAS", "MSS"];
   return (
-    <div className={`relative aspect-square w-full max-w-[520px] ${className ?? ""}`}>
+    <div className={`relative aspect-square w-full max-w-[560px] ${className ?? ""}`}>
       {/* Ambient glow */}
       <div
         aria-hidden
-        className="absolute inset-0 rounded-full blur-3xl opacity-50"
+        className="absolute inset-0 rounded-full blur-3xl opacity-55"
         style={{
           background:
             "radial-gradient(closest-side, rgba(176,141,58,0.55), transparent 70%)",
         }}
       />
 
-      <svg viewBox="0 0 520 520" className="relative h-full w-full" role="img" aria-label="Vault receiving USDC and issuing state tokens">
+      <svg
+        viewBox="0 0 520 520"
+        className="relative h-full w-full"
+        role="img"
+        aria-label="Heritage vault"
+      >
         <defs>
           <linearGradient id="mi-vault" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#14523F" />
@@ -31,183 +35,188 @@ export function MintIllustration({ className }: { className?: string }) {
             <stop offset="0" stopColor="#D4B26A" />
             <stop offset="1" stopColor="#B08D3A" />
           </linearGradient>
-          <radialGradient id="mi-halo">
-            <stop offset="0" stopColor="rgba(212,178,106,0.40)" />
+          <radialGradient id="mi-inner">
+            <stop offset="0" stopColor="rgba(212,178,106,0.18)" />
             <stop offset="1" stopColor="transparent" />
           </radialGradient>
-          <filter id="mi-soft" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="6" />
-          </filter>
         </defs>
 
-        {/* Outer halo */}
-        <circle cx="260" cy="260" r="240" fill="url(#mi-halo)" />
-        <circle
-          cx="260" cy="260" r="232"
-          fill="none"
-          stroke="rgba(176,141,58,0.35)"
-          strokeWidth="0.75"
-          strokeDasharray="3 8"
-        />
-        <circle
-          cx="260" cy="260" r="180"
-          fill="none"
-          stroke="rgba(14,59,46,0.30)"
-          strokeWidth="0.6"
-          strokeDasharray="2 10"
-        />
-
-        {/* Coin stream: 4 USDC coins drifting down into vault */}
-        {[0, 1, 2, 3].map((i) => (
-          <motion.g
-            key={`coin-${i}`}
-            initial={{ opacity: 0 }}
-            animate={{
-              cy: [60, 220],
-              opacity: [0, 1, 1, 0],
-            }}
-            transition={{
-              duration: 2.8,
-              delay: i * 0.7,
-              repeat: Infinity,
-              ease: "easeIn",
-            }}
-          >
-            <g transform={`translate(${180 + i * 40}, 0)`}>
-              <circle
-                cx="0" cy="0" r="14"
-                fill="#2F7A4F"
-                stroke="url(#mi-gold)"
-                strokeWidth="1.3"
-              />
-              <text
-                textAnchor="middle"
-                x="0"
-                y="4"
-                fontSize="11"
-                fontWeight="700"
-                fill="#FFFDF7"
-                fontFamily="ui-monospace, monospace"
-              >
-                $
-              </text>
-            </g>
-          </motion.g>
-        ))}
-
-        {/* Vault body (gently bobbing) */}
         <motion.g
           animate={{ y: [-4, 4, -4] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "260px 260px", transformBox: "fill-box" }}
         >
+          {/* Plinth / shadow */}
+          <ellipse
+            cx="260"
+            cy="482"
+            rx="170"
+            ry="14"
+            fill="rgba(11,16,22,0.18)"
+          />
+
+          {/* Outer body */}
           <rect
-            x="130" y="190" width="260" height="250"
-            rx="26"
+            x="70"
+            y="70"
+            width="380"
+            height="390"
+            rx="34"
             fill="url(#mi-vault)"
             stroke="url(#mi-gold)"
-            strokeWidth="1.6"
+            strokeWidth="2.2"
           />
-          {/* Inner frame */}
+
+          {/* Inner bevel frame */}
           <rect
-            x="152" y="212" width="216" height="206"
-            rx="18"
-            fill="none"
+            x="96"
+            y="96"
+            width="328"
+            height="338"
+            rx="24"
+            fill="url(#mi-inner)"
             stroke="url(#mi-gold)"
-            strokeWidth="0.9"
-            opacity="0.75"
+            strokeWidth="1.1"
+            opacity="0.8"
           />
 
-          {/* Vault wheel */}
-          <circle cx="260" cy="315" r="58" fill="none" stroke="url(#mi-gold)" strokeWidth="1.8" />
-          <circle cx="260" cy="315" r="42" fill="none" stroke="url(#mi-gold)" strokeWidth="0.9" opacity="0.6" />
-          <circle cx="260" cy="315" r="7" fill="url(#mi-gold)" />
-          {[0, 60, 120, 180, 240, 300].map((deg) => {
-            const a = (deg * Math.PI) / 180;
-            return (
-              <line
-                key={deg}
-                x1={260 + Math.cos(a) * 14}
-                y1={315 + Math.sin(a) * 14}
-                x2={260 + Math.cos(a) * 58}
-                y2={315 + Math.sin(a) * 58}
-                stroke="url(#mi-gold)"
-                strokeWidth="1.5"
-              />
-            );
-          })}
+          {/* Decorative corner rivets */}
+          {[
+            { x: 118, y: 118 },
+            { x: 402, y: 118 },
+            { x: 118, y: 412 },
+            { x: 402, y: 412 },
+          ].map((p, i) => (
+            <g key={i}>
+              <circle cx={p.x} cy={p.y} r="5.5" fill="url(#mi-gold)" />
+              <circle cx={p.x} cy={p.y} r="2.2" fill="#0E3B2E" opacity="0.55" />
+            </g>
+          ))}
 
-          {/* Latch */}
-          <rect x="346" y="302" width="28" height="22" rx="4" fill="url(#mi-gold)" />
-
-          {/* Ledger line (top inside) */}
-          <line x1="162" y1="232" x2="358" y2="232" stroke="url(#mi-gold)" strokeWidth="0.8" opacity="0.6" />
-
-          {/* Monogram stamp */}
+          {/* Top ledger bar + monogram */}
+          <line
+            x1="118"
+            y1="146"
+            x2="402"
+            y2="146"
+            stroke="url(#mi-gold)"
+            strokeWidth="1.1"
+            opacity="0.55"
+          />
           <text
             textAnchor="middle"
-            x="260" y="245"
-            fontSize="13"
-            letterSpacing="0.2em"
+            x="260"
+            y="136"
+            fontSize="15"
+            letterSpacing="0.28em"
             fill="#D4B26A"
             fontFamily="serif"
             fontWeight="600"
           >
             CR
           </text>
-        </motion.g>
 
-        {/* State-token badges arcing around the vault */}
-        {badges.map((code, i) => {
-          const angle = (i * 90 - 35) * (Math.PI / 180);
-          const r = 208;
-          const x = 260 + Math.cos(angle) * r;
-          const y = 315 + Math.sin(angle) * r * 0.82;
-          return (
-            <motion.g
-              key={code}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 + i * 0.15 }}
-            >
-              <motion.g
-                animate={{ y: [0, -6, 0] }}
-                transition={{
-                  duration: 4 + i,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <circle
-                  cx={x}
-                  cy={y}
-                  r="22"
-                  fill="#FFFDF7"
+          {/* Vault wheel */}
+          <circle
+            cx="260"
+            cy="265"
+            r="92"
+            fill="none"
+            stroke="url(#mi-gold)"
+            strokeWidth="2.4"
+          />
+          <circle
+            cx="260"
+            cy="265"
+            r="66"
+            fill="none"
+            stroke="url(#mi-gold)"
+            strokeWidth="1.1"
+            opacity="0.55"
+          />
+          <circle cx="260" cy="265" r="11" fill="url(#mi-gold)" />
+
+          {/* Wheel spokes */}
+          {[0, 60, 120, 180, 240, 300].map((deg) => {
+            const a = (deg * Math.PI) / 180;
+            return (
+              <line
+                key={deg}
+                x1={260 + Math.cos(a) * 22}
+                y1={265 + Math.sin(a) * 22}
+                x2={260 + Math.cos(a) * 92}
+                y2={265 + Math.sin(a) * 92}
+                stroke="url(#mi-gold)"
+                strokeWidth="2"
+              />
+            );
+          })}
+
+          {/* Wheel handle spokes (longer, offset) */}
+          {[30, 150, 270].map((deg) => {
+            const a = (deg * Math.PI) / 180;
+            return (
+              <g key={`h-${deg}`}>
+                <line
+                  x1={260 + Math.cos(a) * 92}
+                  y1={265 + Math.sin(a) * 92}
+                  x2={260 + Math.cos(a) * 108}
+                  y2={265 + Math.sin(a) * 108}
                   stroke="url(#mi-gold)"
-                  strokeWidth="1.3"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
                 />
                 <circle
-                  cx={x}
-                  cy={y}
-                  r="16"
-                  fill="none"
-                  stroke="rgba(14,59,46,0.35)"
-                  strokeWidth="0.6"
+                  cx={260 + Math.cos(a) * 112}
+                  cy={265 + Math.sin(a) * 112}
+                  r="4.5"
+                  fill="url(#mi-gold)"
                 />
-                <text
-                  textAnchor="middle"
-                  x={x}
-                  y={y + 4}
-                  fontSize="10"
-                  fontWeight="700"
-                  fill="#0E3B2E"
-                  fontFamily="ui-monospace, monospace"
-                >
-                  {code}
-                </text>
-              </motion.g>
-            </motion.g>
-          );
-        })}
+              </g>
+            );
+          })}
+
+          {/* Side latch */}
+          <rect
+            x="402"
+            y="250"
+            width="32"
+            height="30"
+            rx="5"
+            fill="url(#mi-gold)"
+          />
+          <rect
+            x="410"
+            y="258"
+            width="16"
+            height="14"
+            rx="2"
+            fill="#0E3B2E"
+            opacity="0.55"
+          />
+
+          {/* Bottom inscription bar */}
+          <line
+            x1="118"
+            y1="394"
+            x2="402"
+            y2="394"
+            stroke="url(#mi-gold)"
+            strokeWidth="1.1"
+            opacity="0.55"
+          />
+          <text
+            textAnchor="middle"
+            x="260"
+            y="418"
+            fontSize="11"
+            letterSpacing="0.42em"
+            fill="rgba(212,178,106,0.75)"
+            fontFamily="serif"
+          >
+            CONFEDERATE RESERVE
+          </text>
+        </motion.g>
       </svg>
     </div>
   );

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "@/components/ui/icons";
-import { TradeIllustration } from "@/components/illustrations/TradeIllustration";
+import { WallStreetIllustration } from "@/components/illustrations/WallStreetIllustration";
 import { Ornament } from "@/components/ui/Ornament";
 
 /**
@@ -62,7 +62,7 @@ export function TradeSection() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
-          <TradeIllustration />
+          <WallStreetIllustration variant="dark" />
         </motion.div>
 
         {/* Text — light ink on dark panel */}
