@@ -55,15 +55,51 @@ const COLLATERAL = [
   { label: "PAXG", pct: 3, color: GOLD },
 ];
 
-function CollateralRow({ label, pct, color }: { label: string; pct: number; color: string }) {
+/** PCE sub-index breakdown (% ann., Feb 2026) */
+const PCE_COMPONENTS = [
+  { label: "Core PCE", value: 2.6 },
+  { label: "Services", value: 3.1 },
+  { label: "Food", value: 3.2 },
+  { label: "Goods", value: 1.8 },
+  { label: "Energy", value: 1.4 },
+];
+const PCE_MAX = 4.5; // scale max for fill bars
+
+/** Per-state unemployment rates, Mar 2026 */
+const STATE_UNEMPLOYMENT = [
+  { state: "TX", rate: 3.8 },
+  { state: "GA", rate: 4.1 },
+  { state: "NC", rate: 4.2 },
+  { state: "LA", rate: 4.4 },
+  { state: "AL", rate: 4.7 },
+  { state: "MS", rate: 5.1 },
+];
+
+function unempDotColor(rate: number) {
+  if (rate < 4.0) return "#10B981"; // full employment
+  if (rate < 5.0) return "#FBBF24"; // elevated
+  return "#EF4444";                  // high
+}
+
+function DataRow({
+  label,
+  value,
+  fillPct,
+  fillColor,
+}: {
+  label: string;
+  value: string;
+  fillPct: number;
+  fillColor: string;
+}) {
   return (
     <div className="space-y-0.5">
-      <div className="flex items-center justify-between">
-        <span className="font-mono text-[9px] text-[#374151] dark:text-gray-200">{label}</span>
-        <span className="font-mono text-[9px] font-semibold" style={{ color }}>{pct}%</span>
+      <div className="flex items-center justify-between gap-1">
+        <span className="font-mono text-[9px] text-[#374151] dark:text-gray-200 truncate">{label}</span>
+        <span className="font-mono text-[9px] font-semibold shrink-0" style={{ color: fillColor }}>{value}</span>
       </div>
       <div className="h-1 w-full overflow-hidden rounded-full bg-[rgba(0,0,0,0.07)] dark:bg-white/10">
-        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color }} />
+        <div className="h-full rounded-full transition-all duration-500" style={{ width: `${fillPct}%`, background: fillColor }} />
       </div>
     </div>
   );
@@ -410,7 +446,13 @@ export function EconomyAtAGlance() {
             </p>
             <div className="space-y-1.5">
               {COLLATERAL.map((c) => (
-                <CollateralRow key={c.label} {...c} />
+                <DataRow
+                  key={c.label}
+                  label={c.label}
+                  value={`${c.pct}%`}
+                  fillPct={c.pct}
+                  fillColor={c.color}
+                />
               ))}
             </div>
 
@@ -444,9 +486,10 @@ export function EconomyAtAGlance() {
             <p className="mt-2 font-mono text-[13px] font-bold leading-tight text-[#111] sm:text-base md:text-lg dark:text-white">
               {inflLast.value.toFixed(1)}%
             </p>
-            <p className={`mt-0.5 ${BODY_SM}`}>
-              Tgt {INFLATION_TARGET_LOW}–{INFLATION_TARGET_HIGH}%
-            </p>
+            <div className="mt-1 flex items-center justify-between">
+              <p className={BODY_SM}>Tgt {INFLATION_TARGET_LOW}–{INFLATION_TARGET_HIGH}%</p>
+              <span className="font-mono text-[9px] font-semibold text-[#10B981]">▲ +0.02 MoM</span>
+            </div>
             <div
               className="mt-2 min-h-0 w-full min-w-0 overflow-hidden"
               style={{ height: chartH }}
@@ -482,13 +525,32 @@ export function EconomyAtAGlance() {
                     tickFormatter={(v: number) => v.toFixed(1)}
                     tickCount={3}
                   />
+                  <ReferenceLine y={INFLATION_TARGET_LOW} stroke={GOLD} strokeDasharray="3 3" strokeOpacity={0.4} strokeWidth={0.75} />
+                  <ReferenceLine y={INFLATION_TARGET_HIGH} stroke={GOLD} strokeDasharray="3 3" strokeOpacity={0.4} strokeWidth={0.75} />
                   <Tooltip contentStyle={chartTooltipStyle(GOLD)} formatter={(v: number) => [`${v.toFixed(2)}%`, "PCE"]} />
                   <Area type="monotone" dataKey="value" stroke="none" fill="url(#econInflFill)" isAnimationActive animationDuration={500} />
                   <Line type="monotone" dataKey="value" stroke={GOLD} strokeWidth={1.5} dot={false} isAnimationActive animationDuration={500} />
                 </ComposedChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-auto pt-2">
+
+            {/* PCE sub-index breakdown */}
+            <p className="mt-3 mb-1.5 font-mono text-[8px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
+              Components
+            </p>
+            <div className="space-y-1.5">
+              {PCE_COMPONENTS.map((c) => (
+                <DataRow
+                  key={c.label}
+                  label={c.label}
+                  value={`${c.value.toFixed(1)}%`}
+                  fillPct={(c.value / PCE_MAX) * 100}
+                  fillColor={c.value > INFLATION_TARGET_HIGH ? "#FBBF24" : GOLD}
+                />
+              ))}
+            </div>
+
+            <div className="mt-auto pt-3">
               <button
                 type="button"
                 onClick={() => setModal("inflation")}
@@ -518,9 +580,10 @@ export function EconomyAtAGlance() {
             <p className="mt-2 font-mono text-[13px] font-bold leading-tight text-[#111] sm:text-base md:text-lg dark:text-white">
               {unempLast.value.toFixed(1)}%
             </p>
-            <p className={`mt-0.5 ${BODY_SM}`}>
-              Full empl. &lt;{UNEMPLOYMENT_FULL_EMPLOYMENT.toFixed(1)}%
-            </p>
+            <div className="mt-1 flex items-center justify-between">
+              <p className={BODY_SM}>Full empl. &lt;{UNEMPLOYMENT_FULL_EMPLOYMENT.toFixed(1)}%</p>
+              <span className="font-mono text-[9px] font-semibold text-[#10B981]">▼ −0.1 MoM</span>
+            </div>
             <div
               className="mt-2 min-h-0 w-full min-w-0 overflow-hidden"
               style={{ height: chartH }}
@@ -556,6 +619,13 @@ export function EconomyAtAGlance() {
                     tickFormatter={(v: number) => v.toFixed(1)}
                     tickCount={3}
                   />
+                  <ReferenceLine
+                    y={UNEMPLOYMENT_FULL_EMPLOYMENT}
+                    stroke={CHART_BLUE}
+                    strokeDasharray="3 3"
+                    strokeOpacity={0.4}
+                    strokeWidth={0.75}
+                  />
                   <Tooltip contentStyle={chartTooltipStyle(CHART_BLUE)} formatter={(v: number) => [`${v.toFixed(2)}%`, "U-rate"]} />
                   <Area
                     type="monotone"
@@ -569,7 +639,27 @@ export function EconomyAtAGlance() {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-auto pt-2">
+
+            {/* Per-state breakdown */}
+            <p className="mt-3 mb-1.5 font-mono text-[8px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
+              By state
+            </p>
+            <div className="space-y-1.5">
+              {STATE_UNEMPLOYMENT.map((s) => {
+                const dotColor = unempDotColor(s.rate);
+                return (
+                  <DataRow
+                    key={s.state}
+                    label={s.state}
+                    value={`${s.rate.toFixed(1)}%`}
+                    fillPct={(s.rate / 7) * 100}
+                    fillColor={dotColor}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="mt-auto pt-3">
               <button
                 type="button"
                 onClick={() => setModal("unemployment")}
