@@ -1,111 +1,127 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { motion } from "framer-motion";
-import { WalletConnector } from "@/components/transact/WalletConnector";
+import { useState } from "react";
 import { DepositForm } from "@/components/transact/DepositForm";
-import { WithdrawForm } from "@/components/transact/WithdrawForm";
-import { GoldDivider } from "@/components/ui/GoldDivider";
-import { ScrollReveal } from "@/components/institutional/ScrollReveal";
-import { formatCurrencyDetail, formatDate } from "@/lib/formatters";
-import { StatusBadge } from "@/components/ui/StatusBadge";
-import type { Transaction } from "@/types";
-import { COLLATERAL_SYMBOL } from "@/lib/confederateData";
+import { Reveal } from "@/components/ui/Reveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { formatCurrency, formatRelativeTime } from "@/lib/formatters";
+import { ArrowDownToLine, ShieldCheck, Zap } from "lucide-react";
 
-const MOCK = "0x4a2f1c3e8b9d7a6c5b4a39281716545029384756";
+type Pending = {
+  id: string;
+  amount: number;
+  token: string;
+  createdAt: Date;
+};
 
 export default function MintPage() {
-  const [connected, setConnected] = useState(false);
-  const [available] = useState(2_400_000);
-  const [pending, setPending] = useState<Transaction[]>([]);
+  const [pending, setPending] = useState<Pending[]>([]);
 
-  const submitDeposit = useCallback(
-    async (amount: number) => {
-      const r = await fetch("/api/deposit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ walletAddress: connected ? MOCK : "", amount }),
-      });
-      const j = (await r.json()) as {
-        success: boolean;
-        data?: { id: string; userId: string; type: Transaction["type"]; amount: number; currency: string; status: Transaction["status"]; txHash: string; createdAt: string };
-      };
-      if (j.success && j.data) {
-        const d = j.data;
-        setPending((p) => [
-          { _id: d.id, userId: d.userId, type: d.type, amount: d.amount, currency: d.currency, status: d.status, txHash: d.txHash, createdAt: new Date(d.createdAt) },
-          ...p,
-        ]);
-      }
-    },
-    [connected]
-  );
-
-  const submitWithdraw = useCallback(
-    async (amount: number) => {
-      const r = await fetch("/api/withdraw", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ walletAddress: connected ? MOCK : "", amount }),
-      });
-      const j = (await r.json()) as {
-        success: boolean;
-        data?: { id: string; userId: string; type: Transaction["type"]; amount: number; currency: string; status: Transaction["status"]; txHash: string; createdAt: string };
-      };
-      if (j.success && j.data) {
-        const d = j.data;
-        setPending((p) => [
-          { _id: d.id, userId: d.userId, type: d.type, amount: d.amount, currency: d.currency, status: d.status, txHash: d.txHash, createdAt: new Date(d.createdAt) },
-          ...p,
-        ]);
-      }
-    },
-    [connected]
-  );
+  function onSubmitted(amount: number, token: string) {
+    setPending((p) => [
+      { id: `p_${Date.now()}`, amount, token, createdAt: new Date() },
+      ...p,
+    ]);
+  }
 
   return (
-    <div>
-      <ScrollReveal>
-        <p className="font-label text-xs uppercase tracking-[0.2em] text-gold/70">Mint & redeem</p>
-        <h1 className="mt-3 max-w-3xl font-display text-display-lg text-cream">Collateral in. State tokens out.</h1>
-        <p className="mt-4 max-w-2xl font-body leading-relaxed text-text-muted">
-          Deposit {COLLATERAL_SYMBOL} to the reserve contract; mint or redeem state-linked tokens
-          pro-rata. This build uses a simulated Circle stack — on mainnet you would sign permit +
-          batch execution.
+    <div className="space-y-10">
+      <div>
+        <p className="font-label text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
+          Mint
         </p>
-        <div className="mt-2 font-label text-xs text-amber/90">Simulation only — not financial advice.</div>
-      </ScrollReveal>
-      <GoldDivider className="my-10" />
-      <WalletConnector connected={connected} onConnectedChange={setConnected} />
-      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
-        <DepositForm onSubmit={submitDeposit} wallet={connected ? MOCK : ""} />
-        <WithdrawForm onSubmit={submitWithdraw} wallet={connected ? MOCK : ""} available={available} />
+        <h1 className="mt-1 font-display text-3xl font-semibold tracking-tight text-fg md:text-4xl">
+          Deposit collateral. Mint state currency.
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm text-muted">
+          Pay in USDC — receive state tokens, 1:1 collateralized by reserves held in audited smart
+          contracts.
+        </p>
       </div>
-      {pending.length > 0 && (
-        <section className="mt-12">
-          <h2 className="font-display text-xl text-cream">Queue</h2>
-          <GoldDivider className="my-4" />
-          <ul className="space-y-2">
-            {pending.map((t) => (
-              <motion.li
-                key={t._id as string}
-                className="panel flex flex-wrap items-center justify-between gap-2 p-4"
-                layout
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                <span className="font-data text-cream">
-                  {t.type} · {formatCurrencyDetail(t.amount)} {t.currency}
+
+      <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+        <Reveal>
+          <DepositForm onSubmitted={onSubmitted} />
+        </Reveal>
+        <div className="space-y-4">
+          <Reveal delay={0.06}>
+            <div className="card-elev p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <h3 className="font-display text-base font-semibold text-fg">Pending mints</h3>
+                  <p className="text-xs text-muted">Queued transactions for this session</p>
+                </div>
+                <span className="chip chip-brand">
+                  <ArrowDownToLine className="h-3 w-3" /> {pending.length}
                 </span>
-                <span className="flex items-center gap-2 text-sm text-text-muted">
-                  <StatusBadge variant="PENDING">{t.status}</StatusBadge>
-                  {formatDate(t.createdAt, true)}
-                </span>
-              </motion.li>
-            ))}
-          </ul>
-        </section>
-      )}
+              </div>
+              {pending.length === 0 ? (
+                <p className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted">
+                  Your recent mints will appear here.
+                </p>
+              ) : (
+                <ul className="divide-y divide-border">
+                  {pending.map((p) => (
+                    <li key={p.id} className="flex items-center justify-between py-3">
+                      <div>
+                        <p className="text-sm font-medium text-fg">Mint ${p.token}</p>
+                        <p className="text-[11px] text-muted">{formatRelativeTime(p.createdAt)}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-mono text-sm text-fg">{formatCurrency(p.amount)}</p>
+                        <p className="text-[11px] text-success">Confirmed</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div className="glass p-6">
+              <ul className="space-y-4 text-sm">
+                <li className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient-soft text-brand-blue">
+                    <ShieldCheck className="h-4 w-4" />
+                  </span>
+                  <span>
+                    <strong className="block text-fg">1:1 collateralized</strong>
+                    <span className="text-muted">
+                      Every state token is fully backed by USDC held on-chain.
+                    </span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient-soft text-brand-blue">
+                    <Zap className="h-4 w-4" />
+                  </span>
+                  <span>
+                    <strong className="block text-fg">Instant settlement</strong>
+                    <span className="text-muted">Atomic mints, no off-chain custody.</span>
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+
+      <SectionHeading eyebrow="Good to know" title="Fees & limits" />
+      <div className="grid gap-4 md:grid-cols-3">
+        {[
+          { k: "Protocol fee", v: "0.10%", d: "Deducted from deposit" },
+          { k: "Per-tx limit", v: "$50M", d: "Per wallet per transaction" },
+          { k: "Settlement", v: "Instant", d: "On-chain, no intermediaries" },
+        ].map((s) => (
+          <div key={s.k} className="card-elev p-5">
+            <p className="font-label text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+              {s.k}
+            </p>
+            <p className="mt-2 font-mono text-2xl font-semibold text-fg">{s.v}</p>
+            <p className="mt-1 text-sm text-muted">{s.d}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

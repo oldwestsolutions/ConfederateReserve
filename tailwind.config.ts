@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,50 +10,93 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /* Legacy aliases (mapped to new palette) */
-        bg: "#0A1528",
-        surface: { DEFAULT: "#0F1F3C", elev: "#1A1A1A" },
-        border: { DEFAULT: "rgba(212, 175, 55, 0.15)" },
-        gold: { DEFAULT: "#D4AF37", dim: "rgba(212, 175, 55, 0.35)", glow: "rgba(212, 175, 55, 0.12)" },
-        text: { primary: "#F5F5F0", muted: "#8B95A8", subtle: "#5C6578" },
-        navy: { 950: "#0A1528", 900: "#0F1F3C", 800: "#1A2F5A", 700: "#243654", 600: "#2E4268" },
-        charcoal: { DEFAULT: "#2A2A2A", light: "#404040" },
-        cream: "#F5F5F0",
-        teal: { DEFAULT: "#3D8B7A", muted: "rgba(61, 139, 122, 0.35)" },
-        amber: { DEFAULT: "#A67B3D", soft: "rgba(166, 123, 61, 0.25)" },
-        gain: "#3D8B7A",
-        loss: "#B75C5C",
+        /* Semantic tokens driven by CSS variables (light/dark) */
+        bg: "rgb(var(--bg) / <alpha-value>)",
+        surface: "rgb(var(--surface) / <alpha-value>)",
+        "surface-elev": "rgb(var(--surface-elev) / <alpha-value>)",
+        fg: "rgb(var(--fg) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
+        subtle: "rgb(var(--subtle) / <alpha-value>)",
+        border: "rgb(var(--border) / <alpha-value>)",
+
+        /* Brand accents */
+        brand: {
+          blue: "#0066FF",
+          cyan: "#00D9FF",
+          purple: "#7C3AED",
+          magenta: "#EC4899",
+        },
+        ink: { 900: "#0F0F0F", 800: "#1A1A1A", 700: "#2B2B2B" },
+        paper: { 50: "#FFFFFF", 100: "#F8FAFC", 200: "#F0F0F0", 300: "#E8E8E8" },
+
+        /* Status (subtle) */
+        success: "#10B981",
+        warn: "#F59E0B",
+        danger: "#EF4444",
+
+        /* Legacy mapping to avoid stale references */
+        gold: { DEFAULT: "#0066FF", dim: "rgba(0,102,255,0.25)" },
+        navy: { 950: "#0F0F0F", 900: "#111827", 800: "#1F2937", 700: "#374151", 600: "#4B5563" },
+        cream: "rgb(var(--fg) / <alpha-value>)",
+        teal: { DEFAULT: "#10B981", muted: "rgba(16,185,129,0.3)" },
+        amber: { DEFAULT: "#F59E0B", soft: "rgba(245,158,11,0.25)" },
+        gain: "#10B981",
+        loss: "#EF4444",
+        "text-primary": "rgb(var(--fg) / <alpha-value>)",
+        "text-muted": "rgb(var(--muted) / <alpha-value>)",
       },
       fontFamily: {
-        display: ["var(--font-playfair)", "Georgia", "serif"],
-        body: ["var(--font-lato)", "var(--font-dm-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
-        data: ["var(--font-dm-mono)", "ui-monospace", "monospace"],
-        label: ["var(--font-dm-sans)", "var(--font-lato)", "ui-sans-serif", "sans-serif"],
+        display: ["var(--font-space-grotesk)", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        body: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+        mono: ["var(--font-jetbrains-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
+        data: ["var(--font-jetbrains-mono)", "ui-monospace", "monospace"],
+        label: ["var(--font-inter)", "ui-sans-serif", "sans-serif"],
       },
       fontSize: {
-        "display-xl": ["3.5rem", { lineHeight: "1.1", letterSpacing: "0.02em" }],
-        "display-lg": ["3rem", { lineHeight: "1.12", letterSpacing: "0.02em" }],
-        "subhead": ["1.5rem", { lineHeight: "1.4" }],
+        "display-2xl": ["clamp(2.75rem, 5.5vw, 4rem)", { lineHeight: "1.04", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "display-xl": ["clamp(2.25rem, 4vw, 3.25rem)", { lineHeight: "1.08", letterSpacing: "-0.02em", fontWeight: "700" }],
+        "display-lg": ["2rem", { lineHeight: "1.15", letterSpacing: "-0.015em", fontWeight: "700" }],
+        subhead: ["1.5rem", { lineHeight: "1.35", letterSpacing: "-0.01em" }],
       },
       boxShadow: {
-        lift: "0 12px 40px -8px rgba(0, 0, 0, 0.45), 0 0 0 0.5px rgba(212, 175, 55, 0.08)",
-        liftHover: "0 20px 50px -10px rgba(0, 0, 0, 0.55), 0 0 0 0.5px rgba(212, 175, 55, 0.2), 0 0 24px -4px rgba(212, 175, 55, 0.08)",
-        innerGold: "inset 0 1px 0 rgba(212, 175, 55, 0.06), inset 0 0 32px rgba(212, 175, 55, 0.02)",
+        "card-sm": "0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.03)",
+        card: "0 2px 12px -2px rgba(15, 23, 42, 0.06), 0 8px 24px -8px rgba(15, 23, 42, 0.08)",
+        "card-hover": "0 6px 24px -4px rgba(15, 23, 42, 0.12), 0 12px 36px -12px rgba(15, 23, 42, 0.14)",
+        "glow-blue": "0 0 0 1px rgba(0, 102, 255, 0.18), 0 8px 32px -8px rgba(0, 102, 255, 0.35)",
+        "ring-brand": "0 0 0 4px rgba(0, 102, 255, 0.14)",
+      },
+      backgroundImage: {
+        "brand-gradient": "linear-gradient(135deg, #0066FF 0%, #00D9FF 100%)",
+        "brand-gradient-soft":
+          "linear-gradient(135deg, rgba(0,102,255,0.08) 0%, rgba(0,217,255,0.08) 100%)",
+        "brand-text":
+          "linear-gradient(135deg, #0066FF 0%, #00D9FF 70%, #7C3AED 100%)",
+        "mesh-light":
+          "radial-gradient(60% 50% at 85% 0%, rgba(124,58,237,0.12) 0%, transparent 60%), radial-gradient(70% 60% at 10% 0%, rgba(0,217,255,0.18) 0%, transparent 55%), radial-gradient(50% 40% at 40% 100%, rgba(0,102,255,0.12) 0%, transparent 60%)",
+        "mesh-dark":
+          "radial-gradient(60% 50% at 85% 0%, rgba(124,58,237,0.18) 0%, transparent 60%), radial-gradient(70% 60% at 10% 0%, rgba(0,217,255,0.18) 0%, transparent 55%), radial-gradient(50% 40% at 40% 100%, rgba(0,102,255,0.2) 0%, transparent 60%)",
       },
       keyframes: {
         shimmer: { "100%": { transform: "translateX(100%)" } },
-        "mesh-slow": {
-          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
-          "33%": { transform: "translate(1%, 2%) scale(1.02)" },
-          "66%": { transform: "translate(-1%, 1%) scale(0.99)" },
+        "blob-float": {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1)" },
+          "33%": { transform: "translate3d(4%,-3%,0) scale(1.04)" },
+          "66%": { transform: "translate3d(-3%,2%,0) scale(0.98)" },
         },
-        "float-geo": { "0%, 100%": { opacity: "0.4" }, "50%": { opacity: "0.7" } },
-        "line-dash": { to: { strokeDashoffset: "0" } },
+        "gradient-x": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "fade-up": {
+          from: { opacity: "0", transform: "translate3d(0,12px,0)" },
+          to: { opacity: "1", transform: "translate3d(0,0,0)" },
+        },
       },
       animation: {
         shimmer: "shimmer 1.4s ease-in-out infinite",
-        "mesh-slow": "mesh-slow 28s ease-in-out infinite",
-        "float-geo": "float-geo 10s ease-in-out infinite",
+        blob: "blob-float 18s ease-in-out infinite",
+        "gradient-x": "gradient-x 8s ease-in-out infinite",
+        "fade-up": "fade-up 0.45s cubic-bezier(0.22,1,0.36,1) both",
       },
     },
   },

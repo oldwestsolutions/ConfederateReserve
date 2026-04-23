@@ -1,70 +1,60 @@
 "use client";
 
+import {
+  Activity,
+  ArrowUpRight,
+  ShieldCheck,
+  TrendingUp,
+  Zap,
+} from "lucide-react";
 import { MetricTile } from "@/components/ui/MetricTile";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
-import { getReserveMetrics } from "@/lib/mockData";
-import { formatPercent, formatUptimeBps, formatDate } from "@/lib/formatters";
-import { useMemo } from "react";
+import type { ReserveMetrics } from "@/types";
+import { formatCurrency, formatPercent } from "@/lib/formatters";
 
-export function ReserveOverview() {
-  const m = useMemo(() => getReserveMetrics(), []);
+export function ReserveOverview({ m }: { m: ReserveMetrics }) {
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
       <MetricTile
-        index={0}
-        label="Total value of reserves (TVR)"
-        value={<AnimatedNumber value={m.tvr} className="text-cream" />}
-        sub="Mark-to-curve, blended"
-      />
-      <MetricTile
-        index={1}
-        label="24H change (TVR)"
+        label="Total reserve value"
         value={
-          <span className="text-teal">
-            {formatPercent(m.tvr24hBps, { bpsInput: true, signed: true })}
-          </span>
+          <AnimatedNumber
+            value={m.tvr}
+            format={(n) => formatCurrency(n)}
+          />
         }
-        sub="Intraday, chain-weighted"
+        sub={`USDC-settled • ${new Date(m.lastAuditAt).toLocaleDateString()}`}
+        delta={{
+          value: formatPercent(m.tvr24hBps, { bpsInput: true, signed: true }) + " 24h",
+          positive: m.tvr24hBps >= 0,
+        }}
+        icon={<ArrowUpRight className="h-4 w-4" />}
+        emphasis="brand"
       />
       <MetricTile
-        index={2}
         label="Blended APY"
-        value={formatPercent(m.apy, { signed: false })}
-        sub="Net of operator fee"
+        value={formatPercent(m.apy)}
+        sub="Net of protocol fees"
+        icon={<TrendingUp className="h-4 w-4" />}
       />
       <MetricTile
-        index={3}
-        label="Reserve utilization"
-        value={formatPercent(m.utilization, { signed: false })}
-        sub="Deployed / TVR"
+        label="Utilization"
+        value={formatPercent(m.utilization)}
+        sub="Capital actively deployed"
+        icon={<Activity className="h-4 w-4" />}
       />
       <MetricTile
-        index={4}
-        label="Composite risk score"
-        value={
-          <span>
-            {m.riskScore}
-            <span className="text-lg text-text-muted">/100</span>
-          </span>
-        }
-        sub={m.riskLabel}
+        label="Risk score"
+        value={`${m.riskScore}/100`}
+        sub={`Rated ${m.riskLabel}`}
+        icon={<ShieldCheck className="h-4 w-4" />}
       />
-    </div>
-  );
-}
-
-export function TrustStrip() {
-  const m = useMemo(() => getReserveMetrics(), []);
-  return (
-    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-gold/10 py-2 font-label text-[11px] text-text-muted">
-      <span>
-        Uptime <span className="text-teal">{formatUptimeBps(m.uptimeBps)}</span>
-      </span>
-      <span className="h-3 w-px bg-gold/20" aria-hidden />
-      <span>
-        Last attestation:{" "}
-        <span className="text-cream/90">{formatDate(m.lastAuditAt, false)}</span>
-      </span>
+      <MetricTile
+        label="Daily harvest"
+        value={formatCurrency(m.dailyHarvest)}
+        sub="7-day avg yield flow"
+        icon={<Zap className="h-4 w-4" />}
+      />
     </div>
   );
 }

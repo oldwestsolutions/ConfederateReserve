@@ -1,59 +1,65 @@
 "use client";
 
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import { motion } from "framer-motion";
-import { donutData } from "@/lib/mockData";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip, TooltipProps } from "recharts";
+import type { DonutSegment } from "@/types";
 
-export function AllocationDonut() {
+export function AllocationDonut({ data }: { data: DonutSegment[] }) {
   return (
-    <motion.div
-      className="panel h-[320px] rounded p-4 md:p-5"
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: 0.08 }}
-    >
-      <div className="mb-2">
-        <h3 className="font-display text-lg text-cream">
-          Strategy allocation
-        </h3>
-        <p className="mt-0.5 font-label text-[10px] uppercase tracking-[0.16em] text-text-muted">
-          Weighted by notional, millions USD
-        </p>
+    <div className="card-elev p-5">
+      <div className="mb-4 flex items-baseline justify-between">
+        <div>
+          <h3 className="font-display text-lg font-semibold text-fg">Allocation mix</h3>
+          <p className="text-xs text-muted">Capital deployed by strategy</p>
+        </div>
       </div>
-      <ResponsiveContainer width="100%" height="85%">
-        <PieChart>
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#0F1F3C",
-              border: "1px solid rgba(212,175,55,0.2)",
-              borderRadius: 4,
-              fontFamily: "var(--font-dm-mono), monospace",
-              fontSize: 12,
-            }}
-            formatter={(v: number) => [`$${v}M`, "Notional"]}
-          />
-          <Pie
-            data={donutData}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            innerRadius="58%"
-            outerRadius="82%"
-            paddingAngle={2}
-            stroke="#0A1528"
-            strokeWidth={2}
-            label={({ name, percent }) =>
-              `${name} ${(percent * 100).toFixed(0)}%`
-            }
-            labelLine={{ stroke: "#2a2a2a" }}
-          >
-            {donutData.map((d, i) => (
-              <Cell key={i} fill={d.color} />
-            ))}
-          </Pie>
-        </PieChart>
-      </ResponsiveContainer>
-    </motion.div>
+      <div className="flex items-center gap-6">
+        <div className="h-48 w-48 shrink-0">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Tooltip content={<DonutTooltip />} />
+              <Pie
+                data={data}
+                dataKey="weight"
+                nameKey="name"
+                innerRadius={56}
+                outerRadius={86}
+                paddingAngle={2}
+                stroke="rgb(var(--bg))"
+                strokeWidth={2}
+              >
+                {data.map((s) => (
+                  <Cell key={s.name} fill={s.color} />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <ul className="flex-1 space-y-2 text-sm">
+          {data.map((s) => (
+            <li
+              key={s.name}
+              className="flex items-center justify-between rounded-lg border border-border bg-surface px-3 py-2 transition-colors hover:bg-brand-gradient-soft"
+            >
+              <span className="flex items-center gap-2 text-fg">
+                <span className="h-2.5 w-2.5 rounded-sm" style={{ background: s.color }} />
+                {s.name}
+              </span>
+              <span className="font-mono text-xs text-muted">{s.weight.toFixed(1)}%</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function DonutTooltip({ active, payload }: TooltipProps<number, string>) {
+  if (!active || !payload?.length) return null;
+  const p = payload[0];
+  return (
+    <div className="glass glass-strong rounded-lg px-3 py-2 text-xs shadow-card">
+      <p className="text-[10px] uppercase tracking-[0.14em] text-muted">{p.name}</p>
+      <p className="font-mono text-sm font-semibold text-fg">{(p.value as number).toFixed(1)}%</p>
+    </div>
   );
 }

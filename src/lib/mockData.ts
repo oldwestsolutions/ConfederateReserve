@@ -59,8 +59,9 @@ export function buildYieldSeries(days = 90): YieldSnapshot[] {
   return out;
 }
 
-export const CHART_GOLD = "#D4AF37";
-export const CHART_MUTED = "rgba(212, 175, 55, 0.18)";
+export const CHART_GOLD = "#0066FF";
+export const CHART_MUTED = "rgba(0, 102, 255, 0.14)";
+export const CHART_CYAN = "#00D9FF";
 
 export const allocationRows: Allocation[] = [
   {
@@ -121,11 +122,11 @@ export const allocationRows: Allocation[] = [
 ];
 
 export const donutData: DonutSegment[] = [
-  { name: "T-Bills", value: 296.5, weight: 35, color: CHART_GOLD },
-  { name: "MM Stable", value: 211.8, weight: 25, color: "rgba(212, 175, 55, 0.85)" },
-  { name: "Lending", value: 169.4, weight: 20, color: "rgba(212, 175, 55, 0.65)" },
-  { name: "Curve LP", value: 96.8, weight: 11.4, color: "rgba(212, 175, 55, 0.45)" },
-  { name: "Buffer", value: 72.8, weight: 8.6, color: "rgba(212, 175, 55, 0.28)" },
+  { name: "T-Bills", value: 296.5, weight: 35, color: "#0066FF" },
+  { name: "MM Stable", value: 211.8, weight: 25, color: "#00D9FF" },
+  { name: "Lending", value: 169.4, weight: 20, color: "#7C3AED" },
+  { name: "Curve LP", value: 96.8, weight: 11.4, color: "#EC4899" },
+  { name: "Buffer", value: 72.8, weight: 8.6, color: "#10B981" },
 ];
 
 const types: TxType[] = [

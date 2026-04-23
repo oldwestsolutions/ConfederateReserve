@@ -3,73 +3,91 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { Menu } from "lucide-react";
+import { useState } from "react";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { ConnectWalletButton } from "@/components/layout/ConnectWalletButton";
 
 const links = [
-  { href: "/", label: "Home" },
-  { href: "/dashboard", label: "Reserves" },
-  { href: "/mint", label: "Mint & Redeem" },
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/mint", label: "Mint" },
   { href: "/trade", label: "Trade" },
-  { href: "/reserve-health", label: "Reserve Health" },
-  { href: "/docs", label: "Documentation" },
+  { href: "/redeem", label: "Redeem" },
+  { href: "/reserve-health", label: "Reserves" },
+  { href: "/docs", label: "Docs" },
 ] as const;
 
 export function Navbar() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 border-b border-gold/10 bg-navy-900/90 shadow-[0_4px_32px_rgba(0,0,0,0.35)] backdrop-blur-md">
-      <div className="mx-auto flex min-h-16 max-w-[1680px] items-center justify-between gap-4 px-5 md:px-8 lg:px-12">
-        <Link href="/" className="group flex items-center gap-2.5 text-left">
-          <span className="text-xl" aria-hidden>
-            ⚔️
+    <header className="sticky top-0 z-40 border-b border-border bg-surface/80 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-4 md:px-6 lg:px-8">
+        <Link href="/" className="group flex items-center gap-2.5">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient text-white shadow-glow-blue">
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
+              <path d="M4 12L12 4L20 12L12 20L4 12Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/>
+              <path d="M8 12L12 8L16 12L12 16L8 12Z" fill="currentColor" />
+            </svg>
           </span>
-          <div className="flex flex-col leading-tight">
-            <span className="font-display text-base tracking-wide text-cream group-hover:text-gold md:text-lg">
+          <span className="flex flex-col leading-tight">
+            <span className="font-display text-[15px] font-semibold tracking-tight text-fg">
               Confederate Reserve
             </span>
-            <span className="font-label text-[9px] uppercase tracking-[0.25em] text-gold/70">
-              Decentralized Monetary Authority
+            <span className="hidden text-[10px] font-medium uppercase tracking-[0.18em] text-muted sm:block">
+              Decentralized Monetary Protocol
             </span>
-          </div>
+          </span>
         </Link>
-        <nav
-          className="hidden items-center gap-0.5 lg:flex xl:gap-2"
-          aria-label="Main"
-        >
+        <nav className="hidden items-center gap-0.5 md:flex" aria-label="Primary">
           {links.map((l) => {
             const active = pathname === l.href;
             return (
-              <div key={l.href} className="relative">
-                <Link
-                  href={l.href}
-                  className="nav-link relative block px-3 py-2.5"
-                  data-active={active}
-                >
-                  {l.label}
-                  {active && (
-                    <motion.span
-                      layoutId="nav-undl"
-                      className="absolute bottom-0 left-3 right-3 h-px bg-gradient-to-r from-transparent via-gold/80 to-transparent"
-                      transition={{ type: "spring", stiffness: 400, damping: 35 }}
-                    />
-                  )}
-                </Link>
-              </div>
+              <Link key={l.href} href={l.href} className="navlink" data-active={active}>
+                {l.label}
+              </Link>
             );
           })}
         </nav>
-        <nav className="flex flex-wrap items-center justify-end gap-1 md:gap-2 lg:hidden">
-          {links.slice(0, 4).map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="nav-link rounded px-2 py-1.5 text-xs"
-              data-active={pathname === l.href}
-            >
-              {l.label.split(" ")[0]}
-            </Link>
-          ))}
-        </nav>
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
+          <ConnectWalletButton />
+        </div>
+        <button
+          type="button"
+          className="btn-ghost h-10 w-10 rounded-full border border-border p-0 md:hidden"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Menu"
+        >
+          <Menu className="h-4 w-4" />
+        </button>
       </div>
+      {open && (
+        <motion.div
+          className="border-t border-border bg-surface px-4 py-3 md:hidden"
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.15 }}
+        >
+          <nav className="flex flex-col gap-1">
+            {links.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="navlink"
+                data-active={pathname === l.href}
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="mt-3 flex items-center gap-2">
+            <ThemeToggle />
+            <ConnectWalletButton />
+          </div>
+        </motion.div>
+      )}
     </header>
   );
 }

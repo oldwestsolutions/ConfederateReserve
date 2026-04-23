@@ -1,41 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { formatCurrency } from "@/lib/formatters";
-
-type Props = {
-  value: number;
-  duration?: number;
-  className?: string;
-  format?: (n: number) => string;
-};
-
-function easeOutCubic(t: number) {
-  return 1 - (1 - t) ** 3;
-}
+import { animate, useInView, useMotionValue } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 export function AnimatedNumber({
   value,
-  duration = 800,
-  className = "",
-  format = formatCurrency,
-}: Props) {
+  format,
+  duration = 1.4,
+  className,
+  suffix,
+  prefix,
+}: {
+  value: number;
+  format?: (n: number) => string;
+  duration?: number;
+  className?: string;
+  suffix?: string;
+  prefix?: string;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "0px" });
+  const mv = useMotionValue(0);
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
-    let raf: number;
-    const start = performance.now();
-    const from = 0;
-    const to = value;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const e = easeOutCubic(t);
-      setDisplay(from + (to - from) * e);
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [value, duration]);
+    if (!inView) return;
+    const controls = animate(mv, value, {
+      duration,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (latest) => setDisplay(latest),
+    });
+    return () => controls.stop();
+  }, [inView, value, duration, mv]);
 
-  return <span className={className}>{format(display)}</span>;
+  const txt = format ? format(display) : Math.round(display).toLocaleString("en-US");
+  return (
+    <span ref={ref} className={className}>
+      {prefix}
+      {txt}
+      {suffix}
+    </span>
+  );
 }

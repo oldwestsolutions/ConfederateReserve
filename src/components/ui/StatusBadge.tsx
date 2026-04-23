@@ -1,7 +1,4 @@
-import { type ReactNode } from "react";
-import { motion } from "framer-motion";
-
-type StatusVariant =
+export type StatusVariant =
   | "ACTIVE"
   | "PENDING"
   | "CONFIRMED"
@@ -13,33 +10,32 @@ type StatusVariant =
   | "SUNSET"
   | "CLOSED";
 
-const styles: Record<StatusVariant, string> = {
-  ACTIVE: "border-gain/30 bg-gain/10 text-gain",
-  PENDING: "border-gold/30 bg-gold/10 text-gold",
-  CONFIRMED: "border-gain/30 bg-gain/10 text-gain",
-  FAILED: "border-loss/30 bg-loss/10 text-loss",
-  LOW: "border-gain/30 bg-gain/10 text-gain",
-  MEDIUM: "border-gold/30 bg-gold/10 text-gold",
-  HIGH: "border-loss/30 bg-loss/10 text-loss",
-  PAUSED: "border-border bg-surface-elev text-text-muted",
-  SUNSET: "border-loss/20 bg-surface-elev text-text-muted",
-  CLOSED: "border-border bg-surface-elev text-text-muted",
+const MAP: Record<StatusVariant, string> = {
+  ACTIVE: "text-success bg-success/10 border-success/25",
+  CONFIRMED: "text-success bg-success/10 border-success/25",
+  PENDING: "text-warn bg-warn/10 border-warn/25",
+  FAILED: "text-danger bg-danger/10 border-danger/25",
+  CLOSED: "text-muted bg-surface border-border",
+  LOW: "text-success bg-success/10 border-success/25",
+  MEDIUM: "text-warn bg-warn/10 border-warn/25",
+  HIGH: "text-danger bg-danger/10 border-danger/25",
+  PAUSED: "text-muted bg-surface-elev border-border",
+  SUNSET: "text-muted bg-surface-elev border-border",
 };
 
-type Props = {
-  children: ReactNode;
+export function StatusBadge({
+  variant,
+  children,
+}: {
   variant: StatusVariant;
-  className?: string;
-};
-
-export function StatusBadge({ children, variant, className = "" }: Props) {
+  children?: React.ReactNode;
+}) {
   return (
-    <motion.span
-      initial={{ opacity: 0, scale: 0.96 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className={`inline-flex items-center rounded border px-2 py-0.5 font-label text-[10px] uppercase tracking-wider ${styles[variant]} ${className}`}
+    <span
+      className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 font-label text-[10.5px] font-semibold uppercase tracking-[0.12em] ${MAP[variant]}`}
     >
-      {children}
-    </motion.span>
+      <span className="h-1.5 w-1.5 rounded-full bg-current opacity-80" />
+      {children ?? variant}
+    </span>
   );
 }
