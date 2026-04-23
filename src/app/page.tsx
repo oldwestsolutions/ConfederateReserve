@@ -6,11 +6,7 @@ export const dynamic = "force-dynamic";
 import { HeroBlob } from "@/components/hero/HeroBlob";
 import { HeroReserveCard } from "@/components/hero/HeroReserveCard";
 import { Reveal } from "@/components/ui/Reveal";
-import { MintSection } from "@/components/home/MintSection";
-import { TradeSection } from "@/components/home/TradeSection";
-import { FinalSettlementSection } from "@/components/home/FinalSettlementSection";
 import { StateTokensSection } from "@/components/home/StateTokensSection";
-import { GovernanceSection } from "@/components/governance/GovernanceSection";
 
 import { CoreServicesSection } from "@/components/sections/CoreServicesSection";
 import { LiquiditySection } from "@/components/sections/LiquiditySection";
@@ -78,11 +74,8 @@ export default function Home() {
         <CoreServicesSection />
       </div>
 
-      {/* =========== SECTIONS I–IV (Mint, Trade, Final settlement, State tokens) =========== */}
-      <div className="mt-8 space-y-4 md:mt-10 md:space-y-5">
-        <MintSection />
-        <TradeSection />
-        <FinalSettlementSection />
+      {/* =========== STATE TOKENS (Section IV) =========== */}
+      <div className="mt-8 md:mt-10">
         <StateTokensSection />
       </div>
 
@@ -121,10 +114,6 @@ export default function Home() {
         <LiveReserveDashboard />
       </div>
 
-      {/* =========== GOVERNANCE =========== */}
-      <div className="mt-8 md:mt-10">
-        <GovernanceSection />
-      </div>
     </div>
   );
 }

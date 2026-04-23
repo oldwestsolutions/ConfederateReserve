@@ -24,27 +24,27 @@ const SERVICES: Service[] = [
     kicker: "Mint · Redeem · 1:1",
     body:
       "Deposit USDC to mint fully collateralized state tokens. Burn any state token for USDC, any hour, any block.",
-    href: "#sec-mint",
+    href: "/mint",
     Icon: Coins,
-    anchor: "Sections I–III",
+    anchor: "Section I",
   },
   {
     title: "Markets",
     kicker: "Atomic · On-chain",
     body:
       "Trade across deep aggregated liquidity with atomic settlement, public disclosure, and institutional spreads.",
-    href: "#sec-trade",
+    href: "/trade",
     Icon: ArrowRightLeft,
-    anchor: "Sections II · IV",
+    anchor: "Section II",
   },
   {
     title: "Infrastructure",
     kicker: "RTGS · DNS · PvP",
     body:
       "Real-time gross settlement and cross-state clearing with sub-three-second finality and audit-grade logs.",
-    href: "#sec-settlement",
+    href: "/infrastructure",
     Icon: Radio,
-    anchor: "Section VII",
+    anchor: "Section III",
   },
   {
     title: "Charters",

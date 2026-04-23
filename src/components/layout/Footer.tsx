@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Ornament, Monogram } from "@/components/ui/Ornament";
 import { LanguageSelector } from "@/components/layout/footer/LanguageSelector";
 import { SystemStatus } from "@/components/layout/footer/SystemStatus";
-import { BackToTop } from "@/components/layout/footer/BackToTop";
 import {
   ExternalLink,
   Download,
@@ -261,7 +260,6 @@ export function Footer() {
           </div>
           <div className="flex items-center gap-2">
             <LanguageSelector />
-            <BackToTop />
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MintSection } from "@/components/home/MintSection";
 import { DepositForm } from "@/components/transact/DepositForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -26,6 +27,7 @@ export default function MintPage() {
 
   return (
     <div className="space-y-10">
+      <MintSection />
       <div>
         <p className="font-label text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
           Mint

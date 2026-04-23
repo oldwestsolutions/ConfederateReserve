@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { TradeSection } from "@/components/home/TradeSection";
 import { ArrowDown, ArrowRight, Loader2, Settings2, Zap } from "@/components/ui/icons";
 import { motion } from "framer-motion";
 import { STATE_TOKENS } from "@/lib/confederateData";
@@ -48,6 +49,7 @@ export default function TradePage() {
 
   return (
     <div className="space-y-10">
+      <TradeSection />
       <div>
         <p className="font-label text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">
           Trade
