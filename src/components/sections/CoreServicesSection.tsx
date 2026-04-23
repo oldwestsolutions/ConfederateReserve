@@ -51,16 +51,16 @@ const SERVICES: Service[] = [
     kicker: "Monetary sovereignty",
     body:
       "Apply for a state charter to issue a jurisdiction-native token. Set local policy, keep full interoperability.",
-    href: "#sec-charters",
+    href: "/charters",
     Icon: Shield,
-    anchor: "Section V",
+    anchor: "IV–VI",
   },
   {
     title: "Policy",
     kicker: "Rates · Reserves · OMO",
     body:
       "Central-banking instruments: interest corridors, reserve requirements, open-market operations, emergency windows.",
-    href: "#sec-policy",
+    href: "/charters#sec-policy",
     Icon: Layers,
     anchor: "Section VI",
   },
@@ -71,7 +71,7 @@ const SERVICES: Service[] = [
       "Multi-asset reserve management with real-time attestations, stress testing, and concentration monitoring.",
     href: "#sec-reserve",
     Icon: Shield,
-    anchor: "Section VIII",
+    anchor: "Section VII",
   },
 ];
 

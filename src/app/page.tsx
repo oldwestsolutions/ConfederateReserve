@@ -6,12 +6,8 @@ export const dynamic = "force-dynamic";
 import { HeroBlob } from "@/components/hero/HeroBlob";
 import { HeroReserveCard } from "@/components/hero/HeroReserveCard";
 import { Reveal } from "@/components/ui/Reveal";
-import { StateTokensSection } from "@/components/home/StateTokensSection";
 
 import { CoreServicesSection } from "@/components/sections/CoreServicesSection";
-import { LiquiditySection } from "@/components/sections/LiquiditySection";
-import { ChartersSection } from "@/components/sections/ChartersSection";
-import { PolicySection } from "@/components/sections/PolicySection";
 import { SettlementSection } from "@/components/sections/SettlementSection";
 import { ReserveMgmtSection } from "@/components/sections/ReserveMgmtSection";
 import { BankingSection } from "@/components/sections/BankingSection";
@@ -74,37 +70,17 @@ export default function Home() {
         <CoreServicesSection />
       </div>
 
-      {/* =========== STATE TOKENS (Section IV) =========== */}
-      <div className="mt-8 md:mt-10">
-        <StateTokensSection />
-      </div>
-
-      {/* =========== SECTION V — LIQUIDITY =========== */}
-      <div className="mt-4 md:mt-5">
-        <LiquiditySection />
-      </div>
-
-      {/* =========== SECTION VI — CHARTERS =========== */}
-      <div className="mt-4 md:mt-5">
-        <ChartersSection />
-      </div>
-
-      {/* =========== SECTION VII — MONETARY POLICY =========== */}
-      <div className="mt-4 md:mt-5">
-        <PolicySection />
-      </div>
-
-      {/* =========== SECTION VIII — SETTLEMENT =========== */}
+      {/* =========== SECTION V — SETTLEMENT =========== */}
       <div className="mt-4 md:mt-5">
         <SettlementSection />
       </div>
 
-      {/* =========== SECTION IX — RESERVE MANAGEMENT =========== */}
+      {/* =========== SECTION VI — RESERVE MANAGEMENT =========== */}
       <div className="mt-4 md:mt-5">
         <ReserveMgmtSection />
       </div>
 
-      {/* =========== SECTION X — BANKING FUNCTIONS =========== */}
+      {/* =========== SECTION VII — BANKING FUNCTIONS =========== */}
       <div className="mt-4 md:mt-5">
         <BankingSection />
       </div>
