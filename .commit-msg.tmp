@@ -1,6 +1,0 @@
-Remove lucide-react, replace with inline SVG icon set
-
-- Added src/components/ui/icons.tsx with all icons as stroke-based
-  inline SVGs (no external dependency)
-- Swapped every lucide-react import across pages + components
-- Uninstalled lucide-react from package.json
