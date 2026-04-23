@@ -9,7 +9,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 import { CoreServicesSection } from "@/components/sections/CoreServicesSection";
 import { BankingSection } from "@/components/sections/BankingSection";
-import { LiveReserveDashboard } from "@/components/sections/LiveReserveDashboard";
+import { EconomyAtAGlance } from "@/components/sections/EconomyAtAGlance";
 
 import { RESERVE_RATIO } from "@/lib/confederateData";
 
@@ -73,9 +73,9 @@ export default function Home() {
         <BankingSection />
       </div>
 
-      {/* =========== LIVE RESERVE DASHBOARD =========== */}
+      {/* =========== ECONOMY AT A GLANCE =========== */}
       <div className="mt-20 md:mt-24">
-        <LiveReserveDashboard />
+        <EconomyAtAGlance />
       </div>
 
     </div>
