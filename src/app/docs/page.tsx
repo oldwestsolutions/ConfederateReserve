@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
+export const dynamic = "force-dynamic";
+
 export default function DocsPage() {
   return (
     <div className="space-y-16">

@@ -8,6 +8,8 @@ import {
   Sparkles,
   BookOpen,
 } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 import { HeroBlob } from "@/components/hero/HeroBlob";
 import { Reveal } from "@/components/ui/Reveal";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
