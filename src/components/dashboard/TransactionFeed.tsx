@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDownToLine, ArrowUpFromLine, RefreshCcw, Sprout } from "lucide-react";
+import { ArrowDownToLine, ArrowUpFromLine, RefreshCcw, Sprout } from "@/components/ui/icons";
 import type { Transaction, TxType } from "@/types";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { formatCurrency, formatRelativeTime, truncateAddress } from "@/lib/formatters";

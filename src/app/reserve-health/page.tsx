@@ -1,4 +1,4 @@
-import { Activity, FileCheck2, Lock, Radio, ShieldCheck } from "lucide-react";
+import { Activity, FileCheck2, Lock, Radio, ShieldCheck } from "@/components/ui/icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { Gauge } from "@/components/ui/Gauge";
 import { MetricTile } from "@/components/ui/MetricTile";

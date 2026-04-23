@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Wallet, ShieldCheck, Link as LinkIcon } from "lucide-react";
+import { X, Wallet, ShieldCheck, Link as LinkIcon } from "@/components/ui/icons";
 import { useWallet } from "@/components/providers/WalletProvider";
 
 const OPTIONS = [

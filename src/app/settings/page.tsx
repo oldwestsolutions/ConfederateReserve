@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, ChevronRight, ExternalLink, Moon, Sun, Wallet } from "lucide-react";
+import { Bell, ChevronRight, ExternalLink, Moon, Sun, Wallet } from "@/components/ui/icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useWallet } from "@/components/providers/WalletProvider";

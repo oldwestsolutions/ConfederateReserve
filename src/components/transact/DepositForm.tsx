@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowRight, CheckCircle2, Coins, Loader2, ShieldCheck } from "lucide-react";
+import { ArrowRight, CheckCircle2, Coins, Loader2, ShieldCheck } from "@/components/ui/icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { STATE_TOKENS } from "@/lib/confederateData";
 import { useWallet } from "@/components/providers/WalletProvider";

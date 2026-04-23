@@ -5,7 +5,7 @@ import { WithdrawForm } from "@/components/transact/WithdrawForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { formatCurrency, formatRelativeTime } from "@/lib/formatters";
-import { ArrowUpFromLine, Shield } from "lucide-react";
+import { ArrowUpFromLine, Shield } from "@/components/ui/icons";
 
 type Pending = {
   id: string;

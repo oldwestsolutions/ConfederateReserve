@@ -6,7 +6,7 @@ import {
   ShieldCheck,
   TrendingUp,
   Zap,
-} from "lucide-react";
+} from "@/components/ui/icons";
 import { MetricTile } from "@/components/ui/MetricTile";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import type { ReserveMetrics } from "@/types";

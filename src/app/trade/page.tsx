@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowDown, ArrowRight, Loader2, Settings2, Zap } from "lucide-react";
+import { ArrowDown, ArrowRight, Loader2, Settings2, Zap } from "@/components/ui/icons";
 import { motion } from "framer-motion";
 import { STATE_TOKENS } from "@/lib/confederateData";
 import { Reveal } from "@/components/ui/Reveal";

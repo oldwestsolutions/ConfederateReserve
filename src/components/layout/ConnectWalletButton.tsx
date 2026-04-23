@@ -1,6 +1,6 @@
 "use client";
 
-import { Wallet } from "lucide-react";
+import { Wallet } from "@/components/ui/icons";
 import { useWallet } from "@/components/providers/WalletProvider";
 import { truncateAddress } from "@/lib/formatters";
 

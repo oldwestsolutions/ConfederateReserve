@@ -5,7 +5,7 @@ import { DepositForm } from "@/components/transact/DepositForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { formatCurrency, formatRelativeTime } from "@/lib/formatters";
-import { ArrowDownToLine, ShieldCheck, Zap } from "lucide-react";
+import { ArrowDownToLine, ShieldCheck, Zap } from "@/components/ui/icons";
 
 type Pending = {
   id: string;

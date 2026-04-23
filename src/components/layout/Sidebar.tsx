@@ -10,7 +10,7 @@ import {
   Activity,
   Settings,
   BookOpen,
-} from "lucide-react";
+} from "@/components/ui/icons";
 
 const items = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },

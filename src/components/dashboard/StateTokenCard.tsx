@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight } from "@/components/ui/icons";
 import type { StateToken } from "@/lib/confederateData";
 import { Sparkline } from "@/components/ui/Sparkline";
 import { formatCurrency, formatPercent } from "@/lib/formatters";

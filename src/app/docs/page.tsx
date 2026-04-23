@@ -1,4 +1,4 @@
-import { BookOpen, Code2, FileText, Layers } from "lucide-react";
+import { BookOpen, Code2, FileText, Layers } from "@/components/ui/icons";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";

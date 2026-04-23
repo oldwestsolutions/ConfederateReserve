@@ -7,7 +7,7 @@ import {
   Activity,
   Sparkles,
   BookOpen,
-} from "lucide-react";
+} from "@/components/ui/icons";
 
 export const dynamic = "force-dynamic";
 import { HeroBlob } from "@/components/hero/HeroBlob";
