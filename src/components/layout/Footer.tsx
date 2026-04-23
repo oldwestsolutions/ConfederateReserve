@@ -147,7 +147,7 @@ export function Footer() {
         <Ornament tone="gold" />
 
         <div className="mt-12 grid gap-12 md:grid-cols-2 lg:grid-cols-5 lg:gap-10 xl:gap-14">
-          {/* Col 1 — Brand, contact, connect */}
+          {/* Col 1 — Brand, connect, contact */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-3">
               <Monogram size={42} />
@@ -161,7 +161,27 @@ export function Footer() {
               </span>
             </Link>
 
-            <p className="eyebrow mt-6">Contact</p>
+            <p className="eyebrow mt-6">Connect</p>
+            <ul
+              className="mt-3 grid max-w-[240px] grid-cols-3 gap-2"
+              aria-label="Social media"
+            >
+              {SOCIAL.map(({ label, href, Icon }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Follow us on ${label}`}
+                    className="group inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-surface/70 text-muted transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-gold/60 hover:text-brand-gold-bright"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <p className="eyebrow mt-8">Contact</p>
             <ul className="mt-3 space-y-2.5" aria-label="Contact email">
               <li>
                 <a
@@ -181,26 +201,6 @@ export function Footer() {
                   press@confederatereserve.com
                 </a>
               </li>
-            </ul>
-
-            <p className="eyebrow mt-8">Connect</p>
-            <ul
-              className="mt-4 grid max-w-[240px] grid-cols-3 gap-2"
-              aria-label="Social media"
-            >
-              {SOCIAL.map(({ label, href, Icon }) => (
-                <li key={label}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Follow us on ${label}`}
-                    className="group inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-surface/70 text-muted transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-gold/60 hover:text-brand-gold-bright"
-                  >
-                    <Icon className="h-4 w-4" />
-                  </a>
-                </li>
-              ))}
             </ul>
 
             <div className="mt-6">
