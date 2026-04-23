@@ -1,10 +1,5 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  ShieldCheck,
-  Sparkles,
-  BookOpen,
-} from "@/components/ui/icons";
+import { ArrowRight, BookOpen, Sparkles } from "@/components/ui/icons";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +12,7 @@ import { MintSection } from "@/components/home/MintSection";
 import { TradeSection } from "@/components/home/TradeSection";
 import { RedeemSection } from "@/components/home/RedeemSection";
 import { StateTokensSection } from "@/components/home/StateTokensSection";
+import { GovernanceSection } from "@/components/governance/GovernanceSection";
 import {
   STATE_TOKENS,
   TOTAL_RESERVE_USD,
@@ -149,51 +145,8 @@ export default function Home() {
         <StateTokensSection />
       </div>
 
-      {/* =========== HERITAGE CTA =========== */}
-      <section className="relative mt-24">
-        <div className="glass glass-strong heritage-frame relative overflow-hidden p-10 md:p-16">
-          <div
-            className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full opacity-40 blur-3xl"
-            style={{ background: "radial-gradient(closest-side,#0E3B2E,transparent 70%)" }}
-            aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute -right-20 bottom-[-20%] h-64 w-64 rounded-full opacity-45 blur-3xl"
-            style={{ background: "radial-gradient(closest-side,#B08D3A,transparent 70%)" }}
-            aria-hidden
-          />
-          <div className="relative grid gap-10 md:grid-cols-[1.15fr_auto] md:items-end">
-            <div>
-              <span className="chip chip-brand">
-                <ShieldCheck className="h-3 w-3" />
-                Always auditable &middot; Always answerable
-              </span>
-              <h3 className="mt-5 font-display text-[34px] font-medium tracking-tight text-fg md:text-[42px]">
-                Backed by real collateral.
-                <br />
-                <span className="italic">Kept plain. Kept public.</span>
-              </h3>
-              <p className="mt-4 max-w-xl leading-relaxed text-muted">
-                Every state token in circulation is collateralized 1:1 by USDC held in audited
-                smart contracts. No off-chain surprises. No hidden leverage. A handshake you can
-                verify in a block explorer.
-              </p>
-              <Ornament className="mt-7 max-w-sm" tone="gold" />
-            </div>
-            <div className="flex flex-col items-start gap-3 md:items-end">
-              <Link href="/reserve-health" className="btn-primary">
-                Reserve health <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/docs" className="btn-ghost">
-                View attestation <Sparkles className="h-3.5 w-3.5 text-brand-gold" />
-              </Link>
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-subtle">
-                Seal &middot; 0x7a3f&hellip;1c2d
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* =========== GOVERNANCE =========== */}
+      <GovernanceSection />
     </div>
   );
 }
