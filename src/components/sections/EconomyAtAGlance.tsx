@@ -75,20 +75,37 @@ function DataRow({
   value,
   fillPct,
   fillColor,
+  compact = false,
 }: {
   label: string;
   value: string;
   fillPct: number;
   fillColor: string;
+  /** Smaller type + thinner bar (e.g. LP GDP Attributions) */
+  compact?: boolean;
 }) {
   return (
-    <div className="space-y-0.5">
+    <div className={compact ? "space-y-0" : "space-y-0.5"}>
       <div className="flex items-center justify-between gap-1">
-        <span className="font-mono text-[9px] text-[#374151] dark:text-gray-200 truncate">{label}</span>
-        <span className="font-mono text-[9px] font-semibold shrink-0" style={{ color: fillColor }}>{value}</span>
+        <span
+          className={`font-mono truncate text-[#374151] dark:text-gray-200 ${compact ? "text-[8px]" : "text-[9px]"}`}
+        >
+          {label}
+        </span>
+        <span
+          className={`shrink-0 font-mono font-semibold ${compact ? "text-[8px]" : "text-[9px]"}`}
+          style={{ color: fillColor }}
+        >
+          {value}
+        </span>
       </div>
-      <div className="h-1 w-full overflow-hidden rounded-full bg-[rgba(0,0,0,0.07)] dark:bg-white/10">
-        <div className="h-full rounded-full transition-all duration-500" style={{ width: `${fillPct}%`, background: fillColor }} />
+      <div
+        className={`w-full overflow-hidden rounded-full bg-[rgba(0,0,0,0.07)] dark:bg-white/10 ${compact ? "h-0.5" : "h-1"}`}
+      >
+        <div
+          className="h-full rounded-full transition-all duration-500"
+          style={{ width: `${fillPct}%`, background: fillColor }}
+        />
       </div>
     </div>
   );
@@ -565,10 +582,10 @@ export function EconomyAtAGlance() {
               </ResponsiveContainer>
             </div>
 
-            <p className="mt-3 mb-1.5 font-mono text-[8px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
+            <p className="mt-2.5 mb-1 font-mono text-[7px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
               Attributions
             </p>
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {LP_GDP_ATTRIBUTION.map((c) => (
                 <DataRow
                   key={c.label}
@@ -576,6 +593,7 @@ export function EconomyAtAGlance() {
                   value={`${c.share}%`}
                   fillPct={c.share}
                   fillColor={c.color}
+                  compact
                 />
               ))}
             </div>
