@@ -36,7 +36,7 @@ export const STATE_TOKENS: StateToken[] = [
   {
     code: "TEX",
     name: "Texas",
-    color: "#0066FF",
+    color: "#0E3B2E", // heritage emerald
     balanceUsd: 192_400_000,
     apy: 0.041,
     change24h: 0.0128,
@@ -46,7 +46,7 @@ export const STATE_TOKENS: StateToken[] = [
   {
     code: "LAL",
     name: "Louisiana",
-    color: "#00D9FF",
+    color: "#1F3349", // river ink
     balanceUsd: 98_200_000,
     apy: 0.039,
     change24h: 0.0042,
@@ -56,7 +56,7 @@ export const STATE_TOKENS: StateToken[] = [
   {
     code: "GAS",
     name: "Georgia",
-    color: "#7C3AED",
+    color: "#7B1E1E", // oxblood
     balanceUsd: 76_100_000,
     apy: 0.043,
     change24h: 0.0081,
@@ -66,7 +66,7 @@ export const STATE_TOKENS: StateToken[] = [
   {
     code: "NCA",
     name: "North Carolina",
-    color: "#EC4899",
+    color: "#B08D3A", // antique gold
     balanceUsd: 64_800_000,
     apy: 0.04,
     change24h: -0.0036,
@@ -76,7 +76,7 @@ export const STATE_TOKENS: StateToken[] = [
   {
     code: "ALA",
     name: "Alabama",
-    color: "#10B981",
+    color: "#2F7A4F", // magnolia leaf
     balanceUsd: 48_200_000,
     apy: 0.042,
     change24h: 0.0019,
@@ -86,7 +86,7 @@ export const STATE_TOKENS: StateToken[] = [
   {
     code: "MSS",
     name: "Mississippi",
-    color: "#F59E0B",
+    color: "#8A6E35", // cottonseed brass
     balanceUsd: 31_500_000,
     apy: 0.045,
     change24h: -0.0064,
@@ -99,6 +99,6 @@ export const LIQUIDATION_BUFFER_BPS = 12;
 export const ATTESTATION_HASH =
   "0x7a3f…1c2d — third-party attestation, quarterly";
 
-export const CHART_BRAND = "#0066FF";
-export const CHART_BRAND_2 = "#00D9FF";
-export const CHART_MUTED_BLUE = "rgba(0, 102, 255, 0.12)";
+export const CHART_BRAND = "#0E3B2E";
+export const CHART_BRAND_2 = "#B08D3A";
+export const CHART_MUTED_BLUE = "rgba(14, 59, 46, 0.12)";

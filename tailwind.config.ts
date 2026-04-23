@@ -19,62 +19,77 @@ const config: Config = {
         subtle: "rgb(var(--subtle) / <alpha-value>)",
         border: "rgb(var(--border) / <alpha-value>)",
 
-        /* Brand accents */
+        /* Heritage brand accents — English banking + Mississippi riverbank */
         brand: {
-          blue: "#0066FF",
-          cyan: "#00D9FF",
-          purple: "#7C3AED",
-          magenta: "#EC4899",
+          emerald: "#0E3B2E",
+          "emerald-bright": "#14523F",
+          gold: "#B08D3A",
+          "gold-bright": "#D4B26A",
+          oxblood: "#7B1E1E",
+          river: "#1F3349",
+          /* Legacy aliases (some components still reference these keys) */
+          blue: "#0E3B2E",
+          cyan: "#B08D3A",
+          purple: "#7B1E1E",
+          magenta: "#8A4A1E",
         },
-        ink: { 900: "#0F0F0F", 800: "#1A1A1A", 700: "#2B2B2B" },
-        paper: { 50: "#FFFFFF", 100: "#F8FAFC", 200: "#F0F0F0", 300: "#E8E8E8" },
 
-        /* Status (subtle) */
-        success: "#10B981",
-        warn: "#F59E0B",
-        danger: "#EF4444",
+        ink: { 950: "#0B1016", 900: "#0F1520", 800: "#141B26", 700: "#1E2732" },
+        paper: { 50: "#FFFDF7", 100: "#FAF7F0", 200: "#F3EEDF", 300: "#E7DFC9" },
+
+        /* Status */
+        success: "#2F7A4F",
+        warn: "#B78A2E",
+        danger: "#A23A2C",
 
         /* Legacy mapping to avoid stale references */
-        gold: { DEFAULT: "#0066FF", dim: "rgba(0,102,255,0.25)" },
-        navy: { 950: "#0F0F0F", 900: "#111827", 800: "#1F2937", 700: "#374151", 600: "#4B5563" },
+        gold: { DEFAULT: "#B08D3A", dim: "rgba(176,141,58,0.25)" },
+        navy: { 950: "#0B1016", 900: "#0F1520", 800: "#141B26", 700: "#1E2732", 600: "#2A3644" },
         cream: "rgb(var(--fg) / <alpha-value>)",
-        teal: { DEFAULT: "#10B981", muted: "rgba(16,185,129,0.3)" },
-        amber: { DEFAULT: "#F59E0B", soft: "rgba(245,158,11,0.25)" },
-        gain: "#10B981",
-        loss: "#EF4444",
+        teal: { DEFAULT: "#2F7A4F", muted: "rgba(47,122,79,0.3)" },
+        amber: { DEFAULT: "#B78A2E", soft: "rgba(183,138,46,0.25)" },
+        gain: "#2F7A4F",
+        loss: "#A23A2C",
         "text-primary": "rgb(var(--fg) / <alpha-value>)",
         "text-muted": "rgb(var(--muted) / <alpha-value>)",
       },
       fontFamily: {
-        display: ["var(--font-space-grotesk)", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        /* Serif display for heritage editorial feel (Fraunces) */
+        display: ["var(--font-fraunces)", "Georgia", "ui-serif", "serif"],
+        /* Clean UI body */
         body: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "ui-monospace", "SFMono-Regular", "monospace"],
         data: ["var(--font-jetbrains-mono)", "ui-monospace", "monospace"],
         label: ["var(--font-inter)", "ui-sans-serif", "sans-serif"],
+        sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       fontSize: {
-        "display-2xl": ["clamp(2.75rem, 5.5vw, 4rem)", { lineHeight: "1.04", letterSpacing: "-0.02em", fontWeight: "700" }],
-        "display-xl": ["clamp(2.25rem, 4vw, 3.25rem)", { lineHeight: "1.08", letterSpacing: "-0.02em", fontWeight: "700" }],
-        "display-lg": ["2rem", { lineHeight: "1.15", letterSpacing: "-0.015em", fontWeight: "700" }],
-        subhead: ["1.5rem", { lineHeight: "1.35", letterSpacing: "-0.01em" }],
+        "display-2xl": ["clamp(3rem, 6vw, 4.75rem)", { lineHeight: "1.02", letterSpacing: "-0.018em", fontWeight: "500" }],
+        "display-xl": ["clamp(2.5rem, 5vw, 3.75rem)", { lineHeight: "1.06", letterSpacing: "-0.015em", fontWeight: "500" }],
+        "display-lg": ["2.25rem", { lineHeight: "1.12", letterSpacing: "-0.012em", fontWeight: "500" }],
+        subhead: ["1.5rem", { lineHeight: "1.35", letterSpacing: "-0.005em" }],
       },
       boxShadow: {
-        "card-sm": "0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.03)",
-        card: "0 2px 12px -2px rgba(15, 23, 42, 0.06), 0 8px 24px -8px rgba(15, 23, 42, 0.08)",
-        "card-hover": "0 6px 24px -4px rgba(15, 23, 42, 0.12), 0 12px 36px -12px rgba(15, 23, 42, 0.14)",
-        "glow-blue": "0 0 0 1px rgba(0, 102, 255, 0.18), 0 8px 32px -8px rgba(0, 102, 255, 0.35)",
-        "ring-brand": "0 0 0 4px rgba(0, 102, 255, 0.14)",
+        "card-sm": "0 1px 2px rgba(20, 15, 5, 0.04), 0 1px 3px rgba(20, 15, 5, 0.03)",
+        card: "0 2px 12px -2px rgba(20, 15, 5, 0.06), 0 8px 24px -8px rgba(20, 15, 5, 0.08)",
+        "card-hover": "0 6px 24px -4px rgba(20, 15, 5, 0.12), 0 16px 40px -14px rgba(20, 15, 5, 0.14)",
+        "glow-gold": "0 0 0 1px rgba(176, 141, 58, 0.28), 0 10px 36px -10px rgba(176, 141, 58, 0.40)",
+        "glow-emerald": "0 0 0 1px rgba(14, 59, 46, 0.22), 0 10px 36px -10px rgba(14, 59, 46, 0.35)",
+        "ring-brand": "0 0 0 4px rgba(176, 141, 58, 0.18)",
       },
       backgroundImage: {
-        "brand-gradient": "linear-gradient(135deg, #0066FF 0%, #00D9FF 100%)",
+        "brand-gradient": "linear-gradient(135deg, #0E3B2E 0%, #14523F 60%, #B08D3A 100%)",
         "brand-gradient-soft":
-          "linear-gradient(135deg, rgba(0,102,255,0.08) 0%, rgba(0,217,255,0.08) 100%)",
+          "linear-gradient(135deg, rgba(14,59,46,0.10) 0%, rgba(176,141,58,0.10) 100%)",
         "brand-text":
-          "linear-gradient(135deg, #0066FF 0%, #00D9FF 70%, #7C3AED 100%)",
+          "linear-gradient(135deg, #0E3B2E 0%, #14523F 40%, #B08D3A 100%)",
+        "gold-line":
+          "linear-gradient(90deg, transparent 0%, rgba(176,141,58,0.55) 50%, transparent 100%)",
+        /* Kept for compatibility */
         "mesh-light":
-          "radial-gradient(60% 50% at 85% 0%, rgba(124,58,237,0.12) 0%, transparent 60%), radial-gradient(70% 60% at 10% 0%, rgba(0,217,255,0.18) 0%, transparent 55%), radial-gradient(50% 40% at 40% 100%, rgba(0,102,255,0.12) 0%, transparent 60%)",
+          "radial-gradient(60% 50% at 85% 0%, rgba(176,141,58,0.12) 0%, transparent 60%), radial-gradient(70% 60% at 8% 4%, rgba(14,59,46,0.14) 0%, transparent 55%), radial-gradient(50% 40% at 40% 100%, rgba(123,30,30,0.08) 0%, transparent 60%)",
         "mesh-dark":
-          "radial-gradient(60% 50% at 85% 0%, rgba(124,58,237,0.18) 0%, transparent 60%), radial-gradient(70% 60% at 10% 0%, rgba(0,217,255,0.18) 0%, transparent 55%), radial-gradient(50% 40% at 40% 100%, rgba(0,102,255,0.2) 0%, transparent 60%)",
+          "radial-gradient(60% 50% at 85% 0%, rgba(176,141,58,0.16) 0%, transparent 60%), radial-gradient(70% 60% at 10% 0%, rgba(20,82,63,0.22) 0%, transparent 55%), radial-gradient(50% 40% at 40% 100%, rgba(123,30,30,0.14) 0%, transparent 60%)",
       },
       keyframes: {
         shimmer: { "100%": { transform: "translateX(100%)" } },
@@ -94,9 +109,9 @@ const config: Config = {
       },
       animation: {
         shimmer: "shimmer 1.4s ease-in-out infinite",
-        blob: "blob-float 18s ease-in-out infinite",
-        "gradient-x": "gradient-x 8s ease-in-out infinite",
-        "fade-up": "fade-up 0.45s cubic-bezier(0.22,1,0.36,1) both",
+        blob: "blob-float 22s ease-in-out infinite",
+        "gradient-x": "gradient-x 10s ease-in-out infinite",
+        "fade-up": "fade-up 0.55s cubic-bezier(0.22,1,0.36,1) both",
       },
     },
   },

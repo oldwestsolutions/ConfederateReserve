@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Inter, Fraunces, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -16,10 +16,10 @@ const inter = Inter({
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
+  style: ["normal", "italic"],
+  variable: "--font-fraunces",
   display: "swap",
 });
 
@@ -31,9 +31,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Confederate Reserve — Decentralized reserve, simplified",
+  title: "Confederate Reserve — A reserve, honestly built",
   description:
-    "Mint, trade, and redeem state currencies backed by real collateral. Transparent reserve health, auditable on-chain.",
+    "Heritage banking meets open finance. Mint, trade, and redeem state currencies backed by real collateral. Transparent reserve health, auditable on-chain.",
 };
 
 const themeInitScript = `
@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrains.variable}`}
+      className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -54,6 +54,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeProvider>
           <WalletProvider>
             <div className="mesh-bg" aria-hidden />
+            <div className="paper-grain" aria-hidden />
             <div className="flex min-h-dvh flex-col">
               <Navbar />
               <div className="mx-auto flex w-full max-w-[1400px] flex-1">

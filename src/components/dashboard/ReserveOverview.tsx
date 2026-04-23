@@ -18,10 +18,7 @@ export function ReserveOverview({ m }: { m: ReserveMetrics }) {
       <MetricTile
         label="Total reserve value"
         value={
-          <AnimatedNumber
-            value={m.tvr}
-            format={(n) => formatCurrency(n)}
-          />
+          <AnimatedNumber value={m.tvr} format="currency" />
         }
         sub={`USDC-settled • ${new Date(m.lastAuditAt).toLocaleDateString()}`}
         delta={{

@@ -7,6 +7,7 @@ import { Menu } from "@/components/ui/icons";
 import { useState } from "react";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { ConnectWalletButton } from "@/components/layout/ConnectWalletButton";
+import { Monogram } from "@/components/ui/Ornament";
 
 const links = [
   { href: "/dashboard", label: "Dashboard" },
@@ -14,28 +15,32 @@ const links = [
   { href: "/trade", label: "Trade" },
   { href: "/redeem", label: "Redeem" },
   { href: "/reserve-health", label: "Reserves" },
-  { href: "/docs", label: "Docs" },
+  { href: "/docs", label: "Papers" },
 ] as const;
 
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-surface/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-4 px-4 md:px-6 lg:px-8">
-        <Link href="/" className="group flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-gradient text-white shadow-glow-blue">
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-              <path d="M4 12L12 4L20 12L12 20L4 12Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/>
-              <path d="M8 12L12 8L16 12L12 16L8 12Z" fill="currentColor" />
-            </svg>
-          </span>
+    <header className="sticky top-0 z-40 border-b border-border bg-surface/85 backdrop-blur-md">
+      {/* hairline gold rule under header */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(176,141,58,0.55) 50%, transparent 100%)",
+        }}
+      />
+      <div className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between gap-4 px-4 md:px-6 lg:px-8">
+        <Link href="/" className="group flex items-center gap-3">
+          <Monogram size={38} />
           <span className="flex flex-col leading-tight">
-            <span className="font-display text-[15px] font-semibold tracking-tight text-fg">
+            <span className="font-display text-[17px] font-semibold tracking-tight text-fg">
               Confederate Reserve
             </span>
-            <span className="hidden text-[10px] font-medium uppercase tracking-[0.18em] text-muted sm:block">
-              Decentralized Monetary Protocol
+            <span className="hidden text-[10px] font-medium uppercase tracking-[0.22em] text-muted sm:block">
+              Est. MMXXVI · On-chain, on-honor
             </span>
           </span>
         </Link>

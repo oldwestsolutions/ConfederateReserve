@@ -2,6 +2,30 @@
 
 import { animate, useInView, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { formatCurrency, formatPercent } from "@/lib/formatters";
+
+export type AnimatedNumberFormat =
+  | "currency"
+  | "currencyCompact"
+  | "percent"
+  | "percentBps"
+  | "int";
+
+function formatValue(n: number, format?: AnimatedNumberFormat): string {
+  switch (format) {
+    case "currency":
+      return formatCurrency(n);
+    case "currencyCompact":
+      return formatCurrency(n, true);
+    case "percent":
+      return formatPercent(n);
+    case "percentBps":
+      return formatPercent(n, { bpsInput: true });
+    case "int":
+    default:
+      return Math.round(n).toLocaleString("en-US");
+  }
+}
 
 export function AnimatedNumber({
   value,
@@ -12,7 +36,7 @@ export function AnimatedNumber({
   prefix,
 }: {
   value: number;
-  format?: (n: number) => string;
+  format?: AnimatedNumberFormat;
   duration?: number;
   className?: string;
   suffix?: string;
@@ -33,11 +57,10 @@ export function AnimatedNumber({
     return () => controls.stop();
   }, [inView, value, duration, mv]);
 
-  const txt = format ? format(display) : Math.round(display).toLocaleString("en-US");
   return (
     <span ref={ref} className={className}>
       {prefix}
-      {txt}
+      {formatValue(display, format)}
       {suffix}
     </span>
   );
