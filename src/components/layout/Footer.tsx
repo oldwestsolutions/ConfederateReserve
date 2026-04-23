@@ -255,7 +255,7 @@ export function Footer() {
               Settled in <span className="font-mono text-fg/80">USDC</span>
             </span>
             <span className="font-label uppercase tracking-[0.22em] text-subtle">
-              Vicksburg &middot; London
+              Vicksburg &middot; Mississippi
             </span>
           </div>
           <div className="flex items-center gap-2">

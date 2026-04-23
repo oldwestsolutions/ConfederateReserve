@@ -8,7 +8,6 @@ import { HeroReserveCard } from "@/components/hero/HeroReserveCard";
 import { Reveal } from "@/components/ui/Reveal";
 
 import { CoreServicesSection } from "@/components/sections/CoreServicesSection";
-import { SettlementSection } from "@/components/sections/SettlementSection";
 import { ReserveMgmtSection } from "@/components/sections/ReserveMgmtSection";
 import { BankingSection } from "@/components/sections/BankingSection";
 import { LiveReserveDashboard } from "@/components/sections/LiveReserveDashboard";
@@ -70,17 +69,12 @@ export default function Home() {
         <CoreServicesSection />
       </div>
 
-      {/* =========== SECTION V — SETTLEMENT =========== */}
-      <div className="mt-4 md:mt-5">
-        <SettlementSection />
-      </div>
-
-      {/* =========== SECTION VI — RESERVE MANAGEMENT =========== */}
+      {/* =========== SECTION V — RESERVE MANAGEMENT =========== */}
       <div className="mt-4 md:mt-5">
         <ReserveMgmtSection />
       </div>
 
-      {/* =========== SECTION VII — BANKING FUNCTIONS =========== */}
+      {/* =========== SECTION VI — BANKING FUNCTIONS =========== */}
       <div className="mt-4 md:mt-5">
         <BankingSection />
       </div>
