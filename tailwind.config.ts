@@ -62,6 +62,13 @@ const config: Config = {
         data: ["var(--font-jetbrains-mono)", "ui-monospace", "monospace"],
         label: ["var(--font-inter)", "ui-sans-serif", "sans-serif"],
         sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+        "space-grotesk": [
+          "var(--font-space-grotesk)",
+          "var(--font-inter)",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
       },
       fontSize: {
         "display-2xl": ["clamp(3rem, 6vw, 4.75rem)", { lineHeight: "1.02", letterSpacing: "-0.018em", fontWeight: "500" }],

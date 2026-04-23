@@ -4,6 +4,7 @@ import { ArrowRight, BookOpen, Sparkles } from "@/components/ui/icons";
 export const dynamic = "force-dynamic";
 
 import { HeroBlob } from "@/components/hero/HeroBlob";
+import { HeroFoundingDocument } from "@/components/hero/HeroFoundingDocument";
 import { Reveal } from "@/components/ui/Reveal";
 import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 import { Sparkline } from "@/components/ui/Sparkline";
@@ -27,7 +28,7 @@ import {
   TOTAL_RESERVE_USD,
   RESERVE_RATIO,
 } from "@/lib/confederateData";
-import { formatCurrency, formatPercent } from "@/lib/formatters";
+import { formatPercent } from "@/lib/formatters";
 
 export default function Home() {
   return (
@@ -67,22 +68,7 @@ export default function Home() {
                 </Link>
               </div>
             </Reveal>
-            <Reveal delay={0.26}>
-              <dl className="mt-10 grid max-w-md grid-cols-3 gap-6 border-t border-border pt-6 text-sm">
-                {[
-                  { k: "TVR", v: formatCurrency(TOTAL_RESERVE_USD, true) },
-                  { k: "APY", v: "6.73%" },
-                  { k: "Uptime", v: "99.99%" },
-                ].map((s) => (
-                  <div key={s.k}>
-                    <dt className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">
-                      {s.k}
-                    </dt>
-                    <dd className="mt-1 font-mono text-xl font-semibold text-fg">{s.v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </Reveal>
+            <HeroFoundingDocument />
           </div>
 
           <div className="relative lg:pl-8">
