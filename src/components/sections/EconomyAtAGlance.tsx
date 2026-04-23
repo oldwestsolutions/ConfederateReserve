@@ -231,15 +231,12 @@ export function EconomyAtAGlance() {
   return (
     <section
       aria-labelledby={`${baseId}-heading`}
-      className="relative overflow-hidden rounded-2xl border border-[rgba(212,175,55,0.3)] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:border-[rgba(212,175,55,0.25)] dark:bg-[#1A2F5A] dark:shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
+      className="relative rounded-2xl border border-[rgba(212,175,55,0.3)] bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:border-[rgba(212,175,55,0.25)] dark:bg-[#1A2F5A] dark:shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
     >
       <div className="border-b border-[rgba(212,175,55,0.2)] bg-gradient-to-r from-[rgba(15,31,60,0.04)] to-transparent px-6 py-8 md:px-10 dark:from-[rgba(0,0,0,0.2)]">
-        <p className="eyebrow font-mono text-[10px] uppercase tracking-[0.2em] text-[#B08D3A] dark:text-[#D4B26A]">
-          Confederate Reserve
-        </p>
         <h2
           id={`${baseId}-heading`}
-          className="mt-2 font-display text-[clamp(1.75rem,3vw,2.35rem)] font-semibold tracking-[-0.02em] text-[#1A1A1A] dark:text-white"
+          className="font-display text-[clamp(1.75rem,3vw,2.35rem)] font-semibold tracking-[-0.02em] text-[#1A1A1A] dark:text-white"
         >
           Economy at a Glance
         </h2>
@@ -251,13 +248,15 @@ export function EconomyAtAGlance() {
         </p>
       </div>
 
-      <div className="grid gap-4 p-4 md:gap-5 md:p-6 lg:grid-cols-2">
+      <div
+        className="flex flex-row flex-nowrap snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-visible p-4 pb-5 [scrollbar-gutter:stable] md:gap-5 md:p-6 md:pb-6 [scrollbar-color:rgba(212,175,55,0.4)_transparent]"
+      >
         <motion.article
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="group rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] md:p-8 dark:bg-[#0F1F3C]"
+          className="econ-card group min-w-[min(100%,280px)] shrink-0 snap-start rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:min-w-[300px] md:p-6 xl:min-w-0 xl:max-w-none xl:shrink xl:grow xl:basis-0 dark:bg-[#0F1F3C]"
           aria-label={`Policy rate card showing ${POLICY_TARGET_LOW} to ${POLICY_TARGET_HIGH} percent target range`}
         >
           <h3 className="text-lg font-semibold text-[#1A1A1A] dark:text-white">Policy Rate</h3>
@@ -292,7 +291,7 @@ export function EconomyAtAGlance() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.4, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-          className="group rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] md:p-8 dark:bg-[#0F1F3C]"
+          className="econ-card group min-w-[min(100%,280px)] shrink-0 snap-start rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:min-w-[300px] md:p-6 xl:min-w-0 xl:max-w-none xl:shrink xl:grow xl:basis-0 dark:bg-[#0F1F3C]"
           aria-live="polite"
           aria-label={`Reserve coverage card showing ${coveragePct.toFixed(1)} percent, ${health.label}`}
         >
@@ -330,7 +329,7 @@ export function EconomyAtAGlance() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="group rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] md:p-6 lg:p-8 dark:bg-[#0F1F3C]"
+          className="econ-card group min-w-[min(100%,280px)] shrink-0 snap-start rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:min-w-[300px] md:p-6 xl:min-w-0 xl:max-w-none xl:shrink xl:grow xl:basis-0 dark:bg-[#0F1F3C]"
         >
           <h3 className="text-lg font-semibold text-[#1A1A1A] dark:text-white">System inflation (PCE)</h3>
           <p className="mt-1 text-[13px] text-[#6B7280] dark:text-gray-400">Consumer price index across member states</p>
@@ -410,7 +409,7 @@ export function EconomyAtAGlance() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.4, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="group rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] md:p-6 lg:p-8 dark:bg-[#0F1F3C]"
+          className="econ-card group min-w-[min(100%,280px)] shrink-0 snap-start rounded-xl border border-[rgba(212,175,55,0.3)] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 hover:border-[rgba(212,175,55,0.5)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.12)] sm:min-w-[300px] md:p-6 xl:min-w-0 xl:max-w-none xl:shrink xl:grow xl:basis-0 dark:bg-[#0F1F3C]"
         >
           <h3 className="text-lg font-semibold text-[#1A1A1A] dark:text-white">State unemployment</h3>
           <p className="mt-1 text-[13px] text-[#6B7280] dark:text-gray-400">Average across chartered jurisdictions</p>
@@ -435,10 +434,11 @@ export function EconomyAtAGlance() {
                 <CartesianGrid strokeDasharray="3 3" stroke={NAVY_GRID} vertical={false} />
                 <XAxis dataKey="date" tick={{ fontSize: 11, fontFamily: "var(--font-jetbrains-mono)", fill: axisColor }} tickLine={false} />
                 <YAxis
-                  domain={["dataMin - 0.1", "dataMax + 0.1"]}
+                  domain={[4.1, 4.6]}
                   tick={{ fontSize: 11, fontFamily: "var(--font-jetbrains-mono)", fill: axisColor }}
                   tickLine={false}
-                  width={36}
+                  width={40}
+                  tickFormatter={(v: number) => v.toFixed(2)}
                 />
                 <Tooltip
                   contentStyle={{
