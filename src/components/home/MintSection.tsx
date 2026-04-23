@@ -19,6 +19,7 @@ export function MintSection() {
   return (
     <BrowserSection
       id="sec-mint"
+      className="sec-mint"
       title="confederatereserve.com / issuance / mint"
       section="Section I"
       aria-labelledby="sec-mint-title"
@@ -42,7 +43,7 @@ export function MintSection() {
       <div className="relative grid items-center gap-12 px-6 py-14 md:grid-cols-[1fr_1.15fr] md:gap-16 md:px-12 md:py-20 lg:py-24">
         {/* Illustration */}
         <motion.div
-          className="relative flex items-center justify-center"
+          className="illustration relative flex items-center justify-center"
           initial={{ opacity: 0, scale: 0.92, x: -16 }}
           whileInView={{ opacity: 1, scale: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}

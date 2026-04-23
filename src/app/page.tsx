@@ -8,7 +8,7 @@ import { HeroReserveCard } from "@/components/hero/HeroReserveCard";
 import { Reveal } from "@/components/ui/Reveal";
 import { MintSection } from "@/components/home/MintSection";
 import { TradeSection } from "@/components/home/TradeSection";
-import { RedeemSection } from "@/components/home/RedeemSection";
+import { FinalSettlementSection } from "@/components/home/FinalSettlementSection";
 import { StateTokensSection } from "@/components/home/StateTokensSection";
 import { GovernanceSection } from "@/components/governance/GovernanceSection";
 
@@ -78,11 +78,11 @@ export default function Home() {
         <CoreServicesSection />
       </div>
 
-      {/* =========== SECTIONS I–IV (Mint, Trade, Redeem, State Tokens) =========== */}
+      {/* =========== SECTIONS I–IV (Mint, Trade, Final settlement, State tokens) =========== */}
       <div className="mt-8 space-y-4 md:mt-10 md:space-y-5">
         <MintSection />
         <TradeSection />
-        <RedeemSection />
+        <FinalSettlementSection />
         <StateTokensSection />
       </div>
 

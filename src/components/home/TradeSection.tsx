@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "@/components/ui/icons";
-import { WallStreetIllustration } from "@/components/illustrations/WallStreetIllustration";
+import { ExchangeFlowIllustration } from "@/components/illustrations/ExchangeFlowIllustration";
 import { Ornament } from "@/components/ui/Ornament";
 import { BrowserSection } from "@/components/sections/BrowserSection";
 
@@ -19,6 +19,7 @@ export function TradeSection() {
   return (
     <BrowserSection
       id="sec-trade"
+      className="sec-trade"
       title="confederatereserve.com / exchange / trade"
       section="Section II"
       tone="ink"
@@ -67,8 +68,8 @@ export function TradeSection() {
           </p>
           <Ornament className="mt-5 max-w-[260px]" tone="gold" />
           <p
-            className="mt-5 max-w-md text-[16px] leading-[1.72] md:text-[17px]"
-            style={{ color: "rgba(245,235,209,0.78)" }}
+            className="mt-5 max-w-md text-[16px] font-medium leading-[1.72] md:text-[17px]"
+            style={{ color: "rgba(255, 253, 250, 0.94)" }}
           >
             Exchange state tokens across deep aggregated liquidity. Settlement is atomic, disclosure
             is complete, execution is courteous.
@@ -96,7 +97,7 @@ export function TradeSection() {
                           ? "#D4B26A"
                           : tone === "green"
                           ? "#9FD3B9"
-                          : "rgba(245,235,209,0.85)",
+                          : "rgba(255, 253, 250, 0.95)",
                     }}
                   >
                     {v}
@@ -113,7 +114,7 @@ export function TradeSection() {
             <Link
               href="/docs/trade"
               className="inline-flex items-center gap-2 rounded-md border px-5 py-2.5 font-label text-[13px] font-semibold transition-colors hover:border-brand-gold/60"
-              style={{ borderColor: "rgba(212,178,106,0.30)", color: "rgba(245,235,209,0.80)" }}
+              style={{ borderColor: "rgba(212,178,106,0.30)", color: "rgba(255, 253, 250, 0.90)" }}
             >
               View specs
             </Link>
@@ -122,13 +123,13 @@ export function TradeSection() {
 
         {/* Illustration — right */}
         <motion.div
-          className="relative flex items-center justify-center"
+          className="illustration relative flex items-center justify-center"
           initial={{ opacity: 0, x: 26 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
-          <WallStreetIllustration variant="dark" />
+          <ExchangeFlowIllustration />
         </motion.div>
       </div>
     </BrowserSection>

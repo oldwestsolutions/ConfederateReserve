@@ -351,19 +351,18 @@ body {
 @media (hover: hover) and (pointer: fine) {
   .sec-mint,
   .sec-trade,
-  .sec-redeem,
+  .illustration,
   .sec-tokens {
     transition: transform 400ms ease;
   }
   .sec-trade:hover .illustration,
-  .sec-mint:hover .illustration,
-  .sec-redeem:hover .illustration { transform: scale(1.02); }
+  .sec-mint:hover .illustration { transform: scale(1.02); }
 }
 
 /* Force hardware acceleration on moving illustration roots */
 .sec-mint svg,
 .sec-trade svg,
-.sec-redeem svg {
+.group\/ill svg {
   will-change: transform;
 }
 
