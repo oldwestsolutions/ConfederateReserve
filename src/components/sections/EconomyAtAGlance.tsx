@@ -47,13 +47,14 @@ const RATE_HISTORY = [
   { period: "Q1'26", rate: 3.625 },
 ];
 
-/** Collateral composition of reserve vault (5 line items, sums to 100%) */
+/** Collateral composition of reserve vault (6 line items, sums to 100%) */
 const COLLATERAL = [
-  { label: "USDC", pct: 65, color: "#2775CA" },
+  { label: "USDC", pct: 60, color: "#2775CA" },
   { label: "USDT", pct: 16, color: "#26A17B" },
   { label: "T-bills", pct: 10, color: "#3B82F6" },
-  { label: "PAXG", pct: 5, color: GOLD },
-  { label: "Other", pct: 4, color: "#9CA3AF" },
+  { label: "Bitcoin", pct: 4, color: "#F7931A" },
+  { label: "Ethereum", pct: 3, color: "#627EEA" },
+  { label: "Other", pct: 7, color: "#9CA3AF" },
 ];
 
 /** PCE sub-index breakdown (% ann.); scale bars against PCE_MAX. */
