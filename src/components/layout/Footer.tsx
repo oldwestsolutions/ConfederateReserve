@@ -294,10 +294,22 @@ export function Footer() {
                     and independent audits before transacting.
                   </p>
                 </div>
-                <div className="mt-2.5 space-y-1 border-t border-border/60 pl-3 pt-2.5 text-[10px] leading-snug text-muted">
-                  <p>This system operates under the Confederate Reserve Protocol.</p>
-                  <p>All operations are auditable, transparent, and on-chain.</p>
-                  <p>No off-chain promises. No hidden leverage.</p>
+                <div className="mt-2.5 border-t border-border/60 pl-3 pt-2.5 text-[10px] leading-relaxed text-muted">
+                  <div
+                    className="flex flex-row flex-wrap items-baseline gap-y-1.5"
+                    role="group"
+                    aria-label="Confederate Reserve protocol principles"
+                  >
+                    <p className="m-0 pr-2">
+                      This system operates under the Confederate Reserve Protocol.
+                    </p>
+                    <p className="m-0 border-l border-border/50 pl-2 pr-2 sm:pl-3 sm:pr-3">
+                      All operations are auditable, transparent, and on-chain.
+                    </p>
+                    <p className="m-0 border-l border-border/50 pl-2 sm:pl-3">
+                      No off-chain promises. No hidden leverage.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
