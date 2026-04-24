@@ -304,7 +304,7 @@ export function Footer() {
                       This system operates under the Confederate Reserve Protocol.
                     </p>
                     <p className="m-0 border-l border-border/50 pl-2 pr-2 sm:pl-3 sm:pr-3">
-                      All operations are auditable, transparent, and on-chain.
+                      All operations are auditable and transparent
                     </p>
                     <p className="m-0 border-l border-border/50 pl-2 sm:pl-3">
                       No off-chain promises. No hidden leverage.
