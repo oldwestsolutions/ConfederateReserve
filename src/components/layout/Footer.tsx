@@ -312,11 +312,11 @@ export function Footer() {
                     and independent audits before transacting.
                   </p>
                 </div>
-                <p className="mt-2.5 border-t border-border/60 pl-3 pt-2.5 text-[10px] leading-snug text-muted">
-                  <span className="font-mono">Protocol status:</span> verify on-chain state,
-                  attestation reports, and dependency disclosures before use; a full schedule of
-                  off-chain and on-chain dependencies is in the documentation.
-                </p>
+                <div className="mt-2.5 space-y-1 border-t border-border/60 pl-3 pt-2.5 text-[10px] leading-snug text-muted">
+                  <p>This system operates under the Confederate Reserve Protocol.</p>
+                  <p>All operations are auditable, transparent, and on-chain.</p>
+                  <p>No off-chain promises. No hidden leverage.</p>
+                </div>
               </div>
             </div>
           </div>
