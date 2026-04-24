@@ -23,8 +23,9 @@ import {
   CIRCULATING_SUPPLY_USD,
   EMPLOYMENT_RATE_SERIES,
   EMPLOYMENT_REF_FLOOR,
-  LIQUIDITY_GDP_BASE_INDEX,
-  LIQUIDITY_GDP_INDEX_SERIES,
+  INFLATION_PCE_SERIES,
+  INFLATION_TARGET_HIGH,
+  INFLATION_TARGET_LOW,
   POLICY_TARGET_HIGH,
   POLICY_TARGET_LOW,
   TOTAL_RESERVES_USD,
@@ -55,13 +56,13 @@ const COLLATERAL = [
   { label: "Other", pct: 4, color: "#9CA3AF" },
 ];
 
-/** Share of network GDP & output from LP mechanics (pools aggregate, not by state). */
-const LP_GDP_ATTRIBUTION = [
-  { label: "Routed vol.", share: 38, color: GOLD },
-  { label: "LP fee accrual", share: 32, color: "#B8860B" },
-  { label: "Tvl / depth", share: 20, color: "#9CA3AF" },
-  { label: "LP incentives", share: 10, color: "#6B7280" },
-];
+/** PCE sub-index breakdown (% ann.); scale bars against PCE_MAX. */
+const PCE_MAX = 4.5;
+const PCE_COMPONENTS = [
+  { label: "Core PCE", value: 2.6 },
+  { label: "Services", value: 3.1 },
+  { label: "Food", value: 3.2 },
+] as const;
 
 /** Top LP **attributes** by economic output (employing capital best); not by state. */
 const POOL_ATTR_EMPLOYMENT_LEADERS = [
@@ -81,7 +82,7 @@ function DataRow({
   value: string;
   fillPct: number;
   fillColor: string;
-  /** Smaller type + thinner bar (e.g. LP GDP Attributions) */
+  /** Smaller type + thinner bar (optional) */
   compact?: boolean;
 }) {
   return (
@@ -111,7 +112,7 @@ function DataRow({
   );
 }
 
-type ModalId = "policy" | "reserve" | "gdp" | "employment" | null;
+type ModalId = "policy" | "reserve" | "inflation" | "employment" | null;
 
 function coverageHealth(pct: number) {
   if (pct >= 130) return { color: GREEN, label: "Healthy", bg: "bg-[#10B981]" };
@@ -255,9 +256,9 @@ export function EconomyAtAGlance() {
   }, [pollReserve]);
 
   const health = coverageHealth(coveragePct);
-  const gdpLast = LIQUIDITY_GDP_INDEX_SERIES[LIQUIDITY_GDP_INDEX_SERIES.length - 1]!;
-  const gdpPrev = LIQUIDITY_GDP_INDEX_SERIES[LIQUIDITY_GDP_INDEX_SERIES.length - 2] ?? gdpLast;
-  const gdpIdxChg = Math.round((gdpLast.value - gdpPrev.value) * 10) / 10;
+  const inflLast = INFLATION_PCE_SERIES[INFLATION_PCE_SERIES.length - 1]!;
+  const inflPrev = INFLATION_PCE_SERIES[INFLATION_PCE_SERIES.length - 2] ?? inflLast;
+  const pceMom = Math.round((inflLast.value - inflPrev.value) * 100) / 100;
 
   const emplLast = EMPLOYMENT_RATE_SERIES[EMPLOYMENT_RATE_SERIES.length - 1]!;
   const emplPrev = EMPLOYMENT_RATE_SERIES[EMPLOYMENT_RATE_SERIES.length - 2] ?? emplLast;
@@ -487,7 +488,7 @@ export function EconomyAtAGlance() {
           </div>
         </motion.article>
 
-        {/* ── Card 3: LP network GDP & output ── */}
+        {/* ── Card 3: Inflation (PCE) ── */}
         <motion.article
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -497,37 +498,38 @@ export function EconomyAtAGlance() {
         >
           <div className="h-0.5 w-full" style={{ background: GOLD }} />
           <div className="flex h-full min-h-0 flex-1 flex-col p-2 sm:p-3">
-            <p className={KICKER}>LP GDP & output</p>
+            <p className={KICKER}>Inflation PCE</p>
             <p className="mt-0.5 text-[9px] text-[#6B7280] dark:text-gray-400 hidden sm:block">
-              Pool-weighted · {gdpLast.date}
+              {inflLast.date} 2026
             </p>
             <p className="mt-2 font-mono text-[13px] font-bold leading-tight text-[#111] sm:text-base md:text-lg dark:text-white">
-              {gdpLast.value.toFixed(1)}
-              <span className="ml-0.5 text-[10px] font-semibold text-[#6B7280]">index</span>
+              {inflLast.value.toFixed(1)}%
             </p>
             <div className="mt-1 flex items-center justify-between">
-              <p className={BODY_SM}>Base {LIQUIDITY_GDP_BASE_INDEX} (Q1 25)</p>
+              <p className={BODY_SM}>
+                Tgt {INFLATION_TARGET_LOW}–{INFLATION_TARGET_HIGH}%
+              </p>
               <span
-                className={`font-mono text-[9px] font-semibold ${gdpIdxChg >= 0 ? "text-[#10B981]" : "text-[#F59E0B]"}`}
+                className={`font-mono text-[9px] font-semibold ${pceMom >= 0 ? "text-[#10B981]" : "text-[#F59E0B]"}`}
               >
-                {gdpIdxChg >= 0 ? "▲" : "▼"}{" "}
-                {gdpIdxChg >= 0 ? "+" : ""}
-                {gdpIdxChg.toFixed(1)} idx MoM
+                {pceMom >= 0 ? "▲" : "▼"}{" "}
+                {pceMom >= 0 ? "+" : ""}
+                {pceMom.toFixed(2)} MoM
               </span>
             </div>
             <div
               className="mt-2 min-h-0 w-full min-w-0 overflow-hidden"
               style={{ height: chartH, minHeight: chartH }}
               role="img"
-              aria-label="Liquidity-pool network GDP index chart"
+              aria-label="PCE inflation chart"
             >
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart
-                  data={LIQUIDITY_GDP_INDEX_SERIES}
+                  data={INFLATION_PCE_SERIES}
                   margin={{ top: 2, right: 2, left: 0, bottom: 0 }}
                 >
                   <defs>
-                    <linearGradient id="econGdpFill" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="econInflFill" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor={GOLD} stopOpacity={0.15} />
                       <stop offset="100%" stopColor={GOLD} stopOpacity={0} />
                     </linearGradient>
@@ -542,7 +544,7 @@ export function EconomyAtAGlance() {
                     height={14}
                   />
                   <YAxis
-                    domain={[99.5, 102.2]}
+                    domain={[2.55, 3.05]}
                     tick={{ fontSize: 8, fill: axisColor, fontFamily: "var(--font-jetbrains-mono)" }}
                     tickLine={false}
                     axisLine={false}
@@ -551,21 +553,28 @@ export function EconomyAtAGlance() {
                     tickCount={3}
                   />
                   <ReferenceLine
-                    y={LIQUIDITY_GDP_BASE_INDEX}
+                    y={INFLATION_TARGET_LOW}
                     stroke={GOLD}
                     strokeDasharray="3 3"
-                    strokeOpacity={0.45}
+                    strokeOpacity={0.4}
+                    strokeWidth={0.75}
+                  />
+                  <ReferenceLine
+                    y={INFLATION_TARGET_HIGH}
+                    stroke={GOLD}
+                    strokeDasharray="3 3"
+                    strokeOpacity={0.4}
                     strokeWidth={0.75}
                   />
                   <Tooltip
                     contentStyle={chartTooltipStyle(GOLD)}
-                    formatter={(v: number) => [`${v.toFixed(2)}`, "Index"]}
+                    formatter={(v: number) => [`${v.toFixed(2)}%`, "PCE"]}
                   />
                   <Area
                     type="monotone"
                     dataKey="value"
                     stroke="none"
-                    fill="url(#econGdpFill)"
+                    fill="url(#econInflFill)"
                     isAnimationActive
                     animationDuration={500}
                   />
@@ -582,18 +591,17 @@ export function EconomyAtAGlance() {
               </ResponsiveContainer>
             </div>
 
-            <p className="mt-2.5 mb-1 font-mono text-[7px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
-              Attributions
+            <p className="mt-3 mb-1.5 font-mono text-[8px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
+              Components
             </p>
-            <div className="space-y-1">
-              {LP_GDP_ATTRIBUTION.map((c) => (
+            <div className="space-y-1.5">
+              {PCE_COMPONENTS.map((c) => (
                 <DataRow
                   key={c.label}
                   label={c.label}
-                  value={`${c.share}%`}
-                  fillPct={c.share}
-                  fillColor={c.color}
-                  compact
+                  value={`${c.value.toFixed(1)}%`}
+                  fillPct={(c.value / PCE_MAX) * 100}
+                  fillColor={c.value > INFLATION_TARGET_HIGH ? "#FBBF24" : GOLD}
                 />
               ))}
             </div>
@@ -601,7 +609,7 @@ export function EconomyAtAGlance() {
             <div className="mt-auto pt-3">
               <button
                 type="button"
-                onClick={() => setModal("gdp")}
+                onClick={() => setModal("inflation")}
                 className="text-[10px] font-semibold tracking-wide"
                 style={{ color: GOLD }}
               >
@@ -752,11 +760,16 @@ export function EconomyAtAGlance() {
           vault balances on Polygon. Use the main reserve view for per-asset composition and attestation history.
         </p>
       </EconomyModal>
-      <EconomyModal open={modal === "gdp"} onClose={() => setModal(null)} title="LP network GDP & output" labelledBy={modalTitleId("gdp")}>
+      <EconomyModal
+        open={modal === "inflation"}
+        onClose={() => setModal(null)}
+        title="Inflation (PCE) detail"
+        labelledBy={modalTitleId("inflation")}
+      >
         <p>
-          The index weights TVL, 24-hour routed volume, and fee accrual across all chartered liquidity pools — not by
-          state. Base {LIQUIDITY_GDP_BASE_INDEX} is the Q1 2025 rebasing point. Attributions show the share of marginal
-          network output explained by each pool attribute.
+          PCE is computed across member-state baskets with a harmonized index methodology. The series is published
+          monthly; intramonth values are model-based estimates for this dashboard. Target corridor: {INFLATION_TARGET_LOW}
+          %–{INFLATION_TARGET_HIGH}%.
         </p>
       </EconomyModal>
       <EconomyModal open={modal === "employment"} onClose={() => setModal(null)} title="Employment & pool-linked demand" labelledBy={modalTitleId("employment")}>
