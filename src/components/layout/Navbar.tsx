@@ -8,12 +8,10 @@ import { useEffect, useRef, useState } from "react";
 import { Monogram } from "@/components/ui/Ornament";
 
 const links = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/mint", label: "Mint" },
-  { href: "/trade", label: "Trade" },
-  { href: "/redeem", label: "Redeem" },
-  { href: "/reserve-health", label: "Reserves" },
-  { href: "/docs", label: "Papers" },
+  { href: "/protocol", label: "Protocol" },
+  { href: "/operations", label: "Operations" },
+  { href: "/governance", label: "Governance" },
+  { href: "/research", label: "Research" },
 ] as const;
 
 export function Navbar() {
