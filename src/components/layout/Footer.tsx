@@ -248,36 +248,18 @@ export function Footer() {
                   className="pointer-events-none absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-[rgba(176,141,58,0.5)] to-[rgba(176,141,58,0.15)]"
                 />
                 <ul
-                  className="mb-2.5 grid grid-cols-2 gap-1.5 sm:grid-cols-4"
+                  className="mb-3 grid grid-cols-2 gap-1.5 sm:grid-cols-4"
                   aria-label="Key risk highlights"
                 >
                   {[
-                    "Not investment advice",
                     "Smart contract & oracle risk",
                     "Not a bank or deposit",
-                    "Jurisdiction & eligibility",
+                    "KYC/AML may apply",
+                    "No govt. guarantee",
                   ].map((t) => (
                     <li
                       key={t}
                       className="rounded border border-border/60 bg-surface/50 px-2 py-1 text-center font-mono text-[10px] font-medium leading-tight text-subtle"
-                    >
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-                <ul
-                  className="mb-3 grid grid-cols-2 gap-1.5 sm:grid-cols-4"
-                  aria-label="Additional risk and compliance notes"
-                >
-                  {[
-                    "KYC/AML may apply",
-                    "No govt. guarantee",
-                    "Slippage & execution",
-                    "Third-party dependencies",
-                  ].map((t) => (
-                    <li
-                      key={t}
-                      className="rounded border border-border/50 bg-surface/40 px-2 py-1 text-center font-mono text-[10px] font-medium leading-tight text-subtle"
                     >
                       {t}
                     </li>
@@ -320,8 +302,7 @@ export function Footer() {
                   <p>
                     State tokens are not deposits and are not insured by any government
                     or FDIC/NCUSIF analog. Access may be restricted in certain jurisdictions;
-                    you are responsible for compliance with applicable law. Past performance
-                    does not predict future results. Please read the{" "}
+                    you are responsible for compliance with applicable law. Please read the{" "}
                     <Link
                       href="/docs"
                       className="text-fg/90 underline decoration-brand-gold/50 underline-offset-2 hover:decoration-brand-gold"
