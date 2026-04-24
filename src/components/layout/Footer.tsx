@@ -188,11 +188,11 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:press@confederatereserve.com"
+                  href="mailto:charter@confederatereserve.com"
                   className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-fg"
                 >
                   <Mail className="h-3.5 w-3.5 shrink-0" />
-                  press@confederatereserve.com
+                  charter@confederatereserve.com
                 </a>
               </li>
             </ul>
@@ -247,24 +247,6 @@ export function Footer() {
                   aria-hidden
                   className="pointer-events-none absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-[rgba(176,141,58,0.5)] to-[rgba(176,141,58,0.15)]"
                 />
-                <ul
-                  className="mb-3 grid grid-cols-2 gap-1.5 sm:grid-cols-4"
-                  aria-label="Key risk highlights"
-                >
-                  {[
-                    "Smart contract & oracle risk",
-                    "Not a bank or deposit",
-                    "KYC/AML may apply",
-                    "No govt. guarantee",
-                  ].map((t) => (
-                    <li
-                      key={t}
-                      className="rounded border border-border/60 bg-surface/50 px-2 py-1 text-center font-mono text-[10px] font-medium leading-tight text-subtle"
-                    >
-                      {t}
-                    </li>
-                  ))}
-                </ul>
                 <div
                   className="mb-3 grid grid-cols-1 gap-2 pl-3 sm:grid-cols-3"
                   role="navigation"
@@ -331,7 +313,7 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-4 text-[11px] text-subtle">
             <span className="hidden items-center gap-2 sm:inline-flex">
-              Built on <span className="font-mono text-fg/80">Polygon</span>
+              Built on <span className="font-mono text-fg/80">Base</span>
               <span className="text-subtle">&middot;</span>
               Settled in <span className="font-mono text-fg/80">USDC</span>
             </span>
