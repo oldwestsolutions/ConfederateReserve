@@ -73,11 +73,7 @@ const LEGAL: NavItem[] = [
   { label: "Compliance", href: "/docs" },
   { label: "Accessibility", href: "/docs" },
   { label: "Jurisdiction", href: "/docs" },
-  {
-    label: "Pressbox",
-    href: "https://github.com/oldwestsolutions/ConfederateReserve/security",
-    external: true,
-  },
+  { label: "Pressbox", href: "/docs#press" },
 ];
 
 const SOCIAL = [
@@ -235,9 +231,16 @@ export function Footer() {
             <div className="min-w-0">
               <p className="eyebrow">Important notice</p>
               <div
-                className="relative mt-4 overflow-hidden rounded-lg border border-border bg-gradient-to-b from-surface/90 to-surface/40 p-4 md:p-5"
+                className="relative mt-4 overflow-hidden rounded-lg border border-border bg-gradient-to-b from-surface/90 to-surface/40 p-3.5 md:p-4"
                 style={{
                   boxShadow: "0 0 0 1px rgba(176, 141, 58, 0.08) inset",
+                  backgroundImage: `
+                    linear-gradient(to bottom, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.02) 100%),
+                    linear-gradient(rgba(176, 141, 58, 0.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(176, 141, 58, 0.06) 1px, transparent 1px)
+                  `,
+                  backgroundSize: "100% 100%, 12px 12px, 12px 12px",
+                  backgroundPosition: "0 0, 0 0, 0 0",
                 }}
               >
                 <div
@@ -245,7 +248,7 @@ export function Footer() {
                   className="pointer-events-none absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-[rgba(176,141,58,0.5)] to-[rgba(176,141,58,0.15)]"
                 />
                 <ul
-                  className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-4"
+                  className="mb-2.5 grid grid-cols-2 gap-1.5 sm:grid-cols-4"
                   aria-label="Key risk highlights"
                 >
                   {[
@@ -256,35 +259,82 @@ export function Footer() {
                   ].map((t) => (
                     <li
                       key={t}
-                      className="rounded border border-border/60 bg-surface/50 px-2.5 py-1.5 text-center font-mono text-[10px] font-medium leading-snug text-subtle"
+                      className="rounded border border-border/60 bg-surface/50 px-2 py-1 text-center font-mono text-[10px] font-medium leading-tight text-subtle"
                     >
                       {t}
                     </li>
                   ))}
                 </ul>
-                <div className="grid gap-4 pl-3 text-[11px] leading-[1.75] text-subtle lg:grid-cols-2 lg:gap-8">
+                <ul
+                  className="mb-3 grid grid-cols-2 gap-1.5 sm:grid-cols-4"
+                  aria-label="Additional risk and compliance notes"
+                >
+                  {[
+                    "KYC/AML may apply",
+                    "No govt. guarantee",
+                    "Slippage & execution",
+                    "Third-party dependencies",
+                  ].map((t) => (
+                    <li
+                      key={t}
+                      className="rounded border border-border/50 bg-surface/40 px-2 py-1 text-center font-mono text-[10px] font-medium leading-tight text-subtle"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+                <div
+                  className="mb-3 grid grid-cols-1 gap-2 pl-3 sm:grid-cols-3"
+                  role="navigation"
+                  aria-label="Protocol resources and status"
+                >
+                  <Link
+                    href="/docs"
+                    className="flex min-h-[2.75rem] items-center justify-center rounded-md border border-border/70 bg-surface/60 px-3 text-center text-[11px] font-medium text-fg/90 transition-colors hover:border-brand-gold/50 hover:bg-surface/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+                  >
+                    Documentation
+                  </Link>
+                  <Link
+                    href="https://github.com/oldwestsolutions/ConfederateReserve"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-h-[2.75rem] items-center justify-center gap-1 rounded-md border border-border/70 bg-surface/60 px-3 text-center text-[11px] font-medium text-fg/90 transition-colors hover:border-brand-gold/50 hover:bg-surface/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+                  >
+                    <span>View contracts</span>
+                    <ExternalLink className="h-3 w-3 shrink-0 opacity-80" aria-hidden />
+                  </Link>
+                  <Link
+                    href="/reserve-health"
+                    className="flex min-h-[2.75rem] items-center justify-center rounded-md border border-border/70 bg-surface/60 px-3 text-center text-[11px] font-medium text-fg/90 transition-colors hover:border-brand-gold/50 hover:bg-surface/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-gold"
+                  >
+                    System status
+                  </Link>
+                </div>
+                <div className="grid gap-2.5 pl-3 text-[10.5px] leading-[1.55] text-subtle lg:grid-cols-2 lg:gap-5">
                   <p>
                     Confederate Reserve is a decentralized protocol. Nothing on this site
-                    constitutes investment, legal, or tax advice. USDC redemptions are subject to
-                    on-chain reserve availability and smart-contract risk.
+                    constitutes investment, legal, or tax advice. USDC redemptions depend on
+                    on-chain reserve availability, liquidity, and smart-contract and oracle
+                    risk; simulated or illustrative figures are not promises of performance.
                   </p>
                   <p>
-                    State tokens are not deposits and are not insured by any government.
-                    Availability may be restricted in certain jurisdictions. Past performance
-                    does not guarantee future results. Please read the{" "}
+                    State tokens are not deposits and are not insured by any government
+                    or FDIC/NCUSIF analog. Access may be restricted in certain jurisdictions;
+                    you are responsible for compliance with applicable law. Past performance
+                    does not predict future results. Please read the{" "}
                     <Link
                       href="/docs"
                       className="text-fg/90 underline decoration-brand-gold/50 underline-offset-2 hover:decoration-brand-gold"
                     >
                       Risk Disclosures
                     </Link>{" "}
-                    before transacting.
+                    and independent audits before transacting.
                   </p>
                 </div>
-                <p className="mt-3 border-t border-border/60 pl-3 pt-3 text-[10px] leading-relaxed text-muted">
-                  <span className="font-mono">Protocol status:</span> verify contracts and
-                  attestation reports before use. A complete schedule of off-chain and on-chain
-                  dependencies is in the documentation.
+                <p className="mt-2.5 border-t border-border/60 pl-3 pt-2.5 text-[10px] leading-snug text-muted">
+                  <span className="font-mono">Protocol status:</span> verify on-chain state,
+                  attestation reports, and dependency disclosures before use; a full schedule of
+                  off-chain and on-chain dependencies is in the documentation.
                 </p>
               </div>
             </div>

@@ -62,6 +62,8 @@ const PCE_COMPONENTS = [
   { label: "Core PCE", value: 2.6 },
   { label: "Services", value: 3.1 },
   { label: "Food", value: 3.2 },
+  { label: "Goods", value: 1.8 },
+  { label: "Energy", value: 1.4 },
 ] as const;
 
 /** Top LP **attributes** by economic output (employing capital best); not by state. */
